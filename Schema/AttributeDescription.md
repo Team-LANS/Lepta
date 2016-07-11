@@ -1,10 +1,11 @@
 #Description Of Attributes
 
-- ARCHIVED: Boolean
 - COLOR: 
-- DESCRIPTION: String, *(e.g. butter, milk,...)*
+- DESCRIPTION: String
+- ID: Integer
 - NAME: String
+- NR: Integer
 - PASSWORD: 
 - PRICE: Double
+- STATUS: *new, assigned* or *archived*
 - TIMESTAMP: 
-- TOTAL: Double
