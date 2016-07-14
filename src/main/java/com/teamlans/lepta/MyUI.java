@@ -1,4 +1,4 @@
-package lepta;
+package com.teamlans.lepta;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -21,7 +21,7 @@ import com.vaadin.ui.VerticalLayout;
  * overridden to add component to the user interface and initialize non-component functionality.
  */
 @Theme("mytheme")
-@Widgetset("lepta.MyAppWidgetset")
+@Widgetset("com.teamlans.lepta.MyAppWidgetset")
 public class MyUI extends UI {
 
     @Override
