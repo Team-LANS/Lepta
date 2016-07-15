@@ -3,7 +3,7 @@ language: java
 jdk:
   - oraclejdk8
 
-script: mvn test
+script: mvn install sonar:sonar -Dsonar.login=${SONAR_TOKEN}
 
 notifications:
   email: false
