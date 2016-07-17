@@ -1,4 +1,4 @@
-package com.teamlans.lepta.view;
+package com.teamlans.lepta.view.component;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -10,13 +10,13 @@ import com.vaadin.ui.themes.ValoTheme;
 /**
  * @author Hans-Joerg Schroedl
  */
-class Header extends HorizontalLayout {
+public class Header extends HorizontalLayout {
 
   private static final String TITLE_ID = "lepta-title";
 
   private static final String EDIT_ID = "header-edit";
 
-  Header() {
+  public Header() {
     Label titleLabel = buildTitleLabel();
     this.addComponent(titleLabel);
     this.addStyleName("viewheader");
