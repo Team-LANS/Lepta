@@ -2,10 +2,12 @@ package com.teamlans.lepta;
 
 import com.teamlans.lepta.view.ScopedView;
 import com.teamlans.lepta.view.component.Header;
+import com.teamlans.lepta.view.component.NavigationBar;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.spring.annotation.SpringUI;
@@ -33,16 +35,14 @@ import javax.servlet.annotation.WebServlet;
     root.setSizeFull();
     root.setMargin(true);
     root.setSpacing(true);
+    Responsive.makeResponsive(root);
     setContent(root);
 
     root.addComponent(new Header());
 
-    final CssLayout navigationBar = new CssLayout();
-    navigationBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
-    navigationBar.addComponent(createNavigationButton("View Scoped View", ScopedView.VIEW_NAME));
-    root.addComponent(navigationBar);
+    root.addComponent(new NavigationBar());
 
-    final Panel viewContainer = new Panel();
+    final VerticalLayout viewContainer = new VerticalLayout();
     viewContainer.setSizeFull();
     root.addComponent(viewContainer);
     root.setExpandRatio(viewContainer, 1.0f);
@@ -51,13 +51,6 @@ import javax.servlet.annotation.WebServlet;
     navigator.addProvider(viewProvider);
   }
 
-  private Button createNavigationButton(String caption, final String viewName) {
-    Button button = new Button(caption);
-    button.addStyleName(ValoTheme.BUTTON_SMALL);
-    // If you didn't choose Java 8 when creating the project, convert this to an anonymous listener class
-    button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
-    return button;
-  }
 
   @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
   @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)

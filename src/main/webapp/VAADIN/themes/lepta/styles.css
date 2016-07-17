@@ -12937,6 +12937,13 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
+.lepta .navbar {
+	padding-bottom: 25px;
+	width: 100%;
+	text-align: center;
+	white-space: normal;
+}
+
 .lepta .viewheader {
 	padding-bottom: 25px;
 	width: 100%;

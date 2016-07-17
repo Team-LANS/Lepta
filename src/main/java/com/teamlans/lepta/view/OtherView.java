@@ -11,13 +11,14 @@ import javax.annotation.PostConstruct;
 /**
  * @author Hans-Joerg Schroedl
  */
-@SpringView(name = ScopedView.VIEW_NAME) public class ScopedView extends VerticalLayout implements View {
+@SpringView(name = OtherView.VIEW_NAME) public class OtherView extends VerticalLayout implements View {
 
-  public static final String VIEW_NAME = "SCOPED_VIEW";
+  public static final String VIEW_NAME = "OTHER_VIEW";
 
   @PostConstruct void init() {
+    setMargin(false);
     setSpacing(true);
-    addComponent(new Label("This is a view scoped view"));
+    addComponent(new Label("This is another view"));
   }
 
   @Override public void enter(ViewChangeListener.ViewChangeEvent event) {
