@@ -1,17 +1,27 @@
 package com.teamlans.lepta.database.entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "ITEM")
 public class Item {
 
+  @Id
+  @GeneratedValue
+  @Column(name = "ID")
   private int id;
-  private String description;
-  private double price;
-  private Bill bill;
 
-  public Item(int id, String description, double price, Bill bill) {
-    this.id = id;
+  @Column(name = "DESCRIPTION")
+  private String description;
+
+  @Column(name = "PRICE")
+  private double price;
+
+  public Item() {}
+
+  public Item(String description, double price) {
     this.description = description;
     this.price = price;
-    this.bill = bill;
   }
 
   public int getId() {
@@ -36,13 +46,5 @@ public class Item {
 
   public void setPrice(double price) {
     this.price = price;
-  }
-
-  public Bill getBill() {
-    return bill;
-  }
-
-  public void setBill(Bill bill) {
-    this.bill = bill;
   }
 }

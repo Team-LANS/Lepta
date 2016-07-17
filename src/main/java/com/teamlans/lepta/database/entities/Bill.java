@@ -1,25 +1,39 @@
 package com.teamlans.lepta.database.entities;
 
+import com.teamlans.lepta.database.enums.Status;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "BILL")
 public class Bill {
 
-  private int nr;
-  private Status status;
-  private String timestamp; // will be changed
-  private User user;
+  @Id
+  @GeneratedValue
+  @Column(name = "NR")
+  private int billNr;
 
-  public Bill(int nr, Status status, String timestamp, User user) {
-    this.nr = nr;
+  @Column(name = "STATUS")
+  @Enumerated(EnumType.STRING)
+  private Status status;
+
+  @Column(name = "TIMESTAMP")
+  private String timestamp; // will be changed
+
+  public Bill() {
+  }
+
+  public Bill(Status status, String timestamp) {
     this.status = status;
     this.timestamp = timestamp;
-    this.user = user;
   }
 
-  public int getNr() {
-    return nr;
+  public int getBillNr() {
+    return billNr;
   }
 
-  public void setNr(int nr) {
-    this.nr = nr;
+  public void setBillNr(int nr) {
+    this.billNr = billNr;
   }
 
   public Status getStatus() {
@@ -36,13 +50,5 @@ public class Bill {
 
   public void setTimestamp(String timestamp) {
     this.timestamp = timestamp;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
   }
 }

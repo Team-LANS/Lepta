@@ -1,4 +1,4 @@
-package com.teamlans.lepta.database.entities;
+package com.teamlans.lepta.database.enums;
 
 public enum Color {
 
