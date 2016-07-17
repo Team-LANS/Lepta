@@ -1,6 +1,9 @@
-package com.teamlans.lepta.database.management;
+package com.teamlans.lepta.database.daos;
 
 import com.teamlans.lepta.database.entities.Item;
+import com.teamlans.lepta.database.entities.User;
+import com.teamlans.lepta.database.enums.Status;
+import com.teamlans.lepta.database.entities.Bill;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,8 +12,9 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-public class ItemManagement {
+public class BillDaoImpl {
   private static SessionFactory factory;
 
   public static void main(String[] args) {
@@ -23,14 +27,14 @@ public class ItemManagement {
 
   }
 
-  public Integer addItem(String description, double price) {
+  public Integer addBill(Status status, String timestamp, User user, Set<Item> items) {
     Session session = factory.openSession();
     Transaction tx = null;
-    Integer id = null;
+    Integer nr = null;
     try {
       tx = session.beginTransaction();
-      Item item = new Item(description, price);
-      id = (Integer) session.save(item);
+      Bill bill = new Bill(status, timestamp, user, items);
+      nr = (Integer) session.save(bill);
       tx.commit();
     } catch (HibernateException e) {
       if (tx != null) tx.rollback();
@@ -38,16 +42,16 @@ public class ItemManagement {
     } finally {
       session.close();
     }
-    return id;
+    return nr;
   }
 
-  public void deleteItem(Integer id) {
+  public void deleteBill(Integer billNr) {
     Session session = factory.openSession();
     Transaction tx = null;
     try {
       tx = session.beginTransaction();
-      Item item = (Item) session.get(Item.class, id);
-      session.delete(item);
+      Bill bill = (Bill) session.get(Bill.class, billNr);
+      session.delete(bill);
       tx.commit();
     } catch (HibernateException e) {
       if (tx != null) tx.rollback();
@@ -57,18 +61,18 @@ public class ItemManagement {
     }
   }
 
-  public void listItems() {
+  public void listBills() {
     Session session = factory.openSession();
     Transaction tx = null;
     try {
       tx = session.beginTransaction();
-      List items = session.createQuery("FROM Bill").list();
+      List bills = session.createQuery("FROM Bill").list();
       for (Iterator iterator =
-           items.iterator(); iterator.hasNext(); ) {
-        Item item = (Item) iterator.next();
-        System.out.print("ID: " + item.getId());
-        System.out.print("  Description: " + item.getDescription());
-        System.out.println("  Price: " + item.getPrice());
+           bills.iterator(); iterator.hasNext(); ) {
+        Bill bill = (Bill) iterator.next();
+        System.out.print("BillNr: " + bill.getNr());
+        System.out.print("  Status: " + bill.getStatus());
+        System.out.println("  Timestamp: " + bill.getTimestamp());
       }
       tx.commit();
     } catch (HibernateException e) {

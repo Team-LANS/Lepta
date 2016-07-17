@@ -17,11 +17,18 @@ public class Item {
   @Column(name = "PRICE")
   private double price;
 
+  @ManyToOne
+  @JoinColumn(name = "BILL_NR")
+  private Bill bill;
+
+
+  // why?
   public Item() {}
 
-  public Item(String description, double price) {
+  public Item(String description, double price, Bill bill) {
     this.description = description;
     this.price = price;
+    this.bill = bill;
   }
 
   public int getId() {
@@ -46,5 +53,13 @@ public class Item {
 
   public void setPrice(double price) {
     this.price = price;
+  }
+
+  public Bill getBill() {
+    return bill;
+  }
+
+  public void setBill(Bill bill) {
+    this.bill = bill;
   }
 }

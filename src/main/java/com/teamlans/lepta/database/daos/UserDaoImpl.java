@@ -1,5 +1,6 @@
-package com.teamlans.lepta.database.management;
+package com.teamlans.lepta.database.daos;
 
+import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.enums.Color;
 import com.teamlans.lepta.database.entities.User;
 import org.hibernate.HibernateException;
@@ -10,8 +11,9 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-public class UserManagement {
+public class UserDaoImpl {
   private static SessionFactory factory;
 
   public static void main(String[] args) {
@@ -24,12 +26,12 @@ public class UserManagement {
 
   }
 
-  public void addUser(String name, Color color, String password) {
+  public void addUser(String name, Color color, String password, Set<Bill> bills) {
     Session session = factory.openSession();
     Transaction tx = null;
     try {
       tx = session.beginTransaction();
-      User user = new User(name, color, password);
+      User user = new User(name, color, password, bills);
       session.save(user);
       tx.commit();
     } catch (HibernateException e) {

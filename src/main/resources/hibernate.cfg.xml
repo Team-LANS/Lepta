@@ -16,9 +16,9 @@
         <property name="dialect">org.hibernate.dialect.H2Dialect</property>
         <property name="hibernate.hbm2ddl.auto">create</property>
 
-        <mapping class="com.teamlans.lepta.database.entities.User"></mapping>
-        <mapping class="com.teamlans.lepta.database.entities.Bill"></mapping>
-        <mapping class="com.teamlans.lepta.database.entities.Item"></mapping>
+        <mapping class="com.teamlans.lepta.database.entities.User"/>
+        <mapping class="com.teamlans.lepta.database.entities.Bill"/>
+        <mapping class="com.teamlans.lepta.database.entities.Item"/>
 
     </session-factory>
 
