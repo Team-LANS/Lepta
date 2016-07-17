@@ -17,7 +17,7 @@ import javax.servlet.annotation.WebServlet;
  * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be
  * overridden to add component to the user interface and initialize non-component functionality.
  */
-@Theme("mytheme") @Widgetset("com.teamlans.lepta.MyAppWidgetset") public class MyUI extends UI {
+@Theme("lepta") @Widgetset("com.teamlans.lepta.MyAppWidgetset") public class MyUI extends UI {
 
   @Override protected void init(VaadinRequest vaadinRequest) {
     setContent(new MainView());
