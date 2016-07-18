@@ -12938,14 +12938,38 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .lepta .navbar {
-	padding-bottom: 25px;
-	width: 100%;
+	padding-bottom: $view-padding;
 	text-align: center;
 	white-space: normal;
 }
 
+.lepta .navbar .navbutton {
+	padding-left: 0;
+}
+
+.lepta .navbar .navbutton:after {
+	content: none;
+}
+
+.lepta .navbar .navbutton:hover, .lepta .navbar .navbutton:focus {
+	border: none;
+	color: dodgerblue;
+}
+
+.lepta .navmenu .v-menubar-menuitem-selected {
+	background: transparent;
+}
+
+.lepta .navmenu .v-menubar-menuitem-caption {
+	color: #464646;
+}
+
+.lepta .navmenu .v-menubar-menuitem-caption:hover {
+	color: dodgerblue;
+}
+
 .lepta .viewheader {
-	padding-bottom: 25px;
+	padding-bottom: $view-padding;
 	width: 100%;
 	text-align: right;
 	white-space: normal;

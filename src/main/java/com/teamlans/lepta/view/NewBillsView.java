@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 /**
  * @author Hans-Joerg Schroedl
  */
-@SpringView(name = OtherView.VIEW_NAME) public class OtherView extends VerticalLayout implements View {
+@SpringView(name = NewBillsView.VIEW_NAME) public class NewBillsView extends VerticalLayout implements View {
 
   public static final String VIEW_NAME = "OTHER_VIEW";
 
