@@ -3,6 +3,7 @@ package com.teamlans.lepta.database.entities;
 import com.teamlans.lepta.database.enums.Status;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,32 +20,27 @@ public class Bill {
   private Status status;
 
   @Column(name = "TIMESTAMP")
-  private String timestamp; // will be changed
+  private String timestamp; //TODO: use real timestamps
 
   @ManyToOne
   @JoinColumn(name = "USER_NAME")
   private User user;
 
-  @OneToMany(mappedBy = "bills")
-  private Set<Item> items;
+  @OneToMany(mappedBy = "bills", orphanRemoval = true)
+  private Set<Item> items = new HashSet<>();
 
-  // why?
+  // needed for hibernate
   public Bill() {
   }
 
-  public Bill(Status status, String timestamp, User user, Set<Item> items) {
+  public Bill(Status status, String timestamp, User user) {
     this.status = status;
     this.timestamp = timestamp;
     this.user = user;
-    this.items = items;
   }
 
   public int getNr() {
     return nr;
-  }
-
-  public void setNr(int nr) {
-    this.nr = nr;
   }
 
   public Status getStatus() {
@@ -67,15 +63,15 @@ public class Bill {
     return user;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void addItem(Item item) {
+    items.add(item);
+  }
+
+  public void removeItem(Item item) {
+    items.remove(item);
   }
 
   public Set<Item> getItems() {
     return items;
-  }
-
-  public void setItems(Set<Item> items) {
-    this.items = items;
   }
 }

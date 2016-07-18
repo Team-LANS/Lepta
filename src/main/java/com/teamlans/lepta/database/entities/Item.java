@@ -27,9 +27,9 @@ public class Item {
   private Set<User> users = new HashSet<>();
 
 
-
-  // why?
-  public Item() {}
+  // needed for hibernate
+  public Item() {
+  }
 
   public Item(String description, double price, Bill bill) {
     this.description = description;
@@ -39,10 +39,6 @@ public class Item {
 
   public int getId() {
     return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
   }
 
   public String getDescription() {
@@ -65,12 +61,16 @@ public class Item {
     return bill;
   }
 
-  public void setBill(Bill bill) {
-    this.bill = bill;
-  }
-
   public Set<User> getUsers() {
     return users;
+  }
+
+  public void addUser(User user) {
+    users.add(user);
+  }
+
+  public void removeUser(User user) {
+    users.remove(user);
   }
 
 }

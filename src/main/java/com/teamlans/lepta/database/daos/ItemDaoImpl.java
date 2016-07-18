@@ -2,81 +2,110 @@ package com.teamlans.lepta.database.daos;
 
 import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.entities.Item;
+import com.teamlans.lepta.database.entities.User;
+import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-public class ItemDaoImpl {
+public class ItemDaoImpl implements ItemDao {
   private static SessionFactory factory;
 
-  public static void main(String[] args) {
+  public ItemDaoImpl() throws LeptaDatabaseException {
     try {
       factory = new Configuration().configure().buildSessionFactory();
     } catch (Exception e) {
-      System.err.println("Failed to create sessionFactory object." + e);
-      throw new ExceptionInInitializerError(e);
+      throw new LeptaDatabaseException();
     }
-
   }
 
-  public Integer addItem(String description, double price, Bill bill) {
-    Session session = factory.openSession();
+  public Integer addItem(String description, double price, Bill bill) throws LeptaDatabaseException {
     Transaction tx = null;
-    Integer id = null;
-    try {
+    Integer id;
+    try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
       Item item = new Item(description, price, bill);
       id = (Integer) session.save(item);
       tx.commit();
     } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
+      if (tx != null) {
+        tx.rollback();
+      }
+      throw new LeptaDatabaseException();
     }
     return id;
   }
 
-  public void deleteItem(Integer id) {
-    Session session = factory.openSession();
+  public void deleteItem(Integer id) throws LeptaDatabaseException {
     Transaction tx = null;
-    try {
+    try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
-      Item item = (Item) session.get(Item.class, id);
+      Item item = session.get(Item.class, id);
       session.delete(item);
       tx.commit();
     } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
+      if (tx != null) {
+        tx.rollback();
+      }
+      throw new LeptaDatabaseException();
     }
   }
 
-  public void listItems() {
-    Session session = factory.openSession();
+  public List listItems() throws LeptaDatabaseException {
     Transaction tx = null;
-    try {
+    List items;
+    try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
-      List items = session.createQuery("FROM Bill").list();
-      for (Iterator iterator =
-           items.iterator(); iterator.hasNext(); ) {
-        Item item = (Item) iterator.next();
-        System.out.print("ID: " + item.getId());
-        System.out.print("  Description: " + item.getDescription());
-        System.out.println("  Price: " + item.getPrice());
-      }
+      items = session.createQuery("FROM Item").list();
       tx.commit();
     } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
+      if (tx != null) {
+        tx.rollback();
+      }
+      throw new LeptaDatabaseException();
+    }
+    return items;
+  }
+
+  public void updateItem(Item newItem) throws LeptaDatabaseException {
+    Transaction tx = null;
+    try (Session session = factory.openSession()) {
+      tx = session.beginTransaction();
+
+      Integer id = newItem.getId();
+      Item item = session.get(Item.class, id);
+
+      String newDescription = newItem.getDescription();
+      item.setDescription(newDescription);
+
+      double newPrice = newItem.getPrice();
+      item.setPrice(newPrice);
+
+      Set<User> newUsers = newItem.getUsers();
+      Set<User> users = item.getUsers();
+      for (User user : users) {
+        if (!newUsers.contains(user)) {
+          item.removeUser(user);
+        }
+      }
+      for (User newUser : newUsers) {
+        if (!users.contains(newUser)) {
+          item.addUser(newUser);
+        }
+      }
+
+      session.update(item);
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) {
+        tx.rollback();
+      }
+      throw new LeptaDatabaseException();
     }
   }
 }

@@ -1,11 +1,20 @@
 package com.teamlans.lepta.database.daos;
 
-public interface BillDao {
+import com.teamlans.lepta.database.entities.Bill;
+import com.teamlans.lepta.database.entities.User;
+import com.teamlans.lepta.database.enums.Status;
+import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 
-  Integer addBill();
+import java.util.List;
 
-  void deleteBill();
+interface BillDao {
 
-  void listBills();
+  Integer addBill(Status status, String timestamp, User user) throws LeptaDatabaseException;
+
+  void deleteBill(Integer nr) throws LeptaDatabaseException;
+
+  List listBills() throws LeptaDatabaseException;
+
+  void updateBill(Bill newBill) throws LeptaDatabaseException;
 
 }

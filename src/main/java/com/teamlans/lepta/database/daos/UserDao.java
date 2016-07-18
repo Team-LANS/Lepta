@@ -1,11 +1,19 @@
 package com.teamlans.lepta.database.daos;
 
-public interface UserDao {
+import com.teamlans.lepta.database.entities.User;
+import com.teamlans.lepta.database.enums.Color;
+import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 
-  void addUser();
+import java.util.List;
 
-  void deleteUser();
+interface UserDao {
 
-  void listUsers();
+  void addUser(String name, Color color, String password) throws LeptaDatabaseException;
+
+  void deleteUser(String name) throws LeptaDatabaseException;
+
+  List listUsers() throws LeptaDatabaseException;
+
+  void updateUser(User newUser) throws LeptaDatabaseException;
 
 }

@@ -1,11 +1,19 @@
 package com.teamlans.lepta.database.daos;
 
-public interface ItemDao {
+import com.teamlans.lepta.database.entities.Bill;
+import com.teamlans.lepta.database.entities.Item;
+import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 
-  Integer addItem();
+import java.util.List;
 
-  void deleteItem();
+interface ItemDao {
 
-  void listItem();
+  Integer addItem(String description, double price, Bill bill) throws LeptaDatabaseException;
+
+  void deleteItem(Integer id) throws LeptaDatabaseException;
+
+  List listItems() throws LeptaDatabaseException;
+
+  void updateItem(Item newItem) throws LeptaDatabaseException;
 
 }

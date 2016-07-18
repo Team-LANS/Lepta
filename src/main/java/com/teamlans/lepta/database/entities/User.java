@@ -19,7 +19,7 @@ public class User {
   private Color color;
 
   @Column(name = "PASSWORD")
-  private String password;
+  private String password; //TODO: no plaintext
 
   @OneToMany(mappedBy = "user")
   private Set<Bill> bills = new HashSet<>();
@@ -31,7 +31,7 @@ public class User {
   private Set<Item> items = new HashSet<>();
 
 
-  // why?
+  // needed for hibernate
   public User() {
   }
 
@@ -65,8 +65,24 @@ public class User {
     this.password = password;
   }
 
+  public void addBill(Bill bill) {
+    bills.add(bill);
+  }
+
+  public void removeBill(Bill bill) {
+    bills.remove(bill);
+  }
+
   public Set<Bill> getBills() {
     return bills;
+  }
+
+  public void addItem(Item item) {
+    items.add(item);
+  }
+
+  public void removeItem(Item item) {
+    items.remove(item);
   }
 
   public Set<Item> getItems() {
