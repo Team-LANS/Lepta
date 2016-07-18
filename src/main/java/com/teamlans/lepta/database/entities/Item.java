@@ -1,6 +1,8 @@
 package com.teamlans.lepta.database.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "ITEM")
@@ -20,6 +22,10 @@ public class Item {
   @ManyToOne
   @JoinColumn(name = "BILL_NR")
   private Bill bill;
+
+  @ManyToMany(mappedBy = "items")
+  private Set<User> users = new HashSet<>();
+
 
 
   // why?
@@ -62,4 +68,9 @@ public class Item {
   public void setBill(Bill bill) {
     this.bill = bill;
   }
+
+  public Set<User> getUsers() {
+    return users;
+  }
+
 }

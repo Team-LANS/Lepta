@@ -3,6 +3,7 @@ package com.teamlans.lepta.database.entities;
 import com.teamlans.lepta.database.enums.Color;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,18 +22,23 @@ public class User {
   private String password;
 
   @OneToMany(mappedBy = "user")
-  private Set<Bill> bills;
+  private Set<Bill> bills = new HashSet<>();
+
+  @ManyToMany(cascade = {CascadeType.ALL})
+  @JoinTable(name = "OWNER",
+      joinColumns = {@JoinColumn(name = "USER_NAME")},
+      inverseJoinColumns = {@JoinColumn(name = "ITEM_ID")})
+  private Set<Item> items = new HashSet<>();
 
 
   // why?
   public User() {
   }
 
-  public User(String name, Color color, String password, Set<Bill> bills) {
+  public User(String name, Color color, String password) {
     this.name = name;
     this.color = color;
     this.password = password;
-    this.bills = bills;
   }
 
   public String getName() {
@@ -63,7 +69,7 @@ public class User {
     return bills;
   }
 
-  public void setBills(Set<Bill> bills) {
-    this.bills = bills;
+  public Set<Item> getItems() {
+    return items;
   }
 }

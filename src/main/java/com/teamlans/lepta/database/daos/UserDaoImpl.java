@@ -26,12 +26,12 @@ public class UserDaoImpl {
 
   }
 
-  public void addUser(String name, Color color, String password, Set<Bill> bills) {
+  public void addUser(String name, Color color, String password) {
     Session session = factory.openSession();
     Transaction tx = null;
     try {
       tx = session.beginTransaction();
-      User user = new User(name, color, password, bills);
+      User user = new User(name, color, password);
       session.save(user);
       tx.commit();
     } catch (HibernateException e) {
