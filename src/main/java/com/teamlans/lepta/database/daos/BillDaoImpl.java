@@ -1,7 +1,6 @@
 package com.teamlans.lepta.database.daos;
 
 import com.teamlans.lepta.database.entities.Item;
-import com.teamlans.lepta.database.entities.User;
 import com.teamlans.lepta.database.enums.Status;
 import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
@@ -25,13 +24,12 @@ public class BillDaoImpl implements BillDao {
     }
   }
 
-  public Integer addBill(Status status, String timestamp, User user) throws LeptaDatabaseException {
+  public Integer addBill(Bill newBill) throws LeptaDatabaseException {
     Transaction tx = null;
     Integer nr;
     try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
-      Bill bill = new Bill(status, timestamp, user);
-      nr = (Integer) session.save(bill);
+      nr = (Integer) session.save(newBill);
       tx.commit();
     } catch (HibernateException e) {
       if (tx != null) {

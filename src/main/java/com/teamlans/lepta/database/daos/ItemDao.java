@@ -6,9 +6,9 @@ import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 
 import java.util.List;
 
-interface ItemDao {
+public interface ItemDao {
 
-  Integer addItem(String description, double price, Bill bill) throws LeptaDatabaseException;
+  Integer addItem(Item newItem) throws LeptaDatabaseException;
 
   void deleteItem(Integer id) throws LeptaDatabaseException;
 

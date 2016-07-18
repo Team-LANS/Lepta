@@ -7,9 +7,9 @@ import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 
 import java.util.List;
 
-interface BillDao {
+public interface BillDao {
 
-  Integer addBill(Status status, String timestamp, User user) throws LeptaDatabaseException;
+  Integer addBill(Bill newBill) throws LeptaDatabaseException;
 
   void deleteBill(Integer nr) throws LeptaDatabaseException;
 

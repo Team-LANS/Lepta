@@ -24,13 +24,12 @@ public class ItemDaoImpl implements ItemDao {
     }
   }
 
-  public Integer addItem(String description, double price, Bill bill) throws LeptaDatabaseException {
+  public Integer addItem(Item newItem) throws LeptaDatabaseException {
     Transaction tx = null;
     Integer id;
     try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
-      Item item = new Item(description, price, bill);
-      id = (Integer) session.save(item);
+      id = (Integer) session.save(newItem);
       tx.commit();
     } catch (HibernateException e) {
       if (tx != null) {

@@ -1,6 +1,7 @@
 package com.teamlans.lepta.database.daos;
 
 import com.teamlans.lepta.database.entities.Bill;
+import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.enums.Color;
 import com.teamlans.lepta.database.entities.User;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
@@ -24,12 +25,11 @@ public class UserDaoImpl implements UserDao {
     }
   }
 
-  public void addUser(String name, Color color, String password) throws LeptaDatabaseException {
+  public void addUser(User newUser) throws LeptaDatabaseException {
     Transaction tx = null;
     try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
-      User user = new User(name, color, password);
-      session.save(user);
+      session.save(newUser);
       tx.commit();
     } catch (HibernateException e) {
       if (tx != null) {
@@ -39,11 +39,11 @@ public class UserDaoImpl implements UserDao {
     }
   }
 
-  public void deleteUser(String name) throws LeptaDatabaseException {
+  public void deleteUser(Integer userNr) throws LeptaDatabaseException {
     Transaction tx = null;
     try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
-      User user = session.get(User.class, name);
+      User user = session.get(User.class, userNr);
       session.delete(user);
       tx.commit();
     } catch (HibernateException e) {
@@ -75,8 +75,11 @@ public class UserDaoImpl implements UserDao {
     try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
 
-      String name = newUser.getName();
-      User user = session.get(User.class, name);
+      String userNr = newUser.getName();
+      User user = session.get(User.class, userNr);
+
+      String newName = newUser.getName();
+      user.setName(newName);
 
       Color newColor = newUser.getColor();
       user.setColor(newColor);
@@ -94,6 +97,19 @@ public class UserDaoImpl implements UserDao {
       for (Bill newBill : newBills) {
         if (!bills.contains(newBill)) {
           user.addBill(newBill);
+        }
+      }
+
+      Set<Item> newItems = newUser.getItems();
+      Set<Item> items = user.getItems();
+      for (Item item : items) {
+        if (!newItems.contains(item)) {
+          user.removeItem(item);
+        }
+      }
+      for (Item newItem : newItems) {
+        if (!items.contains(newItem)) {
+          user.addItem(newItem);
         }
       }
 

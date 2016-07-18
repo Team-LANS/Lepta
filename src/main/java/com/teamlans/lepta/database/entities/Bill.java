@@ -17,24 +17,23 @@ public class Bill {
 
   @Column(name = "STATUS")
   @Enumerated(EnumType.STRING)
-  private Status status;
+  private Status status = Status.NEW;
 
   @Column(name = "TIMESTAMP")
-  private String timestamp; //TODO: use real timestamps
+  private String timestamp; // TODO: use real timestamps
 
   @ManyToOne
-  @JoinColumn(name = "USER_NAME")
+  @JoinColumn(name = "USER_NR")
   private User user;
 
-  @OneToMany(mappedBy = "bills", orphanRemoval = true)
+  @OneToMany(fetch=FetchType.LAZY, mappedBy = "bill", orphanRemoval = true)
   private Set<Item> items = new HashSet<>();
 
   // needed for hibernate
   public Bill() {
   }
 
-  public Bill(Status status, String timestamp, User user) {
-    this.status = status;
+  public Bill(String timestamp, User user) {
     this.timestamp = timestamp;
     this.user = user;
   }
