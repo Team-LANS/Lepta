@@ -14,6 +14,8 @@
         <property name="hibernate.default_schema">PUBLIC</property>
 
         <property name="dialect">org.hibernate.dialect.H2Dialect</property>
+
+        <!-- for testing purposes; will be changed to "update" -->
         <property name="hibernate.hbm2ddl.auto">create</property>
 
         <mapping class="com.teamlans.lepta.database.entities.User"/>

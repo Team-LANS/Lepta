@@ -17,13 +17,14 @@ import java.util.Set;
 
 @Repository
 public class BillDaoImpl implements BillDao {
+
   private static SessionFactory factory;
 
   public BillDaoImpl() throws LeptaDatabaseException {
     try {
       factory = new Configuration().configure().buildSessionFactory();
     } catch (Exception e) {
-      throw new LeptaDatabaseException();
+      throw new LeptaDatabaseException("Factory configuration failed.\n" + e.getStackTrace());
     }
   }
 
@@ -38,7 +39,7 @@ public class BillDaoImpl implements BillDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException();
+      throw new LeptaDatabaseException("Transaction failed in addBill.\n" + e.getStackTrace());
     }
     return nr;
   }
@@ -54,7 +55,7 @@ public class BillDaoImpl implements BillDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException();
+      throw new LeptaDatabaseException("Transaction failed in deleteBill.\n" + e.getStackTrace());
     }
   }
 
@@ -69,7 +70,7 @@ public class BillDaoImpl implements BillDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException();
+      throw new LeptaDatabaseException("Transaction failed in listBills.\n" + e.getStackTrace());
     }
     return bills;
   }
@@ -109,7 +110,7 @@ public class BillDaoImpl implements BillDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException();
+      throw new LeptaDatabaseException("Transaction failed in updateBill.\n" + e.getStackTrace());
     }
   }
 
