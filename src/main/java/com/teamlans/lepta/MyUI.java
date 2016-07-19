@@ -1,6 +1,5 @@
 package com.teamlans.lepta;
 
-import com.teamlans.lepta.view.ScopedView;
 import com.teamlans.lepta.view.component.Header;
 import com.teamlans.lepta.view.component.NavigationBar;
 import com.vaadin.annotations.Theme;
@@ -12,8 +11,8 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
-import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.annotation.WebServlet;
@@ -39,7 +38,6 @@ import javax.servlet.annotation.WebServlet;
     setContent(root);
 
     root.addComponent(new Header());
-
     root.addComponent(new NavigationBar());
 
     final VerticalLayout viewContainer = new VerticalLayout();

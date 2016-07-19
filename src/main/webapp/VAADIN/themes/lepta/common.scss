@@ -34,8 +34,9 @@
 
   .navbar {
     padding-bottom: $view-padding;
-    text-align: center;
+    text-align: left;
     white-space: normal;
+    width: 100%;
 
     .navbutton {
       padding-left: 0;
@@ -49,22 +50,24 @@
         color: dodgerblue;
       }
     }
-  }
 
-  .navmenu{
+    .navmenu{
 
-    .v-menubar-menuitem-selected {
-      background: transparent;
-    }
+      .v-menubar-menuitem-selected {
+        background: transparent;
+      }
 
-    .v-menubar-menuitem-caption {
-      color: #464646;
+      .v-menubar-menuitem-caption {
+        color: #464646;
 
-      &:hover {
-        color: dodgerblue;
+        &:hover {
+          color: dodgerblue;
+        }
       }
     }
   }
+
+
 
   .viewheader {
     padding-bottom: $view-padding;

@@ -12939,8 +12939,9 @@ div.v-layout.v-horizontal.v-widget {
 
 .lepta .navbar {
 	padding-bottom: $view-padding;
-	text-align: center;
+	text-align: left;
 	white-space: normal;
+	width: 100%;
 }
 
 .lepta .navbar .navbutton {
@@ -12956,15 +12957,15 @@ div.v-layout.v-horizontal.v-widget {
 	color: dodgerblue;
 }
 
-.lepta .navmenu .v-menubar-menuitem-selected {
+.lepta .navbar .navmenu .v-menubar-menuitem-selected {
 	background: transparent;
 }
 
-.lepta .navmenu .v-menubar-menuitem-caption {
+.lepta .navbar .navmenu .v-menubar-menuitem-caption {
 	color: #464646;
 }
 
-.lepta .navmenu .v-menubar-menuitem-caption:hover {
+.lepta .navbar .navmenu .v-menubar-menuitem-caption:hover {
 	color: dodgerblue;
 }
 

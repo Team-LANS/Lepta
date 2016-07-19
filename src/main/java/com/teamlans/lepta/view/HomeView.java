@@ -8,9 +8,6 @@ import com.vaadin.ui.VerticalLayout;
 
 import javax.annotation.PostConstruct;
 
-/**
- * @author Hans-Joerg Schroedl
- */
 @SpringView(name = HomeView.VIEW_NAME) public class HomeView extends VerticalLayout
     implements View {
 
