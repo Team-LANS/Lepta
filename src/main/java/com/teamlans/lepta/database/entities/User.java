@@ -37,7 +37,7 @@ public class User {
   public User() {
   }
 
-  public User(int userNr, String name, Color color, String password) {
+  public User(int userNr, String name, String password, Color color) {
     this.userNr = userNr;
     this.name = name;
     this.color = color;

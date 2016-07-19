@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 public class BillDaoImpl implements BillDao {
+
   private static SessionFactory factory;
 
   public BillDaoImpl() throws LeptaDatabaseException {

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ItemDaoImpl implements ItemDao {
+
   private static SessionFactory factory;
 
   public ItemDaoImpl() throws LeptaDatabaseException {

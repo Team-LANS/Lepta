@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 public class UserDaoImpl implements UserDao {
+
   private static SessionFactory factory;
 
   public UserDaoImpl() throws LeptaDatabaseException {
