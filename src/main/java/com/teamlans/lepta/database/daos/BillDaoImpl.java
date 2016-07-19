@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -87,11 +88,13 @@ public class BillDaoImpl implements BillDao {
 
       Set<Item> newItems = newBill.getItems();
       Set<Item> items = bill.getItems();
+      Set<Item> deletedItems = new HashSet<>();
       for (Item item : items) {
         if (!newItems.contains(item)) {
-          bill.removeItem(item);
+          deletedItems.add(item);
         }
       }
+      bill.removeItems(deletedItems);
       for (Item newItem : newItems) {
         if (!items.contains(newItem)) {
           bill.addItem(newItem);

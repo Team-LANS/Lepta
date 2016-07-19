@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -87,11 +88,13 @@ public class ItemDaoImpl implements ItemDao {
 
       Set<User> newUsers = newItem.getUsers();
       Set<User> users = item.getUsers();
+      Set<User> deletedUsers = new HashSet<>();
       for (User user : users) {
         if (!newUsers.contains(user)) {
-          item.removeUser(user);
+          deletedUsers.add(user);
         }
       }
+      item.removeUsers(deletedUsers);
       for (User newUser : newUsers) {
         if (!users.contains(newUser)) {
           item.addUser(newUser);

@@ -31,7 +31,6 @@ public class User {
   @JoinTable(name = "OWNER",
       joinColumns = {@JoinColumn(name = "USER_NR")},
       inverseJoinColumns = {@JoinColumn(name = "ITEM_ID")})
-
   private Set<Item> items = new HashSet<>();
 
   // needed for hibernate
@@ -81,8 +80,8 @@ public class User {
     bills.add(bill);
   }
 
-  public void removeBill(Bill bill) {
-    bills.remove(bill);
+  public void removeBills(Set <Bill> deletedBills) {
+    bills.removeAll(deletedBills);
   }
 
   public Set<Item> getItems() {
@@ -93,7 +92,7 @@ public class User {
     items.add(item);
   }
 
-  public void removeItem(Item item) {
-    items.remove(item);
+  public void removeItems(Set <Item> deletedItems) {
+    items.removeAll(deletedItems);
   }
 }

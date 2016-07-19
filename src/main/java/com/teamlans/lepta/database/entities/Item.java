@@ -69,8 +69,8 @@ public class Item {
     users.add(user);
   }
 
-  public void removeUser(User user) {
-    users.remove(user);
+  public void removeUsers(Set<User> deletedUsers) {
+    users.removeAll(deletedUsers);
   }
 
 }

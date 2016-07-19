@@ -66,8 +66,8 @@ public class Bill {
     items.add(item);
   }
 
-  public void removeItem(Item item) {
-    items.remove(item);
+  public void removeItems(Set<Item> deletedItems) {
+    items.removeAll(deletedItems);
   }
 
   public Set<Item> getItems() {

@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -89,11 +90,13 @@ public class UserDaoImpl implements UserDao {
 
       Set<Bill> newBills = newUser.getBills();
       Set<Bill> bills = user.getBills();
+      Set<Bill> deletedBills = new HashSet<>();
       for (Bill bill : bills) {
         if (!newBills.contains(bill)) {
-          user.removeBill(bill);
+          deletedBills.add(bill);
         }
       }
+      user.removeBills(deletedBills);
       for (Bill newBill : newBills) {
         if (!bills.contains(newBill)) {
           user.addBill(newBill);
@@ -102,11 +105,13 @@ public class UserDaoImpl implements UserDao {
 
       Set<Item> newItems = newUser.getItems();
       Set<Item> items = user.getItems();
+      Set<Item> deletedItems = new HashSet<>();
       for (Item item : items) {
         if (!newItems.contains(item)) {
-          user.removeItem(item);
+          deletedItems.add(item);
         }
       }
+      user.removeItems(deletedItems);
       for (Item newItem : newItems) {
         if (!items.contains(newItem)) {
           user.addItem(newItem);
