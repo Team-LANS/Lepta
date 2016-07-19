@@ -16,7 +16,7 @@ public class AccountTemplate {
 
   private AccountTemplate(String name, String password, Color color) throws LeptaServiceException {
     if (name == null || password == null || color == null) {
-      throw new LeptaServiceException();
+      throw new LeptaServiceException("Invalid user data.");
     }
     this.name = name;
     this.password = password;

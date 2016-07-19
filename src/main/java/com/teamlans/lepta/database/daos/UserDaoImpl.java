@@ -23,7 +23,7 @@ public class UserDaoImpl implements UserDao {
     try {
       factory = new Configuration().configure().buildSessionFactory();
     } catch (Exception e) {
-      throw new LeptaDatabaseException();
+      throw new LeptaDatabaseException("Factory configuration failed.\n" + e.getStackTrace());
     }
   }
 
@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException();
+      throw new LeptaDatabaseException("Transaction failed in addUser.\n" + e.getStackTrace());
     }
   }
 
@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException();
+      throw new LeptaDatabaseException("Transaction failed in deleteUser.\n" + e.getStackTrace());
     }
   }
 
@@ -67,7 +67,7 @@ public class UserDaoImpl implements UserDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException();
+      throw new LeptaDatabaseException("Transaction failed in listUsers.\n" + e.getStackTrace());
     }
     return users;
   }
@@ -125,7 +125,7 @@ public class UserDaoImpl implements UserDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException();
+      throw new LeptaDatabaseException("Transaction failed in updateUser.\n" + e.getStackTrace());
     }
   }
 

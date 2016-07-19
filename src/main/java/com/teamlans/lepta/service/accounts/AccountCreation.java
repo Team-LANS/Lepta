@@ -19,13 +19,13 @@ public class AccountCreation {
     try {
       userDao = new UserDaoImpl();
     } catch (LeptaDatabaseException e) {
-      throw new LeptaServiceException();
+      throw new LeptaServiceException(e);
     }
   }
 
   public void createAccounts(AccountTemplate u0, AccountTemplate u1) throws LeptaServiceException {
     if (u0 == null || u1 == null || u0.equals(u1)) {
-      throw new LeptaServiceException();
+      throw new LeptaServiceException("Invalid account templates.");
     }
     try {
       // assign unique ids 0 and 1
@@ -33,7 +33,7 @@ public class AccountCreation {
       userDao.addUser(new User(1, u1.getName(), u1.getPassword(), u1.getColor()));
     }
     catch (LeptaDatabaseException e) {
-      throw new LeptaServiceException();
+      throw new LeptaServiceException(e);
     }
   }
 

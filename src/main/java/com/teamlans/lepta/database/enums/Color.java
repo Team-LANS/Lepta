@@ -8,9 +8,9 @@ public enum Color {
     return values()[(int) (Math.random() * values().length)];
   }
 
-  public static Color getRandom(Color prohibited) {
+  public static Color getRandom(Color excluded) {
     Color randomColor = getRandom();
-    while (randomColor == prohibited) {
+    while (randomColor == excluded) {
       randomColor = getRandom();
     }
     return randomColor;
