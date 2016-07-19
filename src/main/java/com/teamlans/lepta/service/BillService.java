@@ -34,7 +34,7 @@ import java.util.List;
 
   public void addBill() throws LeptaServiceException {
     try {
-      billDao.addBill(new Bill("123", new User(0, "test", Color.BLUE, "passwd")));
+      billDao.addBill(new Bill("123", new User(0, "test", "color", Color.BLUE)));
     } catch (LeptaDatabaseException e) {
       throw new LeptaServiceException(e);
     }

@@ -10,22 +10,20 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Repository
 public class UserDaoImpl implements UserDao {
 
+  @Autowired
   private static SessionFactory factory;
 
-  public UserDaoImpl() throws LeptaDatabaseException {
-    try {
-      factory = new Configuration().configure().buildSessionFactory();
-    } catch (Exception e) {
-      throw new LeptaDatabaseException("Factory configuration failed.\n" + e.getStackTrace());
-    }
-  }
+
 
   public void addUser(User newUser) throws LeptaDatabaseException {
     Transaction tx = null;
