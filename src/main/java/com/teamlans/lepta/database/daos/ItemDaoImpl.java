@@ -1,5 +1,6 @@
 package com.teamlans.lepta.database.daos;
 
+import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.entities.User;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
@@ -29,7 +30,7 @@ public class ItemDaoImpl implements ItemDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException("Transaction failed in addItem.\n" + e.getStackTrace());
+      throw new LeptaDatabaseException("Transaction failed in addItem.\n", e);
     }
     return id;
   }
@@ -45,7 +46,7 @@ public class ItemDaoImpl implements ItemDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException("Transaction failed in deleteItem.\n" + e.getStackTrace());
+      throw new LeptaDatabaseException("Transaction failed in deleteItem.\n", e);
     }
   }
 
@@ -60,7 +61,7 @@ public class ItemDaoImpl implements ItemDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException("Transaction failed in listItems.\n" + e.getStackTrace());
+      throw new LeptaDatabaseException("Transaction failed in listItems.\n", e);
     }
     return items;
   }
@@ -100,7 +101,7 @@ public class ItemDaoImpl implements ItemDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException("Transaction failed in updateItem.\n" + e.getStackTrace());
+      throw new LeptaDatabaseException("Transaction failed in updateItem.\n", e);
     }
   }
 }
