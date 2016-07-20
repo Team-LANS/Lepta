@@ -2,6 +2,7 @@ package com.teamlans.lepta;
 
 import com.teamlans.lepta.view.component.Header;
 //import com.teamlans.lepta.view.component.NavigationBar;
+import com.teamlans.lepta.view.component.NavigationBar;
 import com.teamlans.lepta.view.login.LandingPageView;
 import com.teamlans.lepta.view.login.LogInView;
 import com.teamlans.lepta.view.login.SignUpView;
@@ -47,10 +48,7 @@ public class LeptaUi
     if (true) {
       // first visit
       root.addComponent(new SignUpView());
-
-
     } else {
-      /*
       root.addComponent(new Header());
       root.addComponent(new NavigationBar());
 
@@ -61,7 +59,6 @@ public class LeptaUi
 
       Navigator navigator = new Navigator(this, viewContainer);
       navigator.addProvider(viewProvider);
-      */
     }
 
   }

@@ -3,7 +3,6 @@ package com.teamlans.lepta.database.daos;
 import com.teamlans.lepta.database.HibernateTestConfiguration;
 import com.teamlans.lepta.database.entities.User;
 import com.teamlans.lepta.database.enums.Color;
-import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,6 @@ public class BillDaoImplTest {
     int newUserCount = userDao.listUsers().size();
     assertEquals(oldUserCount + 1, newUserCount);
   }
-
 
 
 

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
@@ -17,8 +16,8 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import javax.sql.DataSource;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Properties;
+import java.util.logging.Level;
 
 @Configuration public class HibernateTestConfiguration {
 
@@ -42,28 +41,13 @@ import java.util.Properties;
     return dataSource;
   }
 
-  @Autowired
-  @Bean
-  public DataSourceInitializer dataSourceInitializer(final DataSource dataSource) {
-    final DataSourceInitializer initializer = new DataSourceInitializer();
-    initializer.setDataSource(dataSource);
-    initializer.setDatabasePopulator(databasePopulator());
-    return initializer;
-  }
-
-  private DatabasePopulator databasePopulator() {
-    final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-    InputStream stream = this.getClass().getResourceAsStream("/import.sql");
-    Resource resource =  new InputStreamResource(stream);
-    populator.addScript(resource);
-    return populator;
-  }
 
   private Properties hibernateProperties() {
     Properties properties = new Properties();
     properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
     properties.put("hibernate.hbm2ddl.auto", "create");
-    properties.put("hibernate.show_sql", "true");
+    properties.put("hibernate.show_sql", "false");
+    properties.put("hibernate.hbm2ddl.import_files_sql_extractor", "org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor");
     return properties;
   }
 
