@@ -6,6 +6,7 @@ import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.entities.User;
 import com.teamlans.lepta.database.enums.Color;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
+import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
