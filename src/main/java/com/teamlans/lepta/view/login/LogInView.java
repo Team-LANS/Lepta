@@ -14,9 +14,9 @@ public class LogInView extends VerticalLayout {
   private void build() {
     setSizeFull();
 
-    Component loginForm = buildLoginForm();
-    addComponent(loginForm);
-    setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
+    final Component logInForm = buildLoginForm();
+    addComponent(logInForm);
+    setComponentAlignment(logInForm, Alignment.MIDDLE_CENTER);
 
   }
 
@@ -32,12 +32,13 @@ public class LogInView extends VerticalLayout {
   }
 
   private Component buildFields() {
-    HorizontalLayout fields = new HorizontalLayout();
+    final HorizontalLayout fields = new HorizontalLayout();
     fields.setSpacing(true);
 
     final TextField username = new TextField("Username");
     username.setIcon(FontAwesome.USER);
     username.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+    username.focus();
 
     final PasswordField password = new PasswordField("Password");
     password.setIcon(FontAwesome.LOCK);
@@ -46,7 +47,6 @@ public class LogInView extends VerticalLayout {
     final Button signIn = new Button("Sign In");
     signIn.addStyleName(ValoTheme.BUTTON_PRIMARY);
     signIn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-    signIn.focus();
 
     fields.addComponents(username, password, signIn);
     fields.setComponentAlignment(signIn, Alignment.BOTTOM_RIGHT);
