@@ -35,4 +35,19 @@ public class AccountTemplate {
     return color;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof AccountTemplate)) return false;
+
+    AccountTemplate that = (AccountTemplate) o;
+
+    return name.equals(that.name);
+
+  }
+
+  @Override
+  public int hashCode() {
+    return name.hashCode();
+  }
 }
