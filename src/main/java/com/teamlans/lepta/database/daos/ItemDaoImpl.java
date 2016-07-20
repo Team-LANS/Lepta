@@ -1,10 +1,8 @@
 package com.teamlans.lepta.database.daos;
 
-import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.entities.User;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -33,7 +31,7 @@ public class ItemDaoImpl implements ItemDao {
       tx = session.beginTransaction();
       id = (Integer) session.save(newItem);
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -49,7 +47,7 @@ public class ItemDaoImpl implements ItemDao {
       Item item = session.get(Item.class, id);
       session.delete(item);
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -64,7 +62,7 @@ public class ItemDaoImpl implements ItemDao {
       tx = session.beginTransaction();
       items = session.createQuery("FROM Item").list();
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -104,7 +102,7 @@ public class ItemDaoImpl implements ItemDao {
 
       session.update(item);
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }

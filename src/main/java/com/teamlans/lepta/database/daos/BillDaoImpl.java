@@ -4,7 +4,6 @@ import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.enums.Status;
 import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -33,7 +32,7 @@ public class BillDaoImpl implements BillDao {
       tx = session.beginTransaction();
       nr = (Integer) session.save(newBill);
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -49,7 +48,7 @@ public class BillDaoImpl implements BillDao {
       Bill bill = session.get(Bill.class, nr);
       session.delete(bill);
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -64,7 +63,7 @@ public class BillDaoImpl implements BillDao {
       tx = session.beginTransaction();
       bills = session.createQuery("FROM Bill").list();
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -104,7 +103,7 @@ public class BillDaoImpl implements BillDao {
 
       session.update(bill);
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }

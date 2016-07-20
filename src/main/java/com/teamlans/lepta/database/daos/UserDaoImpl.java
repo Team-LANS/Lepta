@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao {
       tx = session.beginTransaction();
       session.save(newUser);
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -48,7 +48,7 @@ public class UserDaoImpl implements UserDao {
       User user = session.get(User.class, userNr);
       session.delete(user);
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -63,7 +63,7 @@ public class UserDaoImpl implements UserDao {
       tx = session.beginTransaction();
       users = session.createQuery("FROM User").list();
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -121,7 +121,7 @@ public class UserDaoImpl implements UserDao {
 
       session.update(user);
       tx.commit();
-    } catch (HibernateException e) {
+    } catch (Exception e) {
       if (tx != null) {
         tx.rollback();
       }
