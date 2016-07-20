@@ -6,6 +6,8 @@ import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.entities.User;
 import com.teamlans.lepta.database.enums.Color;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
+import com.teamlans.lepta.service.exceptions.LeptaServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +17,12 @@ import java.util.List;
  */
 @Service public class BillService {
 
+
   BillDao billDao;
 
-  public BillService() throws LeptaDatabaseException {
-    billDao = new BillDaoImpl();
+  @Autowired
+  public BillService(BillDao billDao) throws LeptaDatabaseException {
+    this.billDao = billDao;
   }
 
   public List<Bill> listBills() throws LeptaServiceException {
@@ -31,7 +35,7 @@ import java.util.List;
 
   public void addBill() throws LeptaServiceException {
     try {
-      billDao.addBill(new Bill("123", new User(0, "test", Color.BLUE, "passwd")));
+      billDao.addBill(new Bill("123", new User(0, "test", "color", Color.BLUE)));
     } catch (LeptaDatabaseException e) {
       throw new LeptaServiceException(e);
     }

@@ -1,9 +1,8 @@
 package com.teamlans.lepta.view;
 
 import com.teamlans.lepta.database.entities.Bill;
-import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.BillService;
-import com.teamlans.lepta.service.LeptaServiceException;
+import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
@@ -50,7 +49,7 @@ import java.util.List;
     return layout;
   }
 
-  private Button buildAddBillButton(){
+  private Button buildAddBillButton() {
     Button addButton = new Button("Add");
     addButton.addClickListener(event -> {
       try {

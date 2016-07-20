@@ -6,7 +6,7 @@ import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,15 +14,8 @@ import java.util.Set;
 
 public class ItemDaoImpl implements ItemDao {
 
-  private static SessionFactory factory;
+  @Autowired private SessionFactory factory;
 
-  public ItemDaoImpl() throws LeptaDatabaseException {
-    try {
-      factory = new Configuration().configure().buildSessionFactory();
-    } catch (Exception e) {
-      throw new LeptaDatabaseException("Factory configuration failed.\n", e);
-    }
-  }
 
   public Integer addItem(Item newItem) throws LeptaDatabaseException {
     Transaction tx = null;
