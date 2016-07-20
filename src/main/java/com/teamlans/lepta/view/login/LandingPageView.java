@@ -1,13 +1,11 @@
 package com.teamlans.lepta.view.login;
 
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-public class LandingPageView extends VerticalLayout implements View {
+public class LandingPageView extends VerticalLayout {
 
   public LandingPageView() {
     build();
@@ -35,10 +33,6 @@ public class LandingPageView extends VerticalLayout implements View {
     Button button = new Button("Start");
     center.addComponent(button);
     center.setComponentAlignment(button, Alignment.BOTTOM_CENTER);
-  }
-
-  @Override
-  public void enter(ViewChangeListener.ViewChangeEvent event) {
   }
 
 }

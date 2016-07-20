@@ -45,7 +45,7 @@ public class LeptaUi
 
     if (true) {
       // first visit
-      root.addComponent(new LandingPageView());
+      root.addComponent(new LogInView());
 
 
     } else {

@@ -22,7 +22,7 @@ public class ItemDaoImpl implements ItemDao {
     try {
       factory = new Configuration().configure().buildSessionFactory();
     } catch (Exception e) {
-      throw new LeptaDatabaseException("Factory configuration failed.\n" + e.getStackTrace());
+      throw new LeptaDatabaseException("Factory configuration failed.\n", e);
     }
   }
 
@@ -37,7 +37,7 @@ public class ItemDaoImpl implements ItemDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException("Transaction failed in addItem.\n" + e.getStackTrace());
+      throw new LeptaDatabaseException("Transaction failed in addItem.\n", e);
     }
     return id;
   }
@@ -53,7 +53,7 @@ public class ItemDaoImpl implements ItemDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException("Transaction failed in deleteItem.\n" + e.getStackTrace());
+      throw new LeptaDatabaseException("Transaction failed in deleteItem.\n", e);
     }
   }
 
@@ -68,7 +68,7 @@ public class ItemDaoImpl implements ItemDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException("Transaction failed in listItems.\n" + e.getStackTrace());
+      throw new LeptaDatabaseException("Transaction failed in listItems.\n", e);
     }
     return items;
   }
@@ -108,7 +108,7 @@ public class ItemDaoImpl implements ItemDao {
       if (tx != null) {
         tx.rollback();
       }
-      throw new LeptaDatabaseException("Transaction failed in updateItem.\n" + e.getStackTrace());
+      throw new LeptaDatabaseException("Transaction failed in updateItem.\n", e);
     }
   }
 }
