@@ -3,7 +3,10 @@ language: java
 jdk:
   - oraclejdk8
 
-script: mvn install sonar:sonar -Dsonar.login=${SONAR_TOKEN}
+script:
+  - mvn clean
+  - mvn install
+  - mvn sonar:sonar -Dsonar.login=${SONAR_TOKEN}
 
 cache:
   directories:

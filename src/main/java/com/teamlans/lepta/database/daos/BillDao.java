@@ -13,7 +13,7 @@ public interface BillDao {
 
   void deleteBill(Integer nr) throws LeptaDatabaseException;
 
-  List listBills() throws LeptaDatabaseException;
+  List<Bill> listBills() throws LeptaDatabaseException;
 
   void updateBill(Bill newBill) throws LeptaDatabaseException;
 

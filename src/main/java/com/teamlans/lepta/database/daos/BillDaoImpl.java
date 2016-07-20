@@ -4,9 +4,7 @@ import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.enums.Status;
 import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,7 +26,7 @@ public class BillDaoImpl implements BillDao {
       tx = session.beginTransaction();
       nr = (Integer) session.save(newBill);
       tx.commit();
-    } catch (Exception e) {
+    } catch (PersistentObjectException e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -52,9 +50,9 @@ public class BillDaoImpl implements BillDao {
     }
   }
 
-  public List listBills() throws LeptaDatabaseException {
+  public List<Bill> listBills() throws LeptaDatabaseException {
     Transaction tx = null;
-    List bills;
+    List<Bill> bills;
     try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
       bills = session.createQuery("FROM Bill").list();

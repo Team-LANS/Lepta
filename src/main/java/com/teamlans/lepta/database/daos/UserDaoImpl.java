@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
   @Autowired
   private  SessionFactory factory;
 
-
+  @Override
   public void addUser(User newUser) throws LeptaDatabaseException {
     Transaction tx = null;
     try (Session session = factory.openSession()) {
@@ -39,14 +39,19 @@ public class UserDaoImpl implements UserDao {
     }
   }
 
+  @Override
   public void deleteUser(Integer userNr) throws LeptaDatabaseException {
     Transaction tx = null;
     try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
       User user = session.get(User.class, userNr);
+      if(user == null) {
+        throw new LeptaDatabaseException("Invalid user id");
+      }
+      user.getItems().clear();
       session.delete(user);
       tx.commit();
-    } catch (Exception e) {
+    } catch (HibernateException e) {
       if (tx != null) {
         tx.rollback();
       }
@@ -54,9 +59,10 @@ public class UserDaoImpl implements UserDao {
     }
   }
 
-  public List listUsers() throws LeptaDatabaseException {
+  @Override
+  public List<User> listUsers() throws LeptaDatabaseException {
     Transaction tx = null;
-    List users;
+    List<User> users;
     try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
       users = session.createQuery("FROM User").list();
@@ -70,6 +76,7 @@ public class UserDaoImpl implements UserDao {
     return users;
   }
 
+  @Override
   public void updateUser(User newUser) throws LeptaDatabaseException {
     Transaction tx = null;
     try (Session session = factory.openSession()) {
@@ -86,37 +93,8 @@ public class UserDaoImpl implements UserDao {
 
       String newPassword = newUser.getPassword();
       user.setPassword(newPassword);
-
-      Set<Bill> newBills = newUser.getBills();
-      Set<Bill> bills = user.getBills();
-      Set<Bill> deletedBills = new HashSet<>();
-      for (Bill bill : bills) {
-        if (!newBills.contains(bill)) {
-          deletedBills.add(bill);
-        }
-      }
-      user.removeBills(deletedBills);
-      for (Bill newBill : newBills) {
-        if (!bills.contains(newBill)) {
-          user.addBill(newBill);
-        }
-      }
-
-      Set<Item> newItems = newUser.getItems();
-      Set<Item> items = user.getItems();
-      Set<Item> deletedItems = new HashSet<>();
-      for (Item item : items) {
-        if (!newItems.contains(item)) {
-          deletedItems.add(item);
-        }
-      }
-      user.removeItems(deletedItems);
-      for (Item newItem : newItems) {
-        if (!items.contains(newItem)) {
-          user.addItem(newItem);
-        }
-      }
-
+      removeDeletedBills(newUser, user);
+      removeDeletedItems(newUser, user);
       session.update(user);
       tx.commit();
     } catch (Exception e) {
@@ -124,6 +102,40 @@ public class UserDaoImpl implements UserDao {
         tx.rollback();
       }
       throw new LeptaDatabaseException("Transaction failed in updateUser.\n", e);
+    }
+  }
+
+  private void removeDeletedItems(User newUser, User user) {
+    Set<Item> newItems = newUser.getItems();
+    Set<Item> items = user.getItems();
+    Set<Item> deletedItems = new HashSet<>();
+    for (Item item : items) {
+      if (!newItems.contains(item)) {
+        deletedItems.add(item);
+      }
+    }
+    user.removeItems(deletedItems);
+    for (Item newItem : newItems) {
+      if (!items.contains(newItem)) {
+        user.addItem(newItem);
+      }
+    }
+  }
+
+  private void removeDeletedBills(User newUser, User user) {
+    Set<Bill> newBills = newUser.getBills();
+    Set<Bill> bills = user.getBills();
+    Set<Bill> deletedBills = new HashSet<>();
+    for (Bill bill : bills) {
+      if (!newBills.contains(bill)) {
+        deletedBills.add(bill);
+      }
+    }
+    user.removeBills(deletedBills);
+    for (Bill newBill : newBills) {
+      if (!bills.contains(newBill)) {
+        user.addBill(newBill);
+      }
     }
   }
 

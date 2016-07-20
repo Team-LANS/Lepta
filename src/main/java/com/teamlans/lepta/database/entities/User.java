@@ -30,7 +30,7 @@ public class User {
   @ManyToMany(cascade = {CascadeType.ALL})
   @JoinTable(name = "OWNER",
       joinColumns = {@JoinColumn(name = "USER_NR")},
-      inverseJoinColumns = {@JoinColumn(name = "ITEM_ID")})
+      inverseJoinColumns = {@JoinColumn(name = "ITEM_ID"),})
   private Set<Item> items = new HashSet<>();
 
   // needed for hibernate

@@ -11,7 +11,7 @@ public interface UserDao {
 
   void deleteUser(Integer userNr) throws LeptaDatabaseException;
 
-  List listUsers() throws LeptaDatabaseException;
+  List<User> listUsers() throws LeptaDatabaseException;
 
   void updateUser(User newUser) throws LeptaDatabaseException;
 
