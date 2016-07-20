@@ -1,4 +1,4 @@
-package com.teamlans.lepta.service.accounts;
+package com.teamlans.lepta.service.login;
 
 import com.teamlans.lepta.database.daos.UserDao;
 import com.teamlans.lepta.database.daos.UserDaoImpl;

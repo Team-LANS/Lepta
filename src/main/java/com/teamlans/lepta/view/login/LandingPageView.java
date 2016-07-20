@@ -19,8 +19,9 @@ public class LandingPageView extends VerticalLayout {
     setComponentAlignment(center, Alignment.MIDDLE_CENTER);
 
     Label title = new Label("Welcome!");
-    center.addComponent(title);
     title.setWidth(null);
+    title.setStyleName("welcome");
+    center.addComponent(title);
     center.setComponentAlignment(title, Alignment.MIDDLE_CENTER);
 
     Label text = new Label("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam " +

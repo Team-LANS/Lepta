@@ -1,11 +1,11 @@
-package com.teamlans.lepta.service.accounts;
+package com.teamlans.lepta.service.login;
 
 import com.teamlans.lepta.database.enums.Color;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 
 
 /**
- * The AccountTemplate class wraps name, password (both entered by users when creating accounts) and
+ * The AccountTemplate class wraps name, password (both entered by users when creating login) and
  * color (randomly assigned).
  */
 public class AccountTemplate {

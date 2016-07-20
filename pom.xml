@@ -73,6 +73,12 @@
             <artifactId>vaadin-client</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- vaadin login -->
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>loginform</artifactId>
+            <version>0.6.2</version>
+        </dependency>
         <!--
           Needed when using the widgetset optimizer (custom ConnectorBundleLoaderFactory).
 
