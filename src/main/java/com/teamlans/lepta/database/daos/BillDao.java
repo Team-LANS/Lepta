@@ -9,11 +9,10 @@ import java.util.List;
 
 public interface BillDao {
 
+
   Integer addBill(Bill newBill) throws LeptaDatabaseException;
 
   void deleteBill(Integer nr) throws LeptaDatabaseException;
-
-  Bill getBillBy(int nr) throws LeptaDatabaseException;
 
   List<Bill> listBills() throws LeptaDatabaseException;
 

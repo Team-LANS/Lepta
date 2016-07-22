@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
   }
 
   @Bean @Autowired public BillDao billDao(SessionFactory sessionFactory) {
-    return new BillDaoImpl(sessionFactory);
+    return new BillDaoImpl();
   }
 
   @Bean public ItemDao itemDao() {

@@ -11,7 +11,7 @@ import java.util.Set;
 public class Bill {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "NR")
   private int nr;
 
@@ -40,10 +40,6 @@ public class Bill {
 
   public int getNr() {
     return nr;
-  }
-
-  public void setNr(int nr) {
-    this.nr = nr;
   }
 
   public Status getStatus() {
