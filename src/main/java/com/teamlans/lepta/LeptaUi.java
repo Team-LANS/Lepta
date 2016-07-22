@@ -2,6 +2,7 @@ package com.teamlans.lepta;
 
 import com.teamlans.lepta.view.component.Header;
 import com.teamlans.lepta.view.component.NavigationBar;
+import com.teamlans.lepta.view.login.LoginView;
 import com.teamlans.lepta.view.login.SignUpView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -43,7 +44,7 @@ public class LeptaUi extends UI {
 
     if (false) {
       // first visit
-      root.addComponent(new SignUpView());
+      root.addComponent(new LoginView());
 
     } else {
       root.addComponent(new Header());

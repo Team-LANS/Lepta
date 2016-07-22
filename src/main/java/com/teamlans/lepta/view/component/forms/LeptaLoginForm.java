@@ -6,9 +6,15 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
+/**
+ * LeptaLoginForm is a custom login form based on DefaultHorizontalLoginForm added by the vaadin
+ * login form add on. Each text field contains an icon.
+ */
 public class LeptaLoginForm extends LoginForm {
 
-  protected Component createContent(TextField userNameField, PasswordField passwordField, Button loginButton) {
+  @Override
+  protected Component createContent(TextField userNameField, PasswordField passwordField,
+                                    Button loginButton) {
     HorizontalLayout layout = new HorizontalLayout();
     layout.setSpacing(true);
     layout.setMargin(true);
@@ -23,26 +29,27 @@ public class LeptaLoginForm extends LoginForm {
 
   @Override
   protected TextField createUserNameField() {
-    final TextField userName = new TextField("Username");
-    userName.setIcon(FontAwesome.USER);
-    userName.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
-    userName.focus();
-    return userName;
+    TextField userNameField = new TextField("Username");
+    userNameField.setIcon(FontAwesome.USER);
+    userNameField.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+    userNameField.focus();
+    return userNameField;
   }
 
   @Override
   protected PasswordField createPasswordField() {
-    final PasswordField password = new PasswordField("Password");
-    password.setIcon(FontAwesome.LOCK);
-    password.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
-    return password;
+    PasswordField passwordField = new PasswordField("Password");
+    passwordField.setIcon(FontAwesome.LOCK);
+    passwordField.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+    return passwordField;
   }
 
   @Override
   protected Button createLoginButton() {
-    final Button logIn = new Button("Log In");
-    logIn.addStyleName("login-button");
-    logIn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-    return logIn;
+    final Button loginButton = new Button("Log In");
+    loginButton.addStyleName("login-button");
+    loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+    return loginButton;
   }
+
 }
