@@ -1,5 +1,7 @@
 package com.teamlans.lepta.database.daos;
 
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
     return new UserDaoImpl();
   }
 
-  @Bean public BillDao billDao() {
-    return new BillDaoImpl();
+  @Bean @Autowired public BillDao billDao(SessionFactory sessionFactory) {
+    return new BillDaoImpl(sessionFactory);
   }
 
   @Bean public ItemDao itemDao() {

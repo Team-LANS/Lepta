@@ -42,6 +42,10 @@ public class Bill {
     return nr;
   }
 
+  public void setNr(int nr) {
+    this.nr = nr;
+  }
+
   public Status getStatus() {
     return status;
   }
