@@ -49,6 +49,8 @@ public class HibernateConfiguration {
     properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
     properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
     properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
+    properties.put("hibernate.hbm2ddl.import_files_sql_extractor",
+        "org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor");
     return properties;
   }
 

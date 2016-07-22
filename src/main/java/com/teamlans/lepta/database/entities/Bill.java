@@ -6,40 +6,36 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "BILL")
-public class Bill {
+@Entity @Table(name = "BILL") public class Bill {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "NR")
-  private int nr;
-
-  @Column(name = "STATUS")
-  @Enumerated(EnumType.STRING)
-  private Status status = Status.NEW;
-
-  @Column(name = "TIMESTAMP")
-  private String timestamp; // TODO: use real timestamps
-
-  @ManyToOne
-  @JoinColumn(name = "USER_NR")
-  private User user;
-
-  @OneToMany(fetch=FetchType.LAZY, mappedBy = "bill", orphanRemoval = true)
-  private Set<Item> items = new HashSet<>();
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "NR") private int nr;
+  @Column(name = "NAME") private String name;
+  @Column(name = "TIMESTAMP") private String timestamp; // TODO: use real timestamps
+  @Column(name = "STATUS") @Enumerated(EnumType.STRING) private Status status = Status.NEW;
+  @ManyToOne @JoinColumn(name = "USER_NR") private User user;
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bill", orphanRemoval = true) private Set<Item>
+      items = new HashSet<>();
 
   // needed for hibernate
   public Bill() {
   }
 
-  public Bill(String timestamp, User user) {
+  public Bill(String name, String timestamp, User user) {
+    this.name = name;
     this.timestamp = timestamp;
     this.user = user;
   }
 
   public int getNr() {
     return nr;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public Status getStatus() {

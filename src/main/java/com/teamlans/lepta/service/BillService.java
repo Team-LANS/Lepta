@@ -9,6 +9,7 @@ import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,8 +18,7 @@ import java.util.List;
  */
 @Service public class BillService {
 
-
-  BillDao billDao;
+  private BillDao billDao;
 
   @Autowired
   public BillService(BillDao billDao) throws LeptaDatabaseException {
@@ -33,11 +33,19 @@ import java.util.List;
     }
   }
 
-  public void addBill() throws LeptaServiceException {
+  @Transactional
+  public void addBill(Bill bill) throws LeptaServiceException {
     try {
-      billDao.addBill(new Bill("123", new User(0, "test", "color", Color.BLUE)));
+      billDao.addBill(bill);
     } catch (LeptaDatabaseException e) {
       throw new LeptaServiceException(e);
     }
   }
+
+  public void validateBill(Bill bill) throws LeptaServiceException {
+    if(bill.getName().trim().isEmpty()){
+      throw new LeptaServiceException("Bill name must not be empty");
+    }
+  }
+
 }

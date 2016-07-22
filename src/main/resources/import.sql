@@ -1,12 +1,12 @@
 INSERT INTO USER (u_nr, NAME, PASSWORD, COLOR) VALUES (1, 'Hans', 'Password', 'BLUE'),
     (0, 'Lena', 'Password', 'GREEN');
 
-INSERT INTO BILL (NR, USER_NR, STATUS, TIMESTAMP)
-  VALUES (1, 1, 'NEW', 'Time1'),
-    (2, 1, 'NEW', 'Time2'),
-    (3, 1, 'ASSIGNED', 'Time3'),
-    (4, 0, 'NEW', 'Time4'),
-    (5, 0, 'ASSIGNED', 'Time5');
+INSERT INTO BILL (NR, USER_NR, STATUS, NAME, TIMESTAMP)
+  VALUES (1, 1, 'NEW', 'Billa', 'Time1'),
+    (2, 1, 'NEW', 'Spar fuer Party','Time2'),
+    (3, 1, 'ASSIGNED', 'Billa', 'Time3'),
+    (4, 0, 'NEW', 'Fortgehn', 'Time4'),
+    (5, 0, 'ASSIGNED', 'Spar fuer Eltnern', 'Time5');
 
 
 INSERT INTO ITEM (ID, BILL_NR, DESCRIPTION, PRICE) VALUES (1, 1, 'Suppe', 2.99),

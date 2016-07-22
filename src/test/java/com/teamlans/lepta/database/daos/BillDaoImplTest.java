@@ -28,7 +28,7 @@ public class BillDaoImplTest {
 
   @Test public void createBill_validBill_billCreated() throws Exception {
     int billCount = billDao.listBills().size();
-    Bill bill = new Bill("teasdf", userDao.listUsers().get(0));
+    Bill bill = new Bill("name","timestamp", userDao.listUsers().get(0));
     billDao.addBill(bill);
     int newBillCount = billDao.listBills().size();
     assertEquals(billCount + 1, newBillCount);
