@@ -1,10 +1,7 @@
 package com.teamlans.lepta.service;
 
 import com.teamlans.lepta.database.daos.BillDao;
-import com.teamlans.lepta.database.daos.BillDaoImpl;
 import com.teamlans.lepta.database.entities.Bill;
-import com.teamlans.lepta.database.entities.User;
-import com.teamlans.lepta.database.enums.Color;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +17,7 @@ import java.util.List;
 
   private BillDao billDao;
 
-  @Autowired
-  public BillService(BillDao billDao) throws LeptaDatabaseException {
+  @Autowired public BillService(BillDao billDao) throws LeptaDatabaseException {
     this.billDao = billDao;
   }
 
@@ -33,8 +29,8 @@ import java.util.List;
     }
   }
 
-  @Transactional
-  public void addBill(Bill bill) throws LeptaServiceException {
+  @Transactional public void addBill(Bill bill) throws LeptaServiceException {
+    validateBill(bill);
     try {
       billDao.addBill(bill);
     } catch (LeptaDatabaseException e) {
@@ -43,8 +39,11 @@ import java.util.List;
   }
 
   public void validateBill(Bill bill) throws LeptaServiceException {
-    if(bill.getName().trim().isEmpty()){
-      throw new LeptaServiceException("Bill name must not be empty");
+    if (bill.getName().trim().isEmpty()) {
+      throw new LeptaServiceException("Bill name must not be empty.");
+    }
+    if (bill.getDate() == null) {
+      throw new LeptaServiceException("Invalid bill date. ");
     }
   }
 

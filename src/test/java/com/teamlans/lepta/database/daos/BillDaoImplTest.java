@@ -12,6 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,7 +30,7 @@ public class BillDaoImplTest {
 
   @Test public void createBill_validBill_billCreated() throws Exception {
     int billCount = billDao.listBills().size();
-    Bill bill = new Bill("name","timestamp", userDao.listUsers().get(0));
+    Bill bill = new Bill("name",new Date(), userDao.listUsers().get(0));
     billDao.addBill(bill);
     int newBillCount = billDao.listBills().size();
     assertEquals(billCount + 1, newBillCount);
