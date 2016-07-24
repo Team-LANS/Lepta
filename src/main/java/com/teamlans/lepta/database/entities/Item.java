@@ -9,7 +9,7 @@ import java.util.Set;
 public class Item {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID")
   private int id;
 
@@ -31,10 +31,9 @@ public class Item {
   public Item() {
   }
 
-  public Item(String description, double price, Bill bill) {
+  public Item(String description, double price) {
     this.description = description;
     this.price = price;
-    this.bill = bill;
   }
 
   public int getId() {
@@ -59,6 +58,10 @@ public class Item {
 
   public Bill getBill() {
     return bill;
+  }
+
+  public void setBill(Bill bill) {
+    this.bill = bill;
   }
 
   public Set<User> getUsers() {
