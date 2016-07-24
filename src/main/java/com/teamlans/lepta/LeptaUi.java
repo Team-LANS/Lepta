@@ -51,7 +51,7 @@ public class LeptaUi extends UI {
 
       Navigator navigator = new Navigator(this, root);
       navigator.addProvider(viewProvider);
-      navigator.navigateTo(LoginView.VIEW_NAME);
+      navigator.navigateTo(SignUpView.VIEW_NAME);
 
     } else {
       root.addComponent(new Header());

@@ -1,13 +1,20 @@
-package com.teamlans.lepta.view.account;
+package com.teamlans.lepta.view.account.components;
 
+import com.teamlans.lepta.view.account.SignUpView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-public class LandingView extends VerticalLayout {
+/**
+ * Visible for first time visitors (database is empty).
+ */
+public class WelcomePage extends VerticalLayout {
 
-  public LandingView() {
+  private final SignUpView parent;
+
+  public WelcomePage(SignUpView parent) {
+    this.parent = parent;
     build();
   }
 
@@ -17,7 +24,20 @@ public class LandingView extends VerticalLayout {
     VerticalLayout center = new VerticalLayout();
     addComponent(center);
     setComponentAlignment(center, Alignment.MIDDLE_CENTER);
+    buildText(center);
 
+    Button button = new Button("Start");
+    button.addClickListener(new Button.ClickListener() {
+      @Override
+      public void buttonClick(Button.ClickEvent clickEvent) {
+        parent.showInitialSignUp();
+      }
+    });
+    center.addComponent(button);
+    center.setComponentAlignment(button, Alignment.BOTTOM_CENTER);
+  }
+
+  private void buildText(VerticalLayout center) {
     Label title = new Label("Welcome!");
     title.setWidth(null);
     title.setStyleName("welcome");
@@ -30,10 +50,6 @@ public class LandingView extends VerticalLayout {
     center.addComponent(text); // TODO: better position
     text.setWidth("90%");
     center.setComponentAlignment(text, Alignment.MIDDLE_CENTER);
-
-    Button button = new Button("Start");
-    center.addComponent(button);
-    center.setComponentAlignment(button, Alignment.BOTTOM_CENTER);
   }
 
 }
