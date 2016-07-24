@@ -3,10 +3,14 @@ package com.teamlans.lepta.database.daos;
 import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.enums.Status;
-import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
+import com.teamlans.lepta.service.bill.BillService;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -14,25 +18,38 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Repository public class BillDaoImpl implements BillDao {
+@Repository
+public class BillDaoImpl implements BillDao {
 
-  @Autowired private SessionFactory factory;
+  private static final Logger logger = LoggerFactory.getLogger(BillService.class);
 
-  public Integer addBill(Bill newBill) throws LeptaDatabaseException {
+  @Autowired
+  private SessionFactory factory;
+
+  @Override
+  public Integer addBill(Bill newBill) {
+    logger.debug("Adding bill with {}", newBill);
     return (Integer) factory.getCurrentSession().save(newBill);
   }
 
-  public void deleteBill(Integer nr) throws LeptaDatabaseException {
+  @Override
+  public void deleteBill(Integer nr) {
+    logger.debug("Deleting bill with id {}", nr);
     Session session = factory.getCurrentSession();
     Bill bill = session.get(Bill.class, nr);
     session.delete(bill);
   }
 
-  @SuppressWarnings("unchecked") public List<Bill> listBills() throws LeptaDatabaseException {
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<Bill> listBills() {
+    logger.debug("Listing bills...");
     return factory.getCurrentSession().createQuery("FROM Bill").list();
   }
 
-  public void updateBill(Bill newBill) throws LeptaDatabaseException {
+  @Override
+  public void updateBill(Bill newBill) {
+    logger.debug("Updating bill with {}", newBill);
     Session session = factory.getCurrentSession();
 
     Integer nr = newBill.getNr();

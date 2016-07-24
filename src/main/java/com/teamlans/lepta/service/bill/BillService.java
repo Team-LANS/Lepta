@@ -4,6 +4,10 @@ import com.teamlans.lepta.database.daos.BillDao;
 import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,31 +16,27 @@ import java.util.List;
 
 @Service public class BillService {
 
+  private static final Logger logger = LoggerFactory.getLogger(BillService.class);
+
   private BillDao billDao;
 
-  @Autowired public BillService(BillDao billDao) throws LeptaDatabaseException {
+  @Autowired public BillService(BillDao billDao) {
     this.billDao = billDao;
   }
 
   @Transactional
-  public List<Bill> listBills() throws LeptaServiceException {
-    try {
-      return billDao.listBills();
-    } catch (LeptaDatabaseException e) {
-      throw new LeptaServiceException(e);
-    }
+  public List<Bill> listBills()  {
+    logger.debug("Getting bills");
+    return billDao.listBills();
   }
 
   @Transactional public void addBill(Bill bill) throws LeptaServiceException {
+    logger.debug("Adding bill with {}", bill);
     validateBill(bill);
-    try {
-      billDao.addBill(bill);
-    } catch (LeptaDatabaseException e) {
-      throw new LeptaServiceException(e);
-    }
+    billDao.addBill(bill);
   }
 
-  public void validateBill(Bill bill) throws LeptaServiceException {
+  private void validateBill(Bill bill) throws LeptaServiceException {
       if(bill.getUser() == null) {
         throw new LeptaServiceException("Bill user must not be null");
       }

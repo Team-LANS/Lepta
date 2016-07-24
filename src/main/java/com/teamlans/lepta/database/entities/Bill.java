@@ -17,8 +17,8 @@ import java.util.Set;
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "bill", orphanRemoval = true, cascade = CascadeType.ALL)
   private Set<Item> items = new HashSet<>();
 
-  // needed for hibernate
   public Bill() {
+    // needed for hibernate
   }
 
   public Bill(String name, Date date, User user) {

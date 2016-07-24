@@ -3,6 +3,8 @@ package com.teamlans.lepta.database.daos;
 import com.teamlans.lepta.database.entities.User;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 public interface UserDao {

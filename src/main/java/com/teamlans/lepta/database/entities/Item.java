@@ -27,8 +27,8 @@ public class Item {
   private Set<User> users = new HashSet<>();
 
 
-  // needed for hibernate
   public Item() {
+    // needed for hibernate
   }
 
   public Item(String description, double price) {

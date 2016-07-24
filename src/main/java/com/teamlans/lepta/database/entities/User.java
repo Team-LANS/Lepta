@@ -33,8 +33,8 @@ public class User {
       inverseJoinColumns = {@JoinColumn(name = "ITEM_ID"),})
   private Set<Item> items = new HashSet<>();
 
-  // needed for hibernate
   public User() {
+    // needed for hibernate
   }
 
   public User(int userNr, String name, String password, Color color) {

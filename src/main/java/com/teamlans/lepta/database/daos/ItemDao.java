@@ -6,14 +6,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository public interface ItemDao {
+public interface ItemDao {
 
-  Integer addItem(Item newItem) throws LeptaDatabaseException;
+  Integer addItem(Item newItem);
 
-  void deleteItem(Integer id) throws LeptaDatabaseException;
+  void deleteItem(Integer id);
 
-  List listItems() throws LeptaDatabaseException;
+  List<Item> listItems();
 
-  void updateItem(Item newItem) throws LeptaDatabaseException;
+  void updateItem(Item newItem);
 
 }
