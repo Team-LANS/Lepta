@@ -14,8 +14,8 @@ import java.util.Set;
   @Column(name = "DATE") private Date date;
   @Column(name = "STATUS") @Enumerated(EnumType.STRING) private Status status = Status.NEW;
   @ManyToOne @JoinColumn(name = "USER_NR") private User user;
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bill", orphanRemoval = true) private Set<Item>
-      items = new HashSet<>();
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bill", orphanRemoval = true, cascade = CascadeType.ALL)
+  private Set<Item> items = new HashSet<>();
 
   // needed for hibernate
   public Bill() {
@@ -69,5 +69,9 @@ import java.util.Set;
 
   public Set<Item> getItems() {
     return items;
+  }
+
+  public void setItems(Set<Item> items) {
+    this.items = items;
   }
 }

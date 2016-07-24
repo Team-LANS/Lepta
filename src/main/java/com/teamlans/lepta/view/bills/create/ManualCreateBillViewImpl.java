@@ -2,6 +2,7 @@ package com.teamlans.lepta.view.bills.create;
 
 import com.teamlans.lepta.database.daos.UserDao;
 import com.teamlans.lepta.database.entities.Bill;
+import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.BillService;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import javax.annotation.PostConstruct;
+import java.util.HashSet;
+import java.util.List;
 
 @SpringView(name = ManualCreateBillViewImpl.VIEW_NAME) public class ManualCreateBillViewImpl
     extends VerticalLayout implements View {
@@ -27,7 +30,8 @@ import javax.annotation.PostConstruct;
   private UserDao userDao;
   private TextField nameField;
   private DateField dateField;
-  private Table itemTable;
+
+  private BillItemList itemList;
 
   @Autowired public void setUserDao(UserDao userDao) {
     this.userDao = userDao;
@@ -59,7 +63,8 @@ import javax.annotation.PostConstruct;
     gridLayout.setRowExpandRatio(1,1);
     createHeaderLabel(gridLayout);
     createInputFields(gridLayout);
-    createItemList(gridLayout);
+    itemList = new BillItemList();
+    gridLayout.addComponent(itemList,1,1);
     createButtonBar(gridLayout);
     layout.addComponent(gridLayout);
     layout.setComponentAlignment(gridLayout, Alignment.MIDDLE_CENTER);
@@ -80,32 +85,6 @@ import javax.annotation.PostConstruct;
     gridLayout.addComponent(inputContainer, 0, 1);
   }
 
-  private void createItemList(GridLayout gridLayout) {
-    VerticalLayout listContainer = new VerticalLayout();
-    listContainer.setSpacing(true);
-    itemTable = new Table();
-    itemTable.setHeight("300px");
-    itemTable.addContainerProperty("Name", String.class, null);
-    itemTable.addContainerProperty("Price", Double.class, null);
-    itemTable.setWidth("100%");
-    listContainer.addComponent(itemTable);
-    listContainer.setExpandRatio(itemTable, 1);
-    createItemInput(listContainer);
-    gridLayout.addComponent(listContainer, 1, 1);
-  }
-
-  private void createItemInput(VerticalLayout listContainer) {
-    HorizontalLayout itemInputContainer = new HorizontalLayout();
-    itemInputContainer.setSpacing(true);
-    TextField itemName = new TextField();
-    itemInputContainer.addComponent(itemName);
-    TextField itemPrice = new TextField();
-    itemInputContainer.addComponent(itemPrice);
-    Button addItem = new Button("Add");
-    itemInputContainer.addComponent(addItem);
-    listContainer.addComponent(itemInputContainer);
-  }
-
   private void createHeaderLabel(GridLayout layout) {
     Label label = new Label("Create new bill");
     label.setStyleName(ValoTheme.LABEL_H1);
@@ -116,6 +95,7 @@ import javax.annotation.PostConstruct;
     Button cancelButton = new Button("Cancel");
     layout.addComponent(cancelButton, 0, 2);
     Button okayButton = new Button("Okay");
+    okayButton.addClickListener(clickEvent -> tryAddBill());
     layout.addComponent(okayButton, 1, 2);
     layout.setComponentAlignment(okayButton, Alignment.MIDDLE_RIGHT);
   }
@@ -136,7 +116,11 @@ import javax.annotation.PostConstruct;
   }
 
   private Bill createBill() throws LeptaDatabaseException {
-    return new Bill(nameField.getValue(), dateField.getValue(), userDao.listUsers().get(0));
+    Bill bill = new Bill(nameField.getValue(), dateField.getValue(), userDao.listUsers().get(0));
+    List<Item> billItems = itemList.getBillItems();
+    billItems.stream().forEach(item -> item.setBill(bill));
+    bill.setItems(new HashSet<>(billItems));
+    return bill;
   }
 
 
