@@ -47,7 +47,10 @@ public class LeptaUi extends UI {
 
     if (true) {
       // first visit
-      root.addComponent(context.getBean(SignUpView.class));
+
+      Navigator navigator = new Navigator(this, root);
+      navigator.addProvider(viewProvider);
+      navigator.navigateTo(SignUpView.VIEW_NAME);
 
     } else {
       root.addComponent(new Header());
@@ -57,9 +60,6 @@ public class LeptaUi extends UI {
       viewContainer.setSizeFull();
       root.addComponent(viewContainer);
       root.setExpandRatio(viewContainer, 1.0f);
-
-      Navigator navigator = new Navigator(this, viewContainer);
-      navigator.addProvider(viewProvider);
     }
 
   }

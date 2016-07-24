@@ -13,6 +13,10 @@ import com.vaadin.ui.themes.ValoTheme;
  */
 public class SignUpForm extends LoginForm {
 
+  // TODO: fix this
+  // needs to be initialized here to make getter work
+  private Button cancelButton = createCancelButton();
+
   @Override
   protected Component createContent(TextField userNameField, PasswordField passwordField,
                                     Button loginButton) {
@@ -48,9 +52,8 @@ public class SignUpForm extends LoginForm {
     HorizontalLayout buttonContainer = new HorizontalLayout();
     buttonContainer.setSizeFull();
 
-    Button cancel = createCancelButton();
-    buttonContainer.addComponent(cancel);
-    buttonContainer.setComponentAlignment(cancel, Alignment.BOTTOM_LEFT);
+    buttonContainer.addComponent(cancelButton);
+    buttonContainer.setComponentAlignment(cancelButton, Alignment.BOTTOM_LEFT);
 
     buttonContainer.addComponent(loginButton);
     buttonContainer.setComponentAlignment(loginButton, Alignment.BOTTOM_RIGHT);
@@ -58,8 +61,8 @@ public class SignUpForm extends LoginForm {
   }
 
   private Button createCancelButton() {
-    final Button cancel = new Button("Back");
-    return cancel;
+    cancelButton = new Button("Back");
+    return cancelButton;
   }
 
   @Override
@@ -68,6 +71,10 @@ public class SignUpForm extends LoginForm {
     loginButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
     loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
     return loginButton;
+  }
+
+  public Button getCancelButton() {
+    return cancelButton;
   }
 
 }
