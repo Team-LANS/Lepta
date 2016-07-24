@@ -7,15 +7,15 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
- * LeptaLoginForm is a custom login form based on DefaultHorizontalLoginForm added by the vaadin
- * login form add on. Each text field contains an icon.
+ * LeptaLoginForm is a custom user form based on DefaultHorizontalLoginForm added by the vaadin
+ * user form add on. Each text field contains an icon.
  */
 public class LeptaLoginForm extends LoginForm {
 
   @Override
   protected Component createContent(TextField userNameField, PasswordField passwordField,
                                     Button loginButton) {
-    HorizontalLayout layout = new HorizontalLayout();
+    final HorizontalLayout layout = new HorizontalLayout();
     layout.setSpacing(true);
     layout.setMargin(true);
     layout.setSizeUndefined();
@@ -29,7 +29,7 @@ public class LeptaLoginForm extends LoginForm {
 
   @Override
   protected TextField createUserNameField() {
-    TextField userNameField = new TextField("Username");
+    final TextField userNameField = new TextField("Username");
     userNameField.setIcon(FontAwesome.USER);
     userNameField.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
     userNameField.focus();
@@ -38,7 +38,7 @@ public class LeptaLoginForm extends LoginForm {
 
   @Override
   protected PasswordField createPasswordField() {
-    PasswordField passwordField = new PasswordField("Password");
+    final PasswordField passwordField = new PasswordField("Password");
     passwordField.setIcon(FontAwesome.LOCK);
     passwordField.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
     return passwordField;
@@ -47,7 +47,7 @@ public class LeptaLoginForm extends LoginForm {
   @Override
   protected Button createLoginButton() {
     final Button loginButton = new Button("Log In");
-    loginButton.addStyleName("login-button");
+    loginButton.addStyleName("user-button");
     loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
     return loginButton;
   }

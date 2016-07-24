@@ -6,14 +6,26 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity @Table(name = "BILL") public class Bill {
+@Entity
+@Table(name = "BILL")
+public class Bill {
 
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "NR") private int nr;
-  @Column(name = "NAME") private String name;
-  @Column(name = "TIMESTAMP") private String timestamp; // TODO: use real timestamps
-  @Column(name = "STATUS") @Enumerated(EnumType.STRING) private Status status = Status.NEW;
-  @ManyToOne @JoinColumn(name = "USER_NR") private User user;
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bill", orphanRemoval = true) private Set<Item>
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "NR")
+  private int nr;
+  @Column(name = "BILL_NAME")
+  private String name;
+  @Column(name = "TIMESTAMP")
+  private String timestamp; // TODO: use real timestamps
+  @Column(name = "STATUS")
+  @Enumerated(EnumType.STRING)
+  private Status status = Status.NEW;
+  @ManyToOne
+  @JoinColumn(name = "USER_NR")
+  private User user;
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bill", orphanRemoval = true)
+  private Set<Item>
       items = new HashSet<>();
 
   // needed for hibernate

@@ -6,7 +6,7 @@ jdk:
 script:
   - mvn clean
   - mvn install
-  - mvn sonar:sonar -Dsonar.login=${SONAR_TOKEN}
+  - mvn sonar:sonar -Dsonar.user=${SONAR_TOKEN}
 
 cache:
   directories:

@@ -13,9 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * @author Hans-Joerg Schroedl
- */
 @Service public class BillService {
 
   private BillDao billDao;
