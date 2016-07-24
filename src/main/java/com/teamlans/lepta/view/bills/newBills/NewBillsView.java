@@ -1,6 +1,6 @@
-package com.teamlans.lepta.view;
+package com.teamlans.lepta.view.bills.newBills;
 
-import com.teamlans.lepta.view.bills.create.ManualCreateBillViewImpl;
+import com.teamlans.lepta.view.bills.create.ManualCreateBillView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
@@ -30,7 +30,7 @@ import javax.annotation.PostConstruct;
   private Button buildAddBillButton() {
     Button addButton = new Button("Add");
     addButton.addClickListener(
-        event -> getUI().getNavigator().navigateTo(ManualCreateBillViewImpl.VIEW_NAME));
+        event -> getUI().getNavigator().navigateTo(ManualCreateBillView.VIEW_NAME));
     return addButton;
   }
 

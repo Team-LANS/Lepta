@@ -1,7 +1,7 @@
 package com.teamlans.lepta.view.component;
 
 import com.teamlans.lepta.view.HomeView;
-import com.teamlans.lepta.view.NewBillsView;
+import com.teamlans.lepta.view.bills.newBills.NewBillsView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
