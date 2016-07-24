@@ -2,6 +2,7 @@ package com.teamlans.lepta.service.user;
 
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 
+
 /**
  * The Credentials class wraps user name and password entered in an instance of SignUpForm.
  */
@@ -11,8 +12,10 @@ public final class Credentials {
   private String password;
 
   public Credentials(String name, String password) throws LeptaServiceException {
-    if (name == null || password == null) {
-      throw new LeptaServiceException("Invalid user data.");
+    if (name == null || name.length() == 0) {
+      throw new LeptaServiceException("Invalid username.");
+    } else if (password == null || password.length() < 8) {
+      throw new LeptaServiceException("Password too short, must have at least 8 characters.");
     }
     this.name = name;
     this.password = password;

@@ -5,7 +5,10 @@ import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.Credentials;
 import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.component.forms.SignUpForm;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class SignUpView extends HorizontalLayout {
 
@@ -14,17 +17,14 @@ public class SignUpView extends HorizontalLayout {
   private Credentials account1;
 
   public SignUpView() {
+    setSizeFull();
     buildLeft();
   }
 
   private void buildLeft() {
-    setSizeFull();
-
-    VerticalLayout left = new VerticalLayout();
+    VerticalLayout left = createContainerWithTitle("Create your account:");
     addComponent(left);
     setComponentAlignment(left, Alignment.MIDDLE_LEFT);
-
-    left.addComponent(new Label("TITLE"));
 
     SignUpForm signUpForm = new SignUpForm();
     signUpForm.addLoginListener(new LoginForm.LoginListener() {
@@ -34,17 +34,14 @@ public class SignUpView extends HorizontalLayout {
           account0 = new Credentials(event.getUserName(), event.getPassword());
           buildRight(account0.getName());
         } catch (LeptaServiceException e) {
-          // TODO
+          showNotification(e.getMessage());
         }
       }
     });
     left.addComponent(signUpForm);
-    left.setComponentAlignment(signUpForm, Alignment.MIDDLE_LEFT);
   }
 
   private void buildRight(String name) {
-    setSizeFull();
-
     addComponent(buildAccountInformation(name));
 
     // right
@@ -71,6 +68,25 @@ public class SignUpView extends HorizontalLayout {
         }
       }
     });
+  }
+
+  private VerticalLayout createContainerWithTitle(String text) {
+    final VerticalLayout container = new VerticalLayout();
+
+    final Label title = new Label(text);
+    title.setSizeUndefined();
+    container.addComponent(title);
+    container.setComponentAlignment(title, Alignment.TOP_LEFT);
+
+    return container;
+  }
+
+  private void showNotification(String description) {
+    Notification notification = new Notification("", description);
+    notification.setPosition(Position.BOTTOM_CENTER);
+    notification.setStyleName(ValoTheme.NOTIFICATION_ERROR + " " + ValoTheme.NOTIFICATION_CLOSABLE);
+    notification.setDelayMsec(5000);
+    notification.show(Page.getCurrent());
   }
 
   private Component buildAccountInformation(String name) {

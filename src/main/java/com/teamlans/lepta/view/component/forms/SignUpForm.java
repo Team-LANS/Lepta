@@ -6,14 +6,16 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
+
 /**
- * SignUpForm is a custom user form based on DefaultVerticalLoginForm added by the vaadin user
- * form add on. Each text field contains an icon.
+ * SignUpForm is a custom user form based on DefaultVerticalLoginForm added by the vaadin user form
+ * add on. Each text field contains an icon.
  */
 public class SignUpForm extends LoginForm {
 
   @Override
-  protected Component createContent(TextField userNameField, PasswordField passwordField, Button loginButton) {
+  protected Component createContent(TextField userNameField, PasswordField passwordField,
+                                    Button loginButton) {
     VerticalLayout layout = new VerticalLayout();
     layout.setSpacing(true);
     layout.setMargin(true);
