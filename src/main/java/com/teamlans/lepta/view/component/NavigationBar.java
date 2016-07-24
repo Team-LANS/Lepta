@@ -40,5 +40,4 @@ public class NavigationBar extends HorizontalLayout {
   }
 
 
-
 }

@@ -3,6 +3,7 @@ package com.teamlans.lepta.database.entities;
 import com.teamlans.lepta.database.enums.Color;
 
 import javax.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -80,7 +81,7 @@ public class User {
     bills.add(bill);
   }
 
-  public void removeBills(Set <Bill> deletedBills) {
+  public void removeBills(Set<Bill> deletedBills) {
     bills.removeAll(deletedBills);
   }
 
@@ -92,7 +93,7 @@ public class User {
     items.add(item);
   }
 
-  public void removeItems(Set <Item> deletedItems) {
+  public void removeItems(Set<Item> deletedItems) {
     items.removeAll(deletedItems);
   }
 }
