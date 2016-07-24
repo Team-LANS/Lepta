@@ -4,6 +4,7 @@ import com.teamlans.lepta.database.daos.BillDao;
 import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
+import com.vaadin.ui.Notification;
 
 
 import org.slf4j.Logger;

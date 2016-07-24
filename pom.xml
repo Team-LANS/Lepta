@@ -242,9 +242,9 @@
             </plugin>
 			<!-- The Sonar plugin allows analysis using sonar qube -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
+				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
-				<version>2.3</version>
+				<version>3.0.2</version>
 			</plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -12,17 +12,28 @@ import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
-import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.List;
 
-@SpringView(name = ManualCreateBillView.VIEW_NAME) public class ManualCreateBillView
+import javax.annotation.PostConstruct;
+
+@SpringView(name = ManualCreateBillView.VIEW_NAME)
+public class ManualCreateBillView
     extends VerticalLayout implements View {
 
   public static final String VIEW_NAME = "MANUAL_CREATE_BILL";
@@ -34,15 +45,18 @@ import java.util.List;
 
   private BillItemList itemList;
 
-  @Autowired public void setUserDao(UserDao userDao) {
+  @Autowired
+  public void setUserDao(UserDao userDao) {
     this.userDao = userDao;
   }
 
-  @Autowired public void setBillService(BillService billService) {
+  @Autowired
+  public void setBillService(BillService billService) {
     this.billService = billService;
   }
 
-  @PostConstruct void init() {
+  @PostConstruct
+  void init() {
     setMargin(false);
     setSpacing(true);
     VerticalLayout layout = buildRootLayout();
@@ -59,14 +73,14 @@ import java.util.List;
 
   private void createGridLayout(VerticalLayout layout) {
     GridLayout gridLayout = new GridLayout(2, 3);
-    gridLayout.setWidth("600px");
+    gridLayout.setWidth("70%");
     gridLayout.setHeight("200px");
-    gridLayout.setRowExpandRatio(1,1);
+    gridLayout.setRowExpandRatio(1, 1);
     gridLayout.setSpacing(true);
     createHeaderLabel(gridLayout);
     createInputFields(gridLayout);
     itemList = new BillItemList();
-    gridLayout.addComponent(itemList,1,1);
+    gridLayout.addComponent(itemList, 1, 1);
     createButtonBar(gridLayout);
     layout.addComponent(gridLayout);
     layout.setComponentAlignment(gridLayout, Alignment.MIDDLE_CENTER);
@@ -103,17 +117,20 @@ import java.util.List;
     layout.setComponentAlignment(okayButton, Alignment.MIDDLE_RIGHT);
   }
 
-  private void handleCancel(){
+  private void handleCancel() {
     getUI().getNavigator().navigateTo(NewBillsView.VIEW_NAME);
   }
 
   private void tryAddBill() {
     if (validateFields())
       return;
-    try{
+    try {
       billService.addBill(createBill());
-    }
-    catch (LeptaServiceException | LeptaDatabaseException | DataAccessException e) {
+      Notification notification = new Notification("Bill created successfully!", "", Notification.Type.HUMANIZED_MESSAGE);
+      notification.setPosition(Position.BOTTOM_CENTER);
+      notification.setDelayMsec(5000);
+      notification.show(Page.getCurrent());
+    } catch (LeptaServiceException | LeptaDatabaseException | DataAccessException e) {
       new Notification("Uh, oh, something bad happened!", e.getMessage(),
           Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
     }
@@ -143,7 +160,8 @@ import java.util.List;
   }
 
 
-  @Override public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+  @Override
+  public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
     // the view is constructed in the init() method.
   }
 }

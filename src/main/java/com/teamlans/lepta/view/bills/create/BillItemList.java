@@ -2,9 +2,15 @@ package com.teamlans.lepta.view.bills.create;
 
 import com.teamlans.lepta.database.entities.Item;
 import com.vaadin.data.Validator;
-import com.vaadin.data.validator.DoubleRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+
 import org.vaadin.ui.NumberField;
 
 import java.util.ArrayList;
@@ -32,6 +38,7 @@ class BillItemList extends VerticalLayout {
     itemTable.addContainerProperty("Name", String.class, null);
     itemTable.addContainerProperty("Price", Double.class, null);
     itemTable.setWidth("100%");
+    itemTable.setValidationVisible(false);
     this.addComponent(itemTable);
     this.setExpandRatio(itemTable, 1);
     createItemInput();
@@ -45,15 +52,15 @@ class BillItemList extends VerticalLayout {
     createItemPriceField(itemInputContainer);
     Button addItem = new Button("Add");
     addItem.addClickListener(event -> tryAddItem());
-    addItem.setWidth("20%");
     itemInputContainer.addComponent(addItem);
+    itemInputContainer.setComponentAlignment(addItem, Alignment.MIDDLE_RIGHT);
     this.addComponent(itemInputContainer);
   }
 
   private void createItemPriceField(HorizontalLayout itemInputContainer) {
     priceField = new NumberField();
+    priceField.setWidth("70px");
     priceField.setNegativeAllowed(false);
-    priceField.setWidth("30%");
     priceField.setDecimalPrecision(2);
     priceField.setMinValue(0.01);
     priceField.setValidationVisible(false);
@@ -66,6 +73,7 @@ class BillItemList extends VerticalLayout {
 
   private void createItemNameField() {
     nameField = new TextField();
+    nameField.setWidthUndefined();
     nameField.addValidator(new StringLengthValidator("Name must not be empty", 1, 50, true));
     nameField.setNullRepresentation("");
     nameField.setValidationVisible(false);
@@ -83,7 +91,7 @@ class BillItemList extends VerticalLayout {
     Double price = Double.parseDouble(priceField.getValue());
     Item item = new Item(name, price);
     itemList.add(item);
-    itemTable.addItem(new Object[] {item.getDescription(), item.getPrice()}, itemTable.getId());
+    itemTable.addItem(new Object[]{item.getDescription(), item.getPrice()}, itemTable.getId());
     nameField.clear();
     priceField.clear();
   }
@@ -106,5 +114,6 @@ class BillItemList extends VerticalLayout {
   List<Item> getBillItems() {
     return itemList;
   }
+
 
 }
