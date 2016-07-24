@@ -42,7 +42,7 @@ public class LeptaUi extends UI {
     Responsive.makeResponsive(root);
     setContent(root);
 
-    if (false) {
+    if (true) {
       // first visit
       root.addComponent(new SignUpView());
 
