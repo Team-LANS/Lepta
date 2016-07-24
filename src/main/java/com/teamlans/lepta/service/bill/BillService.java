@@ -1,4 +1,4 @@
-package com.teamlans.lepta.service;
+package com.teamlans.lepta.service.bill;
 
 import com.teamlans.lepta.database.daos.BillDao;
 import com.teamlans.lepta.database.entities.Bill;
@@ -21,6 +21,7 @@ public class BillService {
     this.billDao = billDao;
   }
 
+  @Transactional
   public List<Bill> listBills() throws LeptaServiceException {
     try {
       return billDao.listBills();
@@ -40,12 +41,12 @@ public class BillService {
   }
 
   public void validateBill(Bill bill) throws LeptaServiceException {
-    if (bill.getName().trim().isEmpty()) {
-      throw new LeptaServiceException("Bill name must not be empty.");
-    }
-    if (bill.getDate() == null) {
-      throw new LeptaServiceException("Invalid bill date. ");
-    }
+      if(bill.getUser() == null) {
+        throw new LeptaServiceException("Bill user must not be null");
+      }
+      if(bill.getItems().isEmpty()) {
+        throw new LeptaServiceException("Bill items must not be empty");
+      }
   }
 
 }
