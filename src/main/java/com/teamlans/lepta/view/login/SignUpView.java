@@ -1,15 +1,26 @@
 package com.teamlans.lepta.view.login;
 
+import com.ejt.vaadin.loginform.LoginForm;
+import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.Credentials;
 import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.component.forms.SignUpForm;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+@org.springframework.stereotype.Component
 public class SignUpView extends HorizontalLayout {
 
+  @Autowired
   private UserService userService;
   private Credentials account0;
   private Credentials account1;
@@ -20,26 +31,51 @@ public class SignUpView extends HorizontalLayout {
   }
 
   private void createSignUpForm() {
-    SignUpForm leftSignUpForm = new SignUpForm("Create your account:", Alignment.MIDDLE_LEFT);
+    SignUpForm leftSignUpForm = new SignUpForm();
+    leftSignUpForm.addLoginListener(new LoginForm.LoginListener() {
+      @Override
+      public void onLogin(LoginForm.LoginEvent event) {
+        try {
+          account0 = new Credentials(event.getUserName(), event.getPassword());
+          continueSignUp();
+        } catch (LeptaServiceException e) {
+          showNotification(e.getMessage());
+        }
+      }
+    });
+
+    // event
+    // TODO: show landing page
+
     addComponent(leftSignUpForm);
     setComponentAlignment(leftSignUpForm, Alignment.MIDDLE_LEFT);
   }
 
   private void continueSignUp() {
     removeAllComponents();
-    addComponent(createInfo());
+    Component info = createInfo();
+    addComponent(info);
+    setComponentAlignment(info, Alignment.MIDDLE_LEFT);
 
     VerticalLayout right = new VerticalLayout();
+    right.setSizeFull();
     addComponent(right);
-    setComponentAlignment(right, Alignment.TOP_RIGHT);
+    setComponentAlignment(right, Alignment.MIDDLE_RIGHT);
 
     Component rightSignUpForm = createPartnerForm();
+    rightSignUpForm.setSizeUndefined();
+
+    // event
+    // TODO: go back
+
+
     right.addComponent(rightSignUpForm);
     right.setComponentAlignment(rightSignUpForm, Alignment.MIDDLE_RIGHT);
   }
 
   private Component createInfo() {
     VerticalLayout layout = new VerticalLayout();
+    setSizeUndefined();
 
     Label title = new Label("Your account:");
     layout.addComponent(title);
@@ -53,7 +89,18 @@ public class SignUpView extends HorizontalLayout {
   }
 
   private Component createPartnerForm() {
-    SignUpForm signUpForm = new SignUpForm("Add your partner:", Alignment.MIDDLE_RIGHT);
+    SignUpForm signUpForm = new SignUpForm();
+    signUpForm.addLoginListener(new LoginForm.LoginListener() {
+      @Override
+      public void onLogin(LoginForm.LoginEvent event) {
+        try {
+          account1 = new Credentials(event.getUserName(), event.getPassword());
+          userService.createAccounts(account0, account1);
+        } catch (LeptaServiceException e) {
+          showNotification(e.getMessage());
+        }
+      }
+    });
     return signUpForm;
   }
 

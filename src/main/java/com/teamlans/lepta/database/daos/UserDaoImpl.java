@@ -1,9 +1,6 @@
 package com.teamlans.lepta.database.daos;
 
-import com.teamlans.lepta.database.entities.Bill;
-import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.entities.User;
-import com.teamlans.lepta.database.enums.Color;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 
 import org.hibernate.Session;
@@ -14,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class UserDaoImpl implements UserDao {

@@ -8,6 +8,10 @@ import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.exceptions.LeptaLoginException;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 
@@ -15,13 +19,14 @@ import java.util.List;
  * Throws a LeptaLoginException if the given user name and password combination is invalid. Checks
  * if given credentials are valid and adds valid account pairs to the data base.
  */
+@Service
 public class UserService {
 
+  @Autowired
   private UserDao userDao;
 
   public void authenticate(String userName, String password)
       throws LeptaLoginException, LeptaServiceException {
-    userDao = new UserDaoImpl();
     if (!isValidCombination(userName, password)) {
       throw new LeptaLoginException("Login failed!");
     }
@@ -42,6 +47,7 @@ public class UserService {
     }
   }
 
+  @Transactional
   public void createAccounts(Credentials account0, Credentials account1)
       throws LeptaServiceException {
     if (account0 == null || account1 == null || account0.equals(account1)) {
@@ -49,7 +55,6 @@ public class UserService {
     }
     try {
       // assign unique ids (0 and 1) and initial colors (blue and yellow)
-      userDao = new UserDaoImpl();
       userDao.addUser(new User(0, account0.getName(), account0.getPassword(), Color.BLUE));
       userDao.addUser(new User(1, account1.getName(), account1.getPassword(), Color.YELLOW));
     } catch (LeptaDatabaseException e) {

@@ -16,6 +16,7 @@ import com.vaadin.spring.navigator.SpringViewProvider;
 import com.vaadin.ui.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -33,6 +34,9 @@ public class LeptaUi extends UI {
   @Autowired
   private SpringViewProvider viewProvider;
 
+  @Autowired
+  private ApplicationContext context;
+
   @Override
   protected void init(VaadinRequest request) {
     final VerticalLayout root = new VerticalLayout();
@@ -42,9 +46,9 @@ public class LeptaUi extends UI {
     Responsive.makeResponsive(root);
     setContent(root);
 
-    if (false) {
+    if (true) {
       // first visit
-      root.addComponent(new SignUpView());
+      root.addComponent(context.getBean(SignUpView.class));
 
     } else {
       root.addComponent(new Header());
