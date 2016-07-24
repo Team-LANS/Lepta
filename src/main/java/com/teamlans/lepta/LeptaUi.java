@@ -1,5 +1,6 @@
 package com.teamlans.lepta;
 
+import com.teamlans.lepta.view.account.LoginView;
 import com.teamlans.lepta.view.home.component.Header;
 import com.teamlans.lepta.view.home.component.NavigationBar;
 import com.teamlans.lepta.view.account.SignUpView;
@@ -50,7 +51,7 @@ public class LeptaUi extends UI {
 
       Navigator navigator = new Navigator(this, root);
       navigator.addProvider(viewProvider);
-      navigator.navigateTo(SignUpView.VIEW_NAME);
+      navigator.navigateTo(LoginView.VIEW_NAME);
 
     } else {
       root.addComponent(new Header());

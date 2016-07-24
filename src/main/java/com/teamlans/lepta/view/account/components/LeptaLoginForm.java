@@ -7,7 +7,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
- * LeptaLoginForm is a custom account form based on DefaultHorizontalLoginForm (vaadin account form add
+ * LeptaLoginForm is a custom login form based on DefaultHorizontalLoginForm (vaadin login form add
  * on). Each text field contains an icon.
  */
 public class LeptaLoginForm extends LoginForm {
