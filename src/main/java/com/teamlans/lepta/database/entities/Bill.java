@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity @Table(name = "BILL") public class Bill {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "NR") private int nr;
-  @Column(name = "NAME") private String name;
+  @Column(name = "BILL_NAME") private String name;
   @Column(name = "DATE") private Date date;
   @Column(name = "STATUS") @Enumerated(EnumType.STRING) private Status status = Status.NEW;
   @ManyToOne @JoinColumn(name = "USER_NR") private User user;

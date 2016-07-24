@@ -74,7 +74,7 @@
             <artifactId>vaadin-client</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- vaadin login -->
+        <!-- vaadin user -->
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>loginform</artifactId>

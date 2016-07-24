@@ -1,7 +1,7 @@
-INSERT INTO USER (u_nr, NAME, PASSWORD, COLOR) VALUES (1, 'Hans', 'Password', 'BLUE'),
+INSERT INTO USER (U_NR, NAME, PASSWORD, COLOR) VALUES (1, 'Hans', 'Password', 'BLUE'),
     (0, 'Lena', 'Password', 'GREEN');
 
-INSERT INTO BILL (NR, USER_NR, STATUS, NAME, DATE)
+INSERT INTO BILL (NR, USER_NR, STATUS, BILL_NAME, DATE)
   VALUES (1, 1, 'NEW', 'Billa', '2016-07-28'),
     (2, 1, 'NEW', 'Spar fuer Party','2016-07-23'),
     (3, 1, 'ASSIGNED', 'Billa', '2016-07-20'),

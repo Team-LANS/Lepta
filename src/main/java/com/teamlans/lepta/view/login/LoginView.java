@@ -3,7 +3,7 @@ package com.teamlans.lepta.view.login;
 import com.ejt.vaadin.loginform.LoginForm;
 import com.teamlans.lepta.service.exceptions.LeptaLoginException;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
-import com.teamlans.lepta.service.login.LoginService;
+import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.component.forms.LeptaLoginForm;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
@@ -11,7 +11,7 @@ import com.vaadin.ui.VerticalLayout;
 
 public class LoginView extends VerticalLayout {
 
-  private LoginService loginService;
+  private UserService userService;
 
   public LoginView() {
     build();
@@ -20,7 +20,7 @@ public class LoginView extends VerticalLayout {
   private void build() {
     setSizeFull();
 
-    VerticalLayout center = new VerticalLayout();
+    final VerticalLayout center = new VerticalLayout();
     addComponent(center);
     setComponentAlignment(center, Alignment.MIDDLE_CENTER);
 
@@ -29,17 +29,17 @@ public class LoginView extends VerticalLayout {
     center.addComponent(welcome);
     center.setComponentAlignment(welcome, Alignment.TOP_CENTER);
 
-    loginService = new LoginService();
-    LeptaLoginForm loginForm = new LeptaLoginForm();
+    userService = new UserService();
+    final LeptaLoginForm loginForm = new LeptaLoginForm();
     loginForm.addLoginListener(new LoginForm.LoginListener() {
       @Override
       public void onLogin(LoginForm.LoginEvent event) {
         try {
-          loginService.authenticate(event.getUserName(), event.getPassword());
+          userService.authenticate(event.getUserName(), event.getPassword());
         } catch (LeptaLoginException e) {
-
+          // TODO
         } catch (LeptaServiceException e) {
-
+          // TODO
         }
       }
     });
