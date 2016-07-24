@@ -3,38 +3,27 @@ package com.teamlans.lepta.database.entities;
 import com.teamlans.lepta.database.enums.Status;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "BILL")
-public class Bill {
+@Entity @Table(name = "BILL") public class Bill {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "NR")
-  private int nr;
-  @Column(name = "BILL_NAME")
-  private String name;
-  @Column(name = "TIMESTAMP")
-  private String timestamp; // TODO: use real timestamps
-  @Column(name = "STATUS")
-  @Enumerated(EnumType.STRING)
-  private Status status = Status.NEW;
-  @ManyToOne
-  @JoinColumn(name = "USER_NR")
-  private User user;
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bill", orphanRemoval = true)
-  private Set<Item>
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "NR") private int nr;
+  @Column(name = "BILL_NAME") private String name;
+  @Column(name = "DATE") private Date date;
+  @Column(name = "STATUS") @Enumerated(EnumType.STRING) private Status status = Status.NEW;
+  @ManyToOne @JoinColumn(name = "USER_NR") private User user;
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bill", orphanRemoval = true) private Set<Item>
       items = new HashSet<>();
 
   // needed for hibernate
   public Bill() {
   }
 
-  public Bill(String name, String timestamp, User user) {
+  public Bill(String name, Date date, User user) {
     this.name = name;
-    this.timestamp = timestamp;
+    this.date = date;
     this.user = user;
   }
 
@@ -58,12 +47,12 @@ public class Bill {
     this.status = status;
   }
 
-  public String getTimestamp() {
-    return timestamp;
+  public Date getDate() {
+    return date;
   }
 
-  public void setTimestamp(String timestamp) {
-    this.timestamp = timestamp;
+  public void setDate(Date timestamp) {
+    this.date = timestamp;
   }
 
   public User getUser() {

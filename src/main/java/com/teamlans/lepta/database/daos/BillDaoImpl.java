@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,8 +41,8 @@ import java.util.Set;
     Status newStatus = newBill.getStatus();
     bill.setStatus(newStatus);
 
-    String newTimestamp = newBill.getTimestamp();
-    bill.setTimestamp(newTimestamp);
+    Date newTimestamp = newBill.getDate();
+    bill.setDate(newTimestamp);
 
     Set<Item> newItems = newBill.getItems();
     Set<Item> items = bill.getItems();
