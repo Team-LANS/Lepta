@@ -4,7 +4,6 @@ import com.teamlans.lepta.database.HibernateTestConfiguration;
 import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.enums.Status;
 
-import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +30,8 @@ public class BillDaoImplTest {
   @Autowired
   UserDao userDao;
 
-  @Autowired ItemDao itemDao;
-
   @Autowired
-  SessionFactory sessionFactory;
-
+  ItemDao itemDao;
 
   @Test
   public void createBill_validBill_billCreated() throws Exception {
@@ -53,7 +49,6 @@ public class BillDaoImplTest {
 
     billDao.updateBill(bill);
 
-    sessionFactory.getCurrentSession().flush();
     Bill updatedBill = billDao.listBills().get(0);
     assertEquals(updatedBill.getStatus(), Status.ASSIGNED);
   }
@@ -66,7 +61,6 @@ public class BillDaoImplTest {
 
     billDao.updateBill(bill);
 
-    sessionFactory.getCurrentSession().flush();
     int newItemCount = itemDao.listItems().size();
     assertTrue(itemCount > newItemCount);
   }
@@ -74,10 +68,23 @@ public class BillDaoImplTest {
   @Test
   public void deleteBill_validBill_billDeleted() throws Exception {
     int billCount = billDao.listBills().size();
+
     billDao.deleteBill(1);
+
     int newBillCount = billDao.listBills().size();
     assertEquals(billCount - 1, newBillCount);
   }
+
+  @Test
+  public void deleteBill_validBill_itemsDeleted() throws Exception {
+    int itemCount = itemDao.listItems().size();
+
+    billDao.deleteBill(1);
+
+    int newItemCount = itemDao.listItems().size();
+    assertTrue(itemCount > newItemCount);
+  }
+
 
   @Test(expected = DataAccessException.class)
   public void deleteBill_invalidBill_exceptionThrown() throws Exception {
