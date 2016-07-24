@@ -63,8 +63,8 @@ public class LoginView extends VerticalLayout implements View {
           userService.authenticate(event.getUserName(), event.getPassword());
           getUI().getNavigator().navigateTo(HomeView.VIEW_NAME);
         } catch (LeptaLoginException e) {
-          showNotification("Login failed", "This username and password combination does not " +
-              "exist.\nPlease try again.");
+          showNotification("Login failed",
+              "This username and password combination does not exist.\nPlease try again.");
         } catch (LeptaServiceException e) {
           showNotification("Login failed", "Something went wrong.\nPlease try again.");
         }

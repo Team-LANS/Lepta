@@ -1,5 +1,6 @@
 package com.teamlans.lepta;
 
+import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.account.LoginView;
 import com.teamlans.lepta.view.home.component.Header;
 import com.teamlans.lepta.view.home.component.NavigationBar;
@@ -37,6 +38,9 @@ public class LeptaUi extends UI {
   @Autowired
   private ApplicationContext context;
 
+  @Autowired
+  private UserService userService;
+
   @Override
   protected void init(VaadinRequest request) {
     final VerticalLayout root = new VerticalLayout();
@@ -46,21 +50,22 @@ public class LeptaUi extends UI {
     Responsive.makeResponsive(root);
     setContent(root);
 
-    if (true) {
-      // first visit
+    Navigator navigator = new Navigator(this, root);
+    navigator.addProvider(viewProvider);
 
-      Navigator navigator = new Navigator(this, root);
-      navigator.addProvider(viewProvider);
+    if (userService.noUsersExist()) {
       navigator.navigateTo(SignUpView.VIEW_NAME);
-
     } else {
+      navigator.navigateTo(LoginView.VIEW_NAME);
+
+      /*
       root.addComponent(new Header());
       root.addComponent(new NavigationBar());
 
       final VerticalLayout viewContainer = new VerticalLayout();
       viewContainer.setSizeFull();
       root.addComponent(viewContainer);
-      root.setExpandRatio(viewContainer, 1.0f);
+      root.setExpandRatio(viewContainer, 1.0f);*/
     }
 
   }

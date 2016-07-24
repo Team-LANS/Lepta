@@ -1,5 +1,6 @@
 package com.teamlans.lepta.view.account;
 
+import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.Credentials;
 import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.account.components.InitialSignUp;
@@ -72,6 +73,11 @@ public class SignUpView extends HorizontalLayout implements View {
   }
 
   public void finishAndGoHome() { // ;-)
-    getUI().getNavigator().navigateTo(HomeView.VIEW_NAME);
+    try {
+      userService.createAccounts(initialCredentials, partnerCredentials);
+      getUI().getNavigator().navigateTo(HomeView.VIEW_NAME);
+    } catch (LeptaServiceException e) {
+      showNotification(e.getMessage());
+    }
   }
 }

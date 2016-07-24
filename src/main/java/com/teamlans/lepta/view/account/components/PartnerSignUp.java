@@ -10,6 +10,9 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * PartnerSignUp displays a users name and offers a SignUpForm for their partner.
+ */
 public class PartnerSignUp extends HorizontalLayout {
 
   final private SignUpView parent;
