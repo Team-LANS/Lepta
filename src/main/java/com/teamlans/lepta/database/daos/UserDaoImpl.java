@@ -33,14 +33,6 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public void deleteUser(Integer userNr) throws LeptaDatabaseException {
-    logger.debug("Deleting user with {}", userNr);
-    Session session = factory.getCurrentSession();
-    User user = session.get(User.class, userNr);
-    session.delete(user);
-  }
-
-  @Override
   @SuppressWarnings("unchecked")
   @Transactional
   public List<User> listUsers() throws LeptaDatabaseException {
@@ -53,7 +45,7 @@ public class UserDaoImpl implements UserDao {
     logger.debug("Updating user with {}", newUser);
     Session session = factory.getCurrentSession();
 
-    String userNr = newUser.getName();
+    int userNr = newUser.getUserNr();
     User user = session.get(User.class, userNr);
 
     String newName = newUser.getName();

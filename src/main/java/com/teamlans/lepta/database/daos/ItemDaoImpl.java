@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
@@ -33,6 +34,9 @@ public class ItemDaoImpl implements ItemDao {
     logger.debug("Deleting item with id {}", id);
     Session session = factory.getCurrentSession();
     Item item = session.get(Item.class, id);
+    if(item == null) {
+      throw new DataRetrievalFailureException("Could not delete item with id +" +id);
+    }
     factory.getCurrentSession().delete(item);
   }
 
