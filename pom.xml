@@ -80,6 +80,12 @@
             <artifactId>loginform</artifactId>
             <version>0.6.2</version>
         </dependency>
+        <!-- vaadin number field -->
+        <dependency>
+            <groupId>org.vaadin.ui</groupId>
+            <artifactId>NumberField</artifactId>
+            <version>0.1.6</version>
+        </dependency>
         <!--
           Needed when using the widgetset optimizer (custom ConnectorBundleLoaderFactory).
 
@@ -160,18 +166,6 @@
             <artifactId>spring-test</artifactId>
             <version>4.2.5.RELEASE</version>
             <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.dbunit/dbunit -->
-        <dependency>
-            <groupId>org.dbunit</groupId>
-            <artifactId>dbunit</artifactId>
-            <version>2.4.9</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
     </dependencies>
