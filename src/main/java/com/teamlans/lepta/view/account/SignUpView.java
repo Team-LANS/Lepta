@@ -1,10 +1,10 @@
-package com.teamlans.lepta.view.login;
+package com.teamlans.lepta.view.account;
 
 import com.ejt.vaadin.loginform.LoginForm;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.Credentials;
 import com.teamlans.lepta.service.user.UserService;
-import com.teamlans.lepta.view.component.forms.SignUpForm;
+import com.teamlans.lepta.view.account.components.SignUpForm;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;

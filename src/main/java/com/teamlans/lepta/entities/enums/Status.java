@@ -1,4 +1,4 @@
-package com.teamlans.lepta.database.enums;
+package com.teamlans.lepta.entities.enums;
 
 public enum Status {
 

@@ -1,7 +1,7 @@
 package com.teamlans.lepta.database.daos;
 
 import com.teamlans.lepta.database.HibernateTestConfiguration;
-import com.teamlans.lepta.database.entities.Item;
+import com.teamlans.lepta.entities.Item;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

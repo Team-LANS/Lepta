@@ -1,10 +1,10 @@
-package com.teamlans.lepta.view.login;
+package com.teamlans.lepta.view.account;
 
 import com.ejt.vaadin.loginform.LoginForm;
 import com.teamlans.lepta.service.exceptions.LeptaLoginException;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.UserService;
-import com.teamlans.lepta.view.component.forms.LeptaLoginForm;
+import com.teamlans.lepta.view.account.components.LeptaLoginForm;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
@@ -12,7 +12,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 
 /**
- * Custom login layout. Credentials can be entered into a LeptaLoginForm and are handled by a
+ * Custom account layout. Credentials can be entered into a LeptaLoginForm and are handled by a
  * UserService.
  */
 public class LoginView extends VerticalLayout {

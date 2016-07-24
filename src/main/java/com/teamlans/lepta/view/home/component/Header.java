@@ -1,4 +1,4 @@
-package com.teamlans.lepta.view.component;
+package com.teamlans.lepta.view.home.component;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;

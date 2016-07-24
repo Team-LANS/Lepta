@@ -1,6 +1,6 @@
-package com.teamlans.lepta.view.bills.create;
+package com.teamlans.lepta.view.bill.create;
 
-import com.teamlans.lepta.database.entities.Item;
+import com.teamlans.lepta.entities.Item;
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.Alignment;

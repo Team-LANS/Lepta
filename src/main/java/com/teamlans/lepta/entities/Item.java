@@ -1,4 +1,4 @@
-package com.teamlans.lepta.database.entities;
+package com.teamlans.lepta.entities;
 
 import javax.persistence.*;
 

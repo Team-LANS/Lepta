@@ -1,8 +1,6 @@
 package com.teamlans.lepta.database.daos;
 
-import com.teamlans.lepta.database.entities.Item;
-import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
-import org.springframework.stereotype.Repository;
+import com.teamlans.lepta.entities.Item;
 
 import java.util.List;
 

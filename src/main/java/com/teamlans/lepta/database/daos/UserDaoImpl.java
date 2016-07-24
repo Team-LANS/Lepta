@@ -1,6 +1,6 @@
 package com.teamlans.lepta.database.daos;
 
-import com.teamlans.lepta.database.entities.User;
+import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 
 import org.hibernate.Session;

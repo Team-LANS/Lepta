@@ -1,13 +1,13 @@
-package com.teamlans.lepta.view.login;
+package com.teamlans.lepta.view.account;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-public class LandingPageView extends VerticalLayout {
+public class LandingView extends VerticalLayout {
 
-  public LandingPageView() {
+  public LandingView() {
     build();
   }
 

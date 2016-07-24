@@ -1,6 +1,6 @@
 package com.teamlans.lepta.database.daos;
 
-import com.teamlans.lepta.database.entities.Bill;
+import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.service.bill.BillService;
 
 import org.hibernate.Session;
@@ -41,7 +41,7 @@ public class BillDaoImpl implements BillDao {
   @Override
   @SuppressWarnings("unchecked")
   public List<Bill> listBills() {
-    logger.debug("Listing bills...");
+    logger.debug("Listing bill...");
     return factory.getCurrentSession().createQuery("FROM Bill").list();
   }
 

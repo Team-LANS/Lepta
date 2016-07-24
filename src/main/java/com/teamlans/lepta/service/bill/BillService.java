@@ -1,10 +1,8 @@
 package com.teamlans.lepta.service.bill;
 
 import com.teamlans.lepta.database.daos.BillDao;
-import com.teamlans.lepta.database.entities.Bill;
-import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
+import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
-import com.vaadin.ui.Notification;
 
 
 import org.slf4j.Logger;
@@ -27,7 +25,7 @@ import java.util.List;
 
   @Transactional
   public List<Bill> listBills()  {
-    logger.debug("Getting bills");
+    logger.debug("Getting bill");
     return billDao.listBills();
   }
 

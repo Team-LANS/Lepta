@@ -1,9 +1,8 @@
 package com.teamlans.lepta;
 
-import com.teamlans.lepta.view.component.Header;
-import com.teamlans.lepta.view.component.NavigationBar;
-import com.teamlans.lepta.view.login.LoginView;
-import com.teamlans.lepta.view.login.SignUpView;
+import com.teamlans.lepta.view.home.component.Header;
+import com.teamlans.lepta.view.home.component.NavigationBar;
+import com.teamlans.lepta.view.account.SignUpView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;

@@ -1,12 +1,12 @@
-package com.teamlans.lepta.view.bills.create;
+package com.teamlans.lepta.view.bill.create;
 
 import com.teamlans.lepta.database.daos.UserDao;
-import com.teamlans.lepta.database.entities.Bill;
-import com.teamlans.lepta.database.entities.Item;
+import com.teamlans.lepta.entities.Bill;
+import com.teamlans.lepta.entities.Item;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.bill.BillService;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
-import com.teamlans.lepta.view.bills.newBills.NewBillsView;
+import com.teamlans.lepta.view.bill.newBills.NewBillsView;
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.navigator.View;

@@ -1,6 +1,6 @@
-package com.teamlans.lepta.view.bills.newBills;
+package com.teamlans.lepta.view.bill.newBills;
 
-import com.teamlans.lepta.view.bills.create.ManualCreateBillView;
+import com.teamlans.lepta.view.bill.create.ManualCreateBillView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;

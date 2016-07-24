@@ -1,9 +1,8 @@
 package com.teamlans.lepta.service.user;
 
 import com.teamlans.lepta.database.daos.UserDao;
-import com.teamlans.lepta.database.daos.UserDaoImpl;
-import com.teamlans.lepta.database.entities.User;
-import com.teamlans.lepta.database.enums.Color;
+import com.teamlans.lepta.entities.User;
+import com.teamlans.lepta.entities.enums.Color;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.exceptions.LeptaLoginException;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;

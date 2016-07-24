@@ -18,7 +18,7 @@ import java.util.Properties;
 
   @Bean public LocalSessionFactoryBean sessionFactory() {
     LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-    sessionFactory.setPackagesToScan("com.teamlans.lepta.database.entities");
+    sessionFactory.setPackagesToScan("com.teamlans.lepta.entities");
     sessionFactory.setHibernateProperties(hibernateProperties());
     sessionFactory.setDataSource(dataSource());
     return sessionFactory;

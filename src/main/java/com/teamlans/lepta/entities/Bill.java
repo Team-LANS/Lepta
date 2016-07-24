@@ -1,6 +1,6 @@
-package com.teamlans.lepta.database.entities;
+package com.teamlans.lepta.entities;
 
-import com.teamlans.lepta.database.enums.Status;
+import com.teamlans.lepta.entities.enums.Status;
 
 import javax.persistence.*;
 

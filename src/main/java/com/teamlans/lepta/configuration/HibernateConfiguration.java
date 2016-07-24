@@ -29,7 +29,7 @@ public class HibernateConfiguration {
   public LocalSessionFactoryBean sessionFactory() {
     LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
     sessionFactory.setDataSource(dataSource());
-    sessionFactory.setPackagesToScan("com.teamlans.lepta.database.entities");
+    sessionFactory.setPackagesToScan("com.teamlans.lepta.entities");
     sessionFactory.setHibernateProperties(hibernateProperties());
     return sessionFactory;
   }
