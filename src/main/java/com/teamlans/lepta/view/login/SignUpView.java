@@ -1,7 +1,5 @@
 package com.teamlans.lepta.view.login;
 
-import com.ejt.vaadin.loginform.LoginForm;
-import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.Credentials;
 import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.component.forms.SignUpForm;
@@ -18,67 +16,45 @@ public class SignUpView extends HorizontalLayout {
 
   public SignUpView() {
     setSizeFull();
-    buildLeft();
+    createSignUpForm();
   }
 
-  private void buildLeft() {
-    VerticalLayout left = createContainerWithTitle("Create your account:");
-    addComponent(left);
-    setComponentAlignment(left, Alignment.MIDDLE_LEFT);
-
-    SignUpForm signUpForm = new SignUpForm();
-    signUpForm.addLoginListener(new LoginForm.LoginListener() {
-      @Override
-      public void onLogin(LoginForm.LoginEvent event) {
-        try {
-          account0 = new Credentials(event.getUserName(), event.getPassword());
-          buildRight(account0.getName());
-        } catch (LeptaServiceException e) {
-          showNotification(e.getMessage());
-        }
-      }
-    });
-    left.addComponent(signUpForm);
+  private void createSignUpForm() {
+    SignUpForm leftSignUpForm = new SignUpForm("Create your account:", Alignment.MIDDLE_LEFT);
+    addComponent(leftSignUpForm);
+    setComponentAlignment(leftSignUpForm, Alignment.MIDDLE_LEFT);
   }
 
-  private void buildRight(String name) {
-    addComponent(buildAccountInformation(name));
-
-    // right
-    VerticalLayout rightContainer = new VerticalLayout();
-    addComponent(rightContainer);
+  private void continueSignUp() {
+    removeAllComponents();
+    addComponent(createInfo());
 
     VerticalLayout right = new VerticalLayout();
-    rightContainer.addComponent(right);
-    rightContainer.setComponentAlignment(right, Alignment.MIDDLE_RIGHT);
+    addComponent(right);
+    setComponentAlignment(right, Alignment.TOP_RIGHT);
 
-    right.addComponent(new Label("TITLE"));
-
-    userService = new UserService();
-    SignUpForm signUpForm2 = new SignUpForm();
-    signUpForm2.addLoginListener(new LoginForm.LoginListener() {
-      @Override
-      public void onLogin(LoginForm.LoginEvent event) {
-        try {
-          account1 = new Credentials(event.getUserName(), event.getPassword());
-          userService.createAccounts(account0, account1);
-          // TODO: Load account0 resources
-        } catch (LeptaServiceException e) {
-          // TODO
-        }
-      }
-    });
+    Component rightSignUpForm = createPartnerForm();
+    right.addComponent(rightSignUpForm);
+    right.setComponentAlignment(rightSignUpForm, Alignment.MIDDLE_RIGHT);
   }
 
-  private VerticalLayout createContainerWithTitle(String text) {
-    final VerticalLayout container = new VerticalLayout();
+  private Component createInfo() {
+    VerticalLayout layout = new VerticalLayout();
 
-    final Label title = new Label(text);
-    title.setSizeUndefined();
-    container.addComponent(title);
-    container.setComponentAlignment(title, Alignment.TOP_LEFT);
+    Label title = new Label("Your account:");
+    layout.addComponent(title);
+    layout.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
 
-    return container;
+    Label username = new Label(account0.getName());
+    layout.addComponent(username);
+    layout.setComponentAlignment(username, Alignment.MIDDLE_LEFT);
+
+    return layout;
+  }
+
+  private Component createPartnerForm() {
+    SignUpForm signUpForm = new SignUpForm("Add your partner:", Alignment.MIDDLE_RIGHT);
+    return signUpForm;
   }
 
   private void showNotification(String description) {
@@ -87,20 +63,6 @@ public class SignUpView extends HorizontalLayout {
     notification.setStyleName(ValoTheme.NOTIFICATION_ERROR + " " + ValoTheme.NOTIFICATION_CLOSABLE);
     notification.setDelayMsec(5000);
     notification.show(Page.getCurrent());
-  }
-
-  private Component buildAccountInformation(String name) {
-    VerticalLayout container = new VerticalLayout();
-    addComponent(container);
-
-    VerticalLayout left = new VerticalLayout();
-    container.addComponent(left);
-    container.setComponentAlignment(left, Alignment.MIDDLE_LEFT);
-
-    left.addComponent(new Label("TITLE"));
-    left.addComponent(new Label(name));
-
-    return container;
   }
 
 }
