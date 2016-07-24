@@ -2,6 +2,7 @@ package com.teamlans.lepta.view.bills.create;
 
 import com.teamlans.lepta.database.entities.Item;
 import com.vaadin.ui.*;
+
 import org.vaadin.ui.NumberField;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class BillItemList extends VerticalLayout {
 
   private List<Item> itemList;
 
-  public BillItemList(){
+  public BillItemList() {
     this.setSpacing(true);
     itemList = new ArrayList<>();
     createItemTable();
@@ -52,7 +53,7 @@ public class BillItemList extends VerticalLayout {
     Double price = Double.parseDouble(itemPrice.getValue());
     Item item = new Item(name, price);
     itemList.add(item);
-    itemTable.addItem(new Object[] {item.getDescription(), item.getPrice()},itemTable.getId());
+    itemTable.addItem(new Object[]{item.getDescription(), item.getPrice()}, itemTable.getId());
     itemName.clear();
     itemPrice.clear();
   }

@@ -4,6 +4,7 @@ import com.teamlans.lepta.database.entities.Bill;
 import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.enums.Status;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Repository public class BillDaoImpl implements BillDao {
+@Repository
+public class BillDaoImpl implements BillDao {
 
-  @Autowired private SessionFactory factory;
+  @Autowired
+  private SessionFactory factory;
 
   public Integer addBill(Bill newBill) throws LeptaDatabaseException {
     return (Integer) factory.getCurrentSession().save(newBill);
@@ -28,7 +31,8 @@ import java.util.Set;
     session.delete(bill);
   }
 
-  @SuppressWarnings("unchecked") public List<Bill> listBills() throws LeptaDatabaseException {
+  @SuppressWarnings("unchecked")
+  public List<Bill> listBills() throws LeptaDatabaseException {
     return factory.getCurrentSession().createQuery("FROM Bill").list();
   }
 

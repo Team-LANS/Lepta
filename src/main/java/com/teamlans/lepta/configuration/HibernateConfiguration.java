@@ -13,12 +13,13 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+
 import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "com.teamlans.lepta.configuration" })
-@PropertySource(value = { "classpath:application.properties" })
+@ComponentScan({"com.teamlans.lepta.configuration"})
+@PropertySource(value = {"classpath:application.properties"})
 public class HibernateConfiguration {
 
   @Autowired

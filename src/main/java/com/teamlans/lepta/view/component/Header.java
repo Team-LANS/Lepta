@@ -51,6 +51,5 @@ public class Header extends HorizontalLayout {
   }
 
 
-
 }
 

@@ -3,6 +3,7 @@ package com.teamlans.lepta.database.daos;
 import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.entities.User;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,7 +15,8 @@ import java.util.Set;
 
 public class ItemDaoImpl implements ItemDao {
 
-  @Autowired private SessionFactory factory;
+  @Autowired
+  private SessionFactory factory;
 
 
   public Integer addItem(Item newItem) throws LeptaDatabaseException {

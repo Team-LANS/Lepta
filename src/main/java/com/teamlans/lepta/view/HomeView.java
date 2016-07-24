@@ -8,18 +8,21 @@ import com.vaadin.ui.VerticalLayout;
 
 import javax.annotation.PostConstruct;
 
-@SpringView(name = HomeView.VIEW_NAME) public class HomeView extends VerticalLayout
+@SpringView(name = HomeView.VIEW_NAME)
+public class HomeView extends VerticalLayout
     implements View {
 
   public static final String VIEW_NAME = "";
 
-  @PostConstruct void init() {
+  @PostConstruct
+  void init() {
     setMargin(true);
     setSpacing(true);
     addComponent(new Label("This is a default view"));
   }
 
-  @Override public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+  @Override
+  public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
     //View is constructed in init method
   }
 }

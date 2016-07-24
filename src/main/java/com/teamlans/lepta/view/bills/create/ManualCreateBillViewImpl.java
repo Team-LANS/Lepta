@@ -14,14 +14,17 @@ import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import javax.annotation.PostConstruct;
+
 import java.util.HashSet;
 import java.util.List;
 
-@SpringView(name = ManualCreateBillViewImpl.VIEW_NAME) public class ManualCreateBillViewImpl
+@SpringView(name = ManualCreateBillViewImpl.VIEW_NAME)
+public class ManualCreateBillViewImpl
     extends VerticalLayout implements View {
 
   public static final String VIEW_NAME = "MANUAL_CREATE_BILL_VIEW";
@@ -33,15 +36,18 @@ import java.util.List;
 
   private BillItemList itemList;
 
-  @Autowired public void setUserDao(UserDao userDao) {
+  @Autowired
+  public void setUserDao(UserDao userDao) {
     this.userDao = userDao;
   }
 
-  @Autowired public void setBillService(BillService billService) {
+  @Autowired
+  public void setBillService(BillService billService) {
     this.billService = billService;
   }
 
-  @PostConstruct void init() {
+  @PostConstruct
+  void init() {
     setMargin(false);
     setSpacing(true);
     VerticalLayout layout = buildRootLayout();
@@ -60,11 +66,11 @@ import java.util.List;
     GridLayout gridLayout = new GridLayout(2, 3);
     gridLayout.setWidth("600px");
     gridLayout.setHeight("200px");
-    gridLayout.setRowExpandRatio(1,1);
+    gridLayout.setRowExpandRatio(1, 1);
     createHeaderLabel(gridLayout);
     createInputFields(gridLayout);
     itemList = new BillItemList();
-    gridLayout.addComponent(itemList,1,1);
+    gridLayout.addComponent(itemList, 1, 1);
     createButtonBar(gridLayout);
     layout.addComponent(gridLayout);
     layout.setComponentAlignment(gridLayout, Alignment.MIDDLE_CENTER);
@@ -124,7 +130,8 @@ import java.util.List;
   }
 
 
-  @Override public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+  @Override
+  public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
     // the view is constructed in the init() method.
   }
 }

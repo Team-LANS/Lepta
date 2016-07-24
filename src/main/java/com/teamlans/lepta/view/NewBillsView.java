@@ -9,12 +9,14 @@ import com.vaadin.ui.VerticalLayout;
 
 import javax.annotation.PostConstruct;
 
-@SpringView(name = NewBillsView.VIEW_NAME) public class NewBillsView extends VerticalLayout
+@SpringView(name = NewBillsView.VIEW_NAME)
+public class NewBillsView extends VerticalLayout
     implements View {
 
   public static final String VIEW_NAME = "NEW_BILLS";
 
-  @PostConstruct void init() {
+  @PostConstruct
+  void init() {
     setMargin(false);
     setSpacing(true);
     VerticalLayout layout = buildRootLayout();
@@ -34,7 +36,8 @@ import javax.annotation.PostConstruct;
     return addButton;
   }
 
-  @Override public void enter(ViewChangeListener.ViewChangeEvent event) {
+  @Override
+  public void enter(ViewChangeListener.ViewChangeEvent event) {
     // the view is constructed in the init() method()
   }
 }

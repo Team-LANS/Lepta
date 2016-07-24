@@ -1,6 +1,7 @@
 package com.teamlans.lepta.database.entities;
 
 import javax.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 

@@ -5,6 +5,7 @@ import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.enums.Color;
 import com.teamlans.lepta.database.entities.User;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,7 +23,7 @@ import java.util.Set;
 public class UserDaoImpl implements UserDao {
 
   @Autowired
-  private  SessionFactory factory;
+  private SessionFactory factory;
 
   @Override
   public void addUser(User newUser) throws LeptaDatabaseException {
@@ -45,7 +46,7 @@ public class UserDaoImpl implements UserDao {
     try (Session session = factory.openSession()) {
       tx = session.beginTransaction();
       User user = session.get(User.class, userNr);
-      if(user == null) {
+      if (user == null) {
         throw new LeptaDatabaseException("Invalid user id");
       }
       user.getItems().clear();
