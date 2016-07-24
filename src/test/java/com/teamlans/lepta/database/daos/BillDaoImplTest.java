@@ -2,6 +2,7 @@ package com.teamlans.lepta.database.daos;
 
 import com.teamlans.lepta.database.HibernateTestConfiguration;
 import com.teamlans.lepta.database.entities.Bill;
+import com.teamlans.lepta.database.entities.Item;
 import com.teamlans.lepta.database.enums.Status;
 
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -63,6 +65,20 @@ public class BillDaoImplTest {
 
     int newItemCount = itemDao.listItems().size();
     assertTrue(itemCount > newItemCount);
+  }
+
+  @Test
+  public void updateBill_updateItemInBill_itemUpdated() throws Exception {
+    Bill bill = billDao.listBills().get(0);
+    Item item = new ArrayList<>(bill.getItems()).get(0);
+
+    item.setDescription("New Description");
+
+    billDao.updateBill(bill);
+
+    Bill newBill = billDao.listBills().get(0);
+    Item updatedItem =  new ArrayList<>(newBill.getItems()).get(0);
+    assertEquals(updatedItem.getDescription(), "New Description");
   }
 
   @Test

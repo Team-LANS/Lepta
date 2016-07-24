@@ -44,57 +44,8 @@ public class UserDaoImpl implements UserDao {
   public void updateUser(User newUser) throws LeptaDatabaseException {
     logger.debug("Updating user with {}", newUser);
     Session session = factory.getCurrentSession();
-
-    int userNr = newUser.getUserNr();
-    User user = session.get(User.class, userNr);
-
-    String newName = newUser.getName();
-    user.setName(newName);
-
-    Color newColor = newUser.getColor();
-    user.setColor(newColor);
-
-    String newPassword = newUser.getPassword();
-    user.setPassword(newPassword);
-    removeDeletedBills(newUser, user);
-    removeDeletedItems(newUser, user);
-    session.update(user);
-
+    session.update(newUser);
   }
 
-
-  private void removeDeletedItems(User newUser, User user) {
-    Set<Item> newItems = newUser.getItems();
-    Set<Item> items = user.getItems();
-    Set<Item> deletedItems = new HashSet<>();
-    for (Item item : items) {
-      if (!newItems.contains(item)) {
-        deletedItems.add(item);
-      }
-    }
-    user.removeItems(deletedItems);
-    for (Item newItem : newItems) {
-      if (!items.contains(newItem)) {
-        user.addItem(newItem);
-      }
-    }
-  }
-
-  private void removeDeletedBills(User newUser, User user) {
-    Set<Bill> newBills = newUser.getBills();
-    Set<Bill> bills = user.getBills();
-    Set<Bill> deletedBills = new HashSet<>();
-    for (Bill bill : bills) {
-      if (!newBills.contains(bill)) {
-        deletedBills.add(bill);
-      }
-    }
-    user.removeBills(deletedBills);
-    for (Bill newBill : newBills) {
-      if (!bills.contains(newBill)) {
-        user.addBill(newBill);
-      }
-    }
-  }
 
 }
