@@ -36,7 +36,7 @@ import javax.annotation.PostConstruct;
 public class ManualCreateBillView
     extends VerticalLayout implements View {
 
-  public static final String VIEW_NAME = "MANUAL_CREATE_BILL";
+  public static final String VIEW_NAME = "Bills/CreateNew";
 
   private BillService billService;
   private UserDao userDao;
@@ -130,6 +130,7 @@ public class ManualCreateBillView
       notification.setPosition(Position.BOTTOM_CENTER);
       notification.setDelayMsec(5000);
       notification.show(Page.getCurrent());
+      getUI().getNavigator().navigateTo(NewBillsView.VIEW_NAME);
     } catch (LeptaServiceException | LeptaDatabaseException | DataAccessException e) {
       new Notification("Uh, oh, something bad happened!", e.getMessage(),
           Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());

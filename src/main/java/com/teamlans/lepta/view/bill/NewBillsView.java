@@ -21,7 +21,7 @@ import javax.annotation.PostConstruct;
 public class NewBillsView extends VerticalLayout
         implements View {
 
-    public static final String VIEW_NAME = "NEW_BILLS";
+    public static final String VIEW_NAME = "Bills";
 
     @Autowired
     private BillService billService;
