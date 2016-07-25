@@ -26,7 +26,7 @@ public class Bill {
   @ManyToOne
   @JoinColumn(name = "USER_NR")
   private User user;
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bill", orphanRemoval = true, cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "bill", orphanRemoval = true, cascade = CascadeType.ALL)
   private Set<Item> items = new HashSet<>();
 
   public Bill() {
