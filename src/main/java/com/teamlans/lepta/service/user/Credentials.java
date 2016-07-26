@@ -8,8 +8,8 @@ import com.teamlans.lepta.service.exceptions.LeptaServiceException;
  */
 public final class Credentials {
 
-  private String name;
-  private String password;
+  private final String name;
+  private final String password;
 
   public Credentials(String name, String password) throws LeptaServiceException {
     if (name == null || name.length() == 0) {

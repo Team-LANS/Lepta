@@ -10,7 +10,11 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-public class InitialSignUp extends HorizontalLayout {
+/**
+ * Visible for first time visitors (database is empty). Contains a sign up form for the first user
+ * and leads to a second sign up form.
+ */
+public final class InitialSignUp extends HorizontalLayout {
 
   final private SignUpView parent;
 
@@ -21,19 +25,26 @@ public class InitialSignUp extends HorizontalLayout {
 
   private void build() {
     setSizeFull();
-    VerticalLayout container = new VerticalLayout();
-    addComponent(container);
 
-    Label title = new Label("Create your account:");
+    final VerticalLayout container = new VerticalLayout();
+    addComponent(container);
+    setComponentAlignment(container, Alignment.MIDDLE_LEFT);
+
+    final Label title = new Label("Create your account:");
     container.addComponent(title);
 
-    SignUpForm signUpForm = buildSignUpForm();
+    final SignUpForm signUpForm = buildSignUpForm();
     container.addComponent(signUpForm);
-    container.setComponentAlignment(signUpForm, Alignment.MIDDLE_LEFT);
   }
 
   private SignUpForm buildSignUpForm() {
-    SignUpForm signUpForm = new SignUpForm();
+    final SignUpForm signUpForm = new SignUpForm();
+    addOkListener(signUpForm);
+    addCancelListener(signUpForm);
+    return signUpForm;
+  }
+
+  private void addOkListener(SignUpForm signUpForm) {
     signUpForm.addLoginListener(new LoginForm.LoginListener() {
       @Override
       public void onLogin(LoginForm.LoginEvent event) {
@@ -45,15 +56,16 @@ public class InitialSignUp extends HorizontalLayout {
         }
       }
     });
-    Button cancelButton = signUpForm.getCancelButton();
+  }
+
+  private void addCancelListener(SignUpForm signUpForm) {
+    final Button cancelButton = signUpForm.getCancelButton();
     cancelButton.addClickListener(new Button.ClickListener() {
       @Override
       public void buttonClick(Button.ClickEvent clickEvent) {
         parent.showWelcomePage();
       }
     });
-    return signUpForm;
   }
-
 
 }

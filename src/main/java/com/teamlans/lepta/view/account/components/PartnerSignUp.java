@@ -6,6 +6,7 @@ import com.teamlans.lepta.service.user.Credentials;
 import com.teamlans.lepta.view.account.SignUpView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -13,63 +14,80 @@ import com.vaadin.ui.VerticalLayout;
 /**
  * PartnerSignUp displays a users name and offers a SignUpForm for their partner.
  */
-public class PartnerSignUp extends HorizontalLayout {
+public final class PartnerSignUp extends HorizontalLayout {
 
   final private SignUpView parent;
+  final private String firstName;
 
-  public PartnerSignUp(SignUpView parent, String name) {
+  public PartnerSignUp(SignUpView parent, String firstName) {
     this.parent = parent;
-    buildInfo(name);
-    buildSignUpForm();
+    this.firstName = firstName;
+
+    final Component left = buildLeft();
+    setSizeFull();
+    left.setWidth("400");
+    addComponent(left);
+    setComponentAlignment(left, Alignment.MIDDLE_LEFT);
+
+    final Component right = buildRight();
+    right.setSizeFull();
+    addComponent(right);
   }
 
-  private void buildSignUpForm() {
-    VerticalLayout container = new VerticalLayout();
-    container.setSizeFull();
-    addComponent(container);
+  private Component buildLeft() {
+    final VerticalLayout container = new VerticalLayout();
 
-    VerticalLayout right = new VerticalLayout();
-    right.setSizeUndefined();
-    container.addComponent(right);
-    container.setComponentAlignment(right, Alignment.MIDDLE_RIGHT);
-
-    Label title = new Label("Add your partner:");
-    right.addComponent(title);
-    right.setComponentAlignment(title, Alignment.MIDDLE_RIGHT);
-    SignUpForm rightSignUpForm = createPartnerForm();
-    rightSignUpForm.setSizeUndefined();
-
-    Button cancelButton = rightSignUpForm.getCancelButton();
-    cancelButton.addClickListener(new Button.ClickListener() {
-      @Override
-      public void buttonClick(Button.ClickEvent clickEvent) {
-        parent.showInitialSignUp();
-      }
-    });
-
-    right.addComponent(rightSignUpForm);
-    right.setComponentAlignment(rightSignUpForm, Alignment.MIDDLE_RIGHT);
-  }
-
-  private void buildInfo(String name) {
-    VerticalLayout container = new VerticalLayout();
-    addComponent(container);
-    setHeight("100%");
-    setWidth("400");
-
-    VerticalLayout center = new VerticalLayout();
+    final VerticalLayout center = new VerticalLayout();
+    center.setSizeUndefined();
     container.addComponent(center);
     container.setComponentAlignment(center, Alignment.MIDDLE_LEFT);
+    addInfo(center);
 
-    Label title = new Label("Your account:");
+    return container;
+  }
+
+  private void addInfo(VerticalLayout center) {
+    final Label title = new Label("Your account:");
+    title.setSizeUndefined();
     center.addComponent(title);
 
-    Label username = new Label(name);
+    final Label username = new Label(firstName);
+    title.setSizeUndefined();
     center.addComponent(username);
   }
 
-  private SignUpForm createPartnerForm() {
-    SignUpForm signUpForm = new SignUpForm();
+  private Component buildRight() {
+    final VerticalLayout container = new VerticalLayout();
+
+    final VerticalLayout center = new VerticalLayout();
+    center.setSizeUndefined();
+    container.addComponent(center);
+    container.setComponentAlignment(center, Alignment.MIDDLE_RIGHT);
+
+    addContent(center);
+    return container;
+  }
+
+  private void addContent(VerticalLayout center) {
+    final Label title = new Label("Add your partner:");
+    title.setSizeUndefined();
+    center.addComponent(title);
+    center.setComponentAlignment(title, Alignment.MIDDLE_RIGHT);
+
+    final SignUpForm signUpForm = buildSignUpForm();
+    center.addComponent(signUpForm);
+    center.setComponentAlignment(signUpForm, Alignment.MIDDLE_RIGHT);
+  }
+
+  private SignUpForm buildSignUpForm() {
+    final SignUpForm signUpForm = new SignUpForm();
+    signUpForm.setSizeUndefined();
+    addOkListener(signUpForm);
+    addCancelListener(signUpForm);
+    return signUpForm;
+  }
+
+  private void addOkListener(SignUpForm signUpForm) {
     signUpForm.addLoginListener(new LoginForm.LoginListener() {
       @Override
       public void onLogin(LoginForm.LoginEvent event) {
@@ -81,7 +99,16 @@ public class PartnerSignUp extends HorizontalLayout {
         }
       }
     });
-    return signUpForm;
+  }
+
+  private void addCancelListener(SignUpForm signUpForm) {
+    final Button cancelButton = signUpForm.getCancelButton();
+    cancelButton.addClickListener(new Button.ClickListener() {
+      @Override
+      public void buttonClick(Button.ClickEvent clickEvent) {
+        parent.showInitialSignUp();
+      }
+    });
   }
 
 }

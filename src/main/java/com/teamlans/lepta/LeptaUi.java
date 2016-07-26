@@ -50,7 +50,7 @@ public class LeptaUi extends UI {
     Responsive.makeResponsive(root);
     setContent(root);
 
-    Navigator navigator = new Navigator(this, root);
+    final Navigator navigator = new Navigator(this, root);
     navigator.addProvider(viewProvider);
 
     if (userService.noUsersExist()) {

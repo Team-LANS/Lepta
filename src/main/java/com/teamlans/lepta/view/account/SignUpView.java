@@ -37,7 +37,7 @@ public class SignUpView extends HorizontalLayout implements View {
   }
 
   public void showNotification(String description) {
-    Notification notification = new Notification("", description);
+    final Notification notification = new Notification("", description);
     notification.setPosition(Position.BOTTOM_CENTER);
     notification.setStyleName(ValoTheme.NOTIFICATION_ERROR + " " + ValoTheme.NOTIFICATION_CLOSABLE);
     notification.setDelayMsec(5000);
@@ -70,6 +70,7 @@ public class SignUpView extends HorizontalLayout implements View {
   public void showPartnerSignUp() {
     removeAllComponents();
     addComponent(new PartnerSignUp(this, initialCredentials.getName()));
+
   }
 
   public void finishAndGoHome() { // ;-)

@@ -34,16 +34,16 @@ public class LoginView extends VerticalLayout implements View {
   private void build() {
     setSizeFull();
 
-    final VerticalLayout center = createContainerWithTitle("WELCOME");
+    final VerticalLayout center = buildContainerWithTitle("WELCOME");
     addComponent(center);
     setComponentAlignment(center, Alignment.MIDDLE_CENTER);
 
-    final LeptaLoginForm loginForm = createLoginForm();
+    final LeptaLoginForm loginForm = buildLoginForm();
     center.addComponent(loginForm);
     center.setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
   }
 
-  private VerticalLayout createContainerWithTitle(String text) {
+  private VerticalLayout buildContainerWithTitle(String text) {
     final VerticalLayout container = new VerticalLayout();
 
     final Label title = new Label(text);
@@ -54,7 +54,7 @@ public class LoginView extends VerticalLayout implements View {
     return container;
   }
 
-  private LeptaLoginForm createLoginForm() {
+  private LeptaLoginForm buildLoginForm() {
     final LeptaLoginForm loginForm = new LeptaLoginForm();
     loginForm.addLoginListener(new LoginForm.LoginListener() {
       @Override
@@ -74,7 +74,7 @@ public class LoginView extends VerticalLayout implements View {
   }
 
   private void showNotification(String caption, String description) {
-    Notification notification = new Notification(caption, description);
+    final Notification notification = new Notification(caption, description);
     notification.setPosition(Position.BOTTOM_CENTER);
     notification.setStyleName(ValoTheme.NOTIFICATION_ERROR + " " + ValoTheme.NOTIFICATION_CLOSABLE);
     notification.setDelayMsec(5000);
