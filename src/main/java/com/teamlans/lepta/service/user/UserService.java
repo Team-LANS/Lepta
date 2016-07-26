@@ -63,7 +63,7 @@ public class UserService {
     }
     try {
       // assign unique ids (0 and 1) and initial colors (blue and yellow)
-      userDao.addUser(new User(0, account0.getName(), account0.getPassword(), Color.BLUE));
+      userDao.addUser(new User(0, account0.getName(), account0.getPassword(), Color.DARK_BLUE));
       userDao.addUser(new User(1, account1.getName(), account1.getPassword(), Color.YELLOW));
     } catch (LeptaDatabaseException e) {
       throw new LeptaServiceException(e);
