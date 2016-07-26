@@ -7,8 +7,7 @@ import com.teamlans.lepta.view.account.SignUpView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Panel;
 
 /**
  * Visible for first time visitors (database is empty). Contains a sign up form for the first user
@@ -26,15 +25,12 @@ public final class InitialSignUp extends HorizontalLayout {
   private void build() {
     setSizeFull();
 
-    final VerticalLayout container = new VerticalLayout();
+    final Panel container = new Panel("Create your account:");
+    container.setSizeUndefined();
+    container.setContent(buildSignUpForm());
+
     addComponent(container);
     setComponentAlignment(container, Alignment.MIDDLE_LEFT);
-
-    final Label title = new Label("Create your account:");
-    container.addComponent(title);
-
-    final SignUpForm signUpForm = buildSignUpForm();
-    container.addComponent(signUpForm);
   }
 
   private SignUpForm buildSignUpForm() {

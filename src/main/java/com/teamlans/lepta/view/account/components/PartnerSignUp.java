@@ -9,6 +9,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -59,24 +60,13 @@ public final class PartnerSignUp extends HorizontalLayout {
   private Component buildRight() {
     final VerticalLayout container = new VerticalLayout();
 
-    final VerticalLayout center = new VerticalLayout();
+    final Panel center = new Panel("Add your partner:");
     center.setSizeUndefined();
+    center.setContent(buildSignUpForm());
+
     container.addComponent(center);
     container.setComponentAlignment(center, Alignment.MIDDLE_RIGHT);
-
-    addContent(center);
     return container;
-  }
-
-  private void addContent(VerticalLayout center) {
-    final Label title = new Label("Add your partner:");
-    title.setSizeUndefined();
-    center.addComponent(title);
-    center.setComponentAlignment(title, Alignment.MIDDLE_RIGHT);
-
-    final SignUpForm signUpForm = buildSignUpForm();
-    center.addComponent(signUpForm);
-    center.setComponentAlignment(signUpForm, Alignment.MIDDLE_RIGHT);
   }
 
   private SignUpForm buildSignUpForm() {

@@ -34,24 +34,13 @@ public final class LoginView extends VerticalLayout implements View {
   private void build() {
     setSizeFull();
 
-    final VerticalLayout center = buildContainerWithTitle("WELCOME");
+    final Panel center = new Panel("WELCOME");
+    center.setSizeUndefined();
     addComponent(center);
     setComponentAlignment(center, Alignment.MIDDLE_CENTER);
 
     final LeptaLoginForm loginForm = buildLoginForm();
-    center.addComponent(loginForm);
-    center.setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
-  }
-
-  private VerticalLayout buildContainerWithTitle(String text) {
-    final VerticalLayout container = new VerticalLayout();
-
-    final Label title = new Label(text);
-    title.setSizeUndefined();
-    container.addComponent(title);
-    container.setComponentAlignment(title, Alignment.TOP_CENTER);
-
-    return container;
+    center.setContent(loginForm);
   }
 
   private LeptaLoginForm buildLoginForm() {
