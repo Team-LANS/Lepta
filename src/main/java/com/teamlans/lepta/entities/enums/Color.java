@@ -9,14 +9,14 @@ public enum Color {
   ORANGE("CB783A"),
   RED("CA4754");
 
-  private final String hexcode;
+  private final String hexCode;
 
-  Color(String hexcode) {
-    this.hexcode = hexcode;
+  Color(String hexCode) {
+    this.hexCode = hexCode;
   }
 
-  public String getHexcode() {
-    return hexcode;
+  public String getHexCode() {
+    return hexCode;
   }
 
 }

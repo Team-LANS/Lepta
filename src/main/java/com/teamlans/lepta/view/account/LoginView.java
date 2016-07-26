@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * UserService.
  */
 @SpringView(name = LoginView.VIEW_NAME)
-public class LoginView extends VerticalLayout implements View {
+public final class LoginView extends VerticalLayout implements View {
 
   public static final String VIEW_NAME = "Login";
   @Autowired

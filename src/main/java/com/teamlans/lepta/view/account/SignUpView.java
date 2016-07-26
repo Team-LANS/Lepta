@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * steps.
  */
 @SpringView(name = SignUpView.VIEW_NAME)
-public class SignUpView extends HorizontalLayout implements View {
+public final class SignUpView extends HorizontalLayout implements View {
 
   public static final String VIEW_NAME = "SignUp";
   @Autowired
