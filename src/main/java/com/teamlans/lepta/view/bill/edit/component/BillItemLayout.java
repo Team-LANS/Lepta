@@ -23,7 +23,6 @@ public class BillItemLayout extends VerticalLayout {
     itemTable = new ItemTable();
     itemTable.setHeight("300px");
     itemTable.setWidth("100%");
-    itemTable.setVisibleColumns("name", "price");
     addComponent(itemTable);
     setExpandRatio(itemTable, 1);
     addItemControl = new AddItemControl();

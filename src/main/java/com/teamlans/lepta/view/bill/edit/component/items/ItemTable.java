@@ -13,13 +13,12 @@ public class ItemTable extends Table {
   private BeanItemContainer<Item> itemContainer;
 
   public ItemTable() {
-    addContainerProperty("name", String.class, null);
-    addContainerProperty("price", Double.class, null);
-    addGeneratedColumn("", new DeleteButtonGenerator());
-    setVisibleColumns("name", "price");
+    setImmediate(true);
     itemContainer = new BeanItemContainer<>(Item.class);
     itemContainer.addAll(new ArrayList<>());
     setContainerDataSource(itemContainer);
+    addGeneratedColumn("test", new DeleteButtonGenerator());
+    setVisibleColumns("name", "price", "test");
   }
 
   public List<Item> getItems() {
@@ -38,18 +37,13 @@ public class ItemTable extends Table {
     @Override
     public Object generateCell(Table table, Object itemId, Object columnId) {
       Button button = new Button(itemId == table.getData() ? "Save" : "Edit");
-      button.addClickListener(new Button.ClickListener() {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void buttonClick(Button.ClickEvent event) {
-          if (table.getData() == null) {
-            table.setData(itemId);
-            table.refreshRowCache();
-          } else if (itemId == table.getData()) {
-            table.setData(null);
-            table.refreshRowCache();
-          }
+      button.addClickListener((Button.ClickListener) event -> {
+        if (table.getData() == null) {
+          table.setData(itemId);
+          table.refreshRowCache();
+        } else if (itemId == table.getData()) {
+          table.setData(null);
+          table.refreshRowCache();
         }
       });
       return button;

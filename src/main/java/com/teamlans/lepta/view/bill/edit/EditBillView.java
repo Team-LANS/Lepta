@@ -35,8 +35,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 @SpringView(name = EditBillView.VIEW_NAME)
-public class EditBillView
-    extends VerticalLayout implements View {
+public class EditBillView extends VerticalLayout implements View {
 
   public static final String VIEW_NAME = "Bills/Edit";
 
