@@ -51,5 +51,10 @@ public class BillDaoImpl implements BillDao {
     Session session = factory.getCurrentSession();
     session.update(newBill);
   }
+
+  @Override
+  public Bill getBillBy(Integer nr) {
+    return factory.getCurrentSession().get(Bill.class, nr);
+  }
 }
 

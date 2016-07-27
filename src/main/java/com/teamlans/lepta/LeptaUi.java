@@ -57,15 +57,6 @@ public class LeptaUi extends UI {
       navigator.navigateTo(SignUpView.VIEW_NAME);
     } else {
       navigator.navigateTo(LoginView.VIEW_NAME);
-
-      /*
-      root.addComponent(new Header());
-      root.addComponent(new NavigationBar());
-
-      final VerticalLayout viewContainer = new VerticalLayout();
-      viewContainer.setSizeFull();
-      root.addComponent(viewContainer);
-      root.setExpandRatio(viewContainer, 1.0f);*/
     }
 
   }

@@ -14,4 +14,5 @@ public interface BillDao {
 
   void updateBill(Bill newBill);
 
+  Bill getBillBy(Integer nr);
 }

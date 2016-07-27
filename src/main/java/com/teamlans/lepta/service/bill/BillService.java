@@ -44,4 +44,13 @@ import java.util.List;
       }
   }
 
+  @Transactional
+  public Bill getBillBy(int billId) {
+    logger.debug("Retrieving bill with id {}", billId);
+    return billDao.getBillBy(billId);
+  }
+
+  public void updateBill(Bill bill){
+
+  }
 }
