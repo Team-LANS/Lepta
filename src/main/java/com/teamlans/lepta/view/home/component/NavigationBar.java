@@ -1,5 +1,6 @@
 package com.teamlans.lepta.view.home.component;
 
+import com.teamlans.lepta.LeptaUi;
 import com.teamlans.lepta.view.account.EditProfileView;
 import com.teamlans.lepta.view.account.LoginView;
 import com.teamlans.lepta.view.home.HomeView;
@@ -50,19 +51,21 @@ public class NavigationBar extends HorizontalLayout {
     MenuBar menuBar = new MenuBar();
 
     MenuBar.MenuItem profileMenu = menuBar.addItem("Username", null, null);
-    addSubMenuLink(profileMenu, "Edit profile", FontAwesome.COG, EditProfileView.VIEW_NAME);
-    addSubMenuLink(profileMenu, "Log out", FontAwesome.SIGN_OUT, LoginView.VIEW_NAME);
-
-    addComponent(menuBar);
-  }
-
-  private void addSubMenuLink(MenuBar.MenuItem item, String name, FontAwesome icon, String goal) {
-    item.addItem(name, icon, new MenuBar.Command() {
+    profileMenu.addItem("Edit profile", FontAwesome.COG, new MenuBar.Command() {
       @Override
       public void menuSelected(MenuBar.MenuItem menuItem) {
-        goTo(goal);
+        goTo(EditProfileView.VIEW_NAME);
       }
     });
+    profileMenu.addItem("Log out", FontAwesome.SIGN_OUT, new MenuBar.Command() {
+      @Override
+      public void menuSelected(MenuBar.MenuItem menuItem) {
+        ((LeptaUi)getUI()).setLoggedInUser(null);
+        goTo(LoginView.VIEW_NAME);
+      }
+    });
+
+    addComponent(menuBar);
   }
 
   private void goTo(String goal) {
