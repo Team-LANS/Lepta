@@ -72,13 +72,13 @@ public class BillDaoImplTest {
     Bill bill = billDao.listBills().get(0);
     Item item = new ArrayList<>(bill.getItems()).get(0);
 
-    item.setDescription("New Description");
+    item.setName("New Description");
 
     billDao.updateBill(bill);
 
     Bill newBill = billDao.listBills().get(0);
     Item updatedItem =  new ArrayList<>(newBill.getItems()).get(0);
-    assertEquals(updatedItem.getDescription(), "New Description");
+    assertEquals(updatedItem.getName(), "New Description");
   }
 
   @Test

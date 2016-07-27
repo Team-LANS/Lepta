@@ -2,6 +2,7 @@ package com.teamlans.lepta.view.bill.create;
 
 import com.teamlans.lepta.entities.Item;
 import com.vaadin.data.Validator;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -13,7 +14,6 @@ import com.vaadin.ui.VerticalLayout;
 
 import org.vaadin.ui.NumberField;
 
-import java.util.ArrayList;
 import java.util.List;
 
 class BillItemList extends VerticalLayout {
@@ -24,23 +24,26 @@ class BillItemList extends VerticalLayout {
 
   private NumberField priceField;
 
-  private List<Item> itemList;
+  private BeanItemContainer<Item> itemContainer;
 
-  BillItemList() {
-    this.setSpacing(true);
-    itemList = new ArrayList<>();
-    createItemTable();
+  BillItemList(List<Item> items) {
+    setSpacing(true);
+    createItemTable(items);
   }
 
-  private void createItemTable() {
+  private void createItemTable(List<Item> items) {
     itemTable = new Table();
     itemTable.setHeight("300px");
     itemTable.addContainerProperty("Name", String.class, null);
     itemTable.addContainerProperty("Price", Double.class, null);
     itemTable.setWidth("100%");
     itemTable.setValidationVisible(false);
-    this.addComponent(itemTable);
-    this.setExpandRatio(itemTable, 1);
+    itemContainer = new BeanItemContainer<>(Item.class);
+    itemContainer.addAll(items);
+    itemTable.setContainerDataSource(itemContainer);
+    itemTable.setVisibleColumns("name", "price");
+    addComponent(itemTable);
+    setExpandRatio(itemTable, 1);
     createItemInput();
   }
 
@@ -54,7 +57,7 @@ class BillItemList extends VerticalLayout {
     addItem.addClickListener(event -> tryAddItem());
     itemInputContainer.addComponent(addItem);
     itemInputContainer.setComponentAlignment(addItem, Alignment.MIDDLE_RIGHT);
-    this.addComponent(itemInputContainer);
+    addComponent(itemInputContainer);
   }
 
   private void createItemPriceField(HorizontalLayout itemInputContainer) {
@@ -90,8 +93,7 @@ class BillItemList extends VerticalLayout {
     String name = nameField.getValue();
     Double price = Double.parseDouble(priceField.getValue());
     Item item = new Item(name, price);
-    itemList.add(item);
-    itemTable.addItem(new Object[]{item.getDescription(), item.getPrice()}, itemTable.getId());
+    itemContainer.addItem(item);
     nameField.clear();
     priceField.clear();
   }
@@ -112,8 +114,7 @@ class BillItemList extends VerticalLayout {
   }
 
   List<Item> getBillItems() {
-    return itemList;
+    return itemContainer.getItemIds();
   }
-
 
 }

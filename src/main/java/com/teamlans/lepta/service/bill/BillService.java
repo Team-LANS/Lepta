@@ -50,7 +50,4 @@ import java.util.List;
     return billDao.getBillBy(billId);
   }
 
-  public void updateBill(Bill bill){
-
-  }
 }

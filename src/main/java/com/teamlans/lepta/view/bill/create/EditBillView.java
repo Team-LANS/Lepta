@@ -1,9 +1,9 @@
 package com.teamlans.lepta.view.bill.create;
 
 import com.teamlans.lepta.database.daos.UserDao;
+import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.entities.Item;
-import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.bill.BillService;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.view.bill.NewBillsView;
@@ -27,23 +27,27 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-@SpringView(name = ManualCreateBillView.VIEW_NAME)
-public class ManualCreateBillView
+@SpringView(name = EditBillView.VIEW_NAME)
+public class EditBillView
     extends VerticalLayout implements View {
 
-  public static final String VIEW_NAME = "Bills/CreateNew";
+  public static final String VIEW_NAME = "Bills/Edit";
 
   private BillService billService;
   private UserDao userDao;
   private TextField nameField;
   private DateField dateField;
 
-  private BillItemList itemList;
+  private BillItemList billItemList;
+  private Bill billToEdit;
 
   @Autowired
   public void setUserDao(UserDao userDao) {
@@ -59,9 +63,6 @@ public class ManualCreateBillView
   void init() {
     setMargin(false);
     setSpacing(true);
-    VerticalLayout layout = buildRootLayout();
-    layout.setResponsive(true);
-    addComponent(layout);
   }
 
   private VerticalLayout buildRootLayout() {
@@ -79,8 +80,8 @@ public class ManualCreateBillView
     gridLayout.setSpacing(true);
     createHeaderLabel(gridLayout);
     createInputFields(gridLayout);
-    itemList = new BillItemList();
-    gridLayout.addComponent(itemList, 1, 1);
+    billItemList = new BillItemList(new ArrayList<>(billToEdit.getItems()));
+    gridLayout.addComponent(billItemList, 1, 1);
     createButtonBar(gridLayout);
     layout.addComponent(gridLayout);
     layout.setComponentAlignment(gridLayout, Alignment.MIDDLE_CENTER);
@@ -91,12 +92,14 @@ public class ManualCreateBillView
     inputContainer.setSpacing(true);
     nameField = new TextField();
     nameField.setInputPrompt("Enter bill name");
+    nameField.setValue(billToEdit.getName());
     nameField.addValidator(new StringLengthValidator("Name must not be empty", 1, 50, false));
     nameField.setNullRepresentation("");
     nameField.setValidationVisible(false);
     inputContainer.addComponent(nameField);
     dateField = new DateField();
     dateField.setDateFormat("yyyy-MM-dd");
+    dateField.setValue(billToEdit.getDate());
     inputContainer.addComponent(dateField);
     gridLayout.addComponent(inputContainer, 0, 1);
   }
@@ -125,13 +128,13 @@ public class ManualCreateBillView
     if (validateFields())
       return;
     try {
-      billService.addBill(createBill());
+      saveBill();
       Notification notification = new Notification("Bill created successfully!", "", Notification.Type.HUMANIZED_MESSAGE);
       notification.setPosition(Position.BOTTOM_CENTER);
       notification.setDelayMsec(5000);
       notification.show(Page.getCurrent());
       getUI().getNavigator().navigateTo(NewBillsView.VIEW_NAME);
-    } catch (LeptaServiceException | LeptaDatabaseException | DataAccessException e) {
+    } catch (LeptaServiceException | DataAccessException e) {
       new Notification("Uh, oh, something bad happened!", e.getMessage(),
           Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
     }
@@ -152,17 +155,40 @@ public class ManualCreateBillView
     return false;
   }
 
-  private Bill createBill() throws LeptaDatabaseException {
-    Bill bill = new Bill(nameField.getValue(), dateField.getValue(), userDao.listUsers().get(0));
-    List<Item> billItems = itemList.getBillItems();
-    billItems.stream().forEach(item -> item.setBill(bill));
-    bill.setItems(new HashSet<>(billItems));
-    return bill;
+  private void saveBill() throws LeptaServiceException {
+    billToEdit.setName(nameField.getValue());
+    billToEdit.setDate(dateField.getValue());
+    List<Item> billItems = billItemList.getBillItems();
+    billItems.forEach(x -> x.setBill(billToEdit));
+    billToEdit.setItems(new HashSet<>(billItems));
+    billService.addBill(billToEdit);
   }
 
+  private void setBillToEdit(int billId) {
+    if (billId != -1) {
+      billToEdit = billService.getBillBy(billId);
+    } else {
+      Calendar today = Calendar.getInstance();
+      today.clear(Calendar.HOUR);
+      today.clear(Calendar.MINUTE);
+      today.clear(Calendar.SECOND);
+      Date todayDate = today.getTime();
+      try {
+        billToEdit = new Bill("", todayDate, userDao.listUsers().get(0));
+      } catch (LeptaDatabaseException e) {
+        e.printStackTrace();
+      }
+
+    }
+  }
 
   @Override
   public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-    // the view is constructed in the init() method.
+    String parameter = viewChangeEvent.getParameters();
+    int billId = Integer.parseInt(parameter);
+    setBillToEdit(billId);
+    VerticalLayout layout = buildRootLayout();
+    layout.setResponsive(true);
+    addComponent(layout);
   }
 }

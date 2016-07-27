@@ -22,9 +22,9 @@ public class BillDaoImpl implements BillDao {
   private SessionFactory factory;
 
   @Override
-  public Integer addBill(Bill newBill) {
-    logger.debug("Adding bill with {}", newBill);
-    return (Integer) factory.getCurrentSession().save(newBill);
+  public void addBill(Bill bill) {
+    logger.debug("Adding bill with {}", bill);
+    factory.getCurrentSession().saveOrUpdate(bill);
   }
 
   @Override
