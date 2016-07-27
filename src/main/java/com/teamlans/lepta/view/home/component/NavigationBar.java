@@ -5,8 +5,6 @@ import com.teamlans.lepta.view.account.LoginView;
 import com.teamlans.lepta.view.home.HomeView;
 import com.teamlans.lepta.view.bill.NewBillsView;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.StreamVariable;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
