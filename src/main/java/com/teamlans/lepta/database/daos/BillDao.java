@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BillDao {
 
-  Integer addBill(Bill newBill);
+  void addBill(Bill newBill);
 
   void deleteBill(Integer id);
 

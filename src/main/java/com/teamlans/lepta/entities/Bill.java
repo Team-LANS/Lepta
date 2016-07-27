@@ -30,7 +30,7 @@ public class Bill {
   private Set<Item> items = new HashSet<>();
 
   public Bill() {
-    // needed for hibernate
+    // used when constructing a new bill
   }
 
   public Bill(String name, Date date, User user) {

@@ -51,11 +51,11 @@ public class ItemDaoImplTest {
   @Test
   public void updateItem_validItem_itemUpdated() {
     Item item = itemDao.listItems().get(0);
-    item.setDescription("NewDescription");
+    item.setName("NewDescription");
 
     itemDao.updateItem(item);
 
     Item updatedItem = itemDao.listItems().get(0);
-    assertTrue(updatedItem.getDescription().equals("NewDescription"));
+    assertTrue(updatedItem.getName().equals("NewDescription"));
   }
 }

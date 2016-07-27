@@ -15,7 +15,7 @@ public class Item {
   private int id;
 
   @Column(name = "DESCRIPTION")
-  private String description;
+  private String name;
 
   @Column(name = "PRICE")
   private double price;
@@ -32,8 +32,8 @@ public class Item {
     // needed for hibernate
   }
 
-  public Item(String description, double price) {
-    this.description = description;
+  public Item(String name, double price) {
+    this.name = name;
     this.price = price;
   }
 
@@ -41,12 +41,12 @@ public class Item {
     return id;
   }
 
-  public String getDescription() {
-    return description;
+  public String getName() {
+    return name;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public double getPrice() {
