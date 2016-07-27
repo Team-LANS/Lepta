@@ -28,12 +28,12 @@ public class BillDaoImpl implements BillDao {
   }
 
   @Override
-  public void deleteBill(Integer nr) {
-    logger.debug("Deleting bill with id {}", nr);
+  public void deleteBill(Integer id) {
+    logger.debug("Deleting bill with id {}", id);
     Session session = factory.getCurrentSession();
-    Bill bill = session.get(Bill.class, nr);
+    Bill bill = session.get(Bill.class, id);
     if (bill == null) {
-      throw new DataRetrievalFailureException("Could not delete bill with id " + nr);
+      throw new DataRetrievalFailureException("Could not delete bill with id " + id);
     }
     session.delete(bill);
   }
@@ -53,8 +53,8 @@ public class BillDaoImpl implements BillDao {
   }
 
   @Override
-  public Bill getBillBy(Integer nr) {
-    return factory.getCurrentSession().get(Bill.class, nr);
+  public Bill getBillBy(Integer id) {
+    return factory.getCurrentSession().get(Bill.class, id);
   }
 }
 

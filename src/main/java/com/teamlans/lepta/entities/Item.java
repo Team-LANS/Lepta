@@ -11,7 +11,7 @@ public class Item {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ID")
+  @Column(name = "ITEM_ID")
   private int id;
 
   @Column(name = "DESCRIPTION")
@@ -21,7 +21,7 @@ public class Item {
   private double price;
 
   @ManyToOne
-  @JoinColumn(name = "BILL_NR")
+  @JoinColumn(name = "BILL_ID")
   private Bill bill;
 
   @ManyToMany(mappedBy = "items")

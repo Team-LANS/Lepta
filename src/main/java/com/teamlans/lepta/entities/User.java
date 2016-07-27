@@ -12,10 +12,10 @@ import java.util.Set;
 public class User {
 
   @Id // no value generation necessary since there are only two users
-  @Column(name = "U_NR")
-  private int userNr;
+  @Column(name = "USER_ID")
+  private int id;
 
-  @Column(name = "NAME", unique = true)
+  @Column(name = "USER_NAME", unique = true)
   private String name;
 
   @Column(name = "COLOR", unique = true)
@@ -30,7 +30,7 @@ public class User {
 
   @ManyToMany(cascade = {CascadeType.ALL})
   @JoinTable(name = "OWNER",
-      joinColumns = {@JoinColumn(name = "USER_NR")},
+      joinColumns = {@JoinColumn(name = "USER_ID")},
       inverseJoinColumns = {@JoinColumn(name = "ITEM_ID"),})
   private Set<Item> items = new HashSet<>();
 
@@ -38,15 +38,15 @@ public class User {
     // needed for hibernate
   }
 
-  public User(int userNr, String name, String password, Color color) {
-    this.userNr = userNr;
+  public User(int userId, String name, String password, Color color) {
+    this.id = userId;
     this.name = name;
     this.color = color;
     this.password = password;
   }
 
-  public int getUserNr() {
-    return userNr;
+  public int getId() {
+    return id;
   }
 
   public String getName() {

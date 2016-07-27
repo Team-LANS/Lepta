@@ -1,12 +1,9 @@
 package com.teamlans.lepta.view.bill;
 
 import com.teamlans.lepta.entities.Bill;
-import com.teamlans.lepta.entities.Item;
 import com.teamlans.lepta.service.bill.BillService;
 import com.teamlans.lepta.view.bill.create.ManualCreateBillView;
-import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
@@ -15,9 +12,6 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.ObjectOutputStream;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -64,7 +58,7 @@ public class NewBillsView extends VerticalLayout
   private Button buildEditBillButton() {
     Button editButton = new Button("Edit");
     editButton.addClickListener(clickEvent -> {
-      int id = ((Bill)table .getValue()).getNr();
+      int id = ((Bill)table .getValue()).getId();
       getUI().getNavigator().navigateTo(EditBillView.VIEW_NAME +"/"+ id);
     });
     return editButton;

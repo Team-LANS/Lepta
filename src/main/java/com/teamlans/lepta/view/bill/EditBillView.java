@@ -29,8 +29,8 @@ public class EditBillView extends VerticalLayout implements View {
   }
 
 
-  private void setBillToEdit(int billNr){
-    billToEdit = billService.getBillBy(billNr);
+  private void setBillToEdit(int billId){
+    billToEdit = billService.getBillBy(billId);
 
   }
 

@@ -1,7 +1,7 @@
-INSERT INTO USER (U_NR, NAME, PASSWORD, COLOR) VALUES (1, 'Hans', 'Hans', 'DARK_BLUE'),
+INSERT INTO USER (USER_ID, USER_NAME, PASSWORD, COLOR) VALUES (1, 'Hans', 'Hans', 'DARK_BLUE'),
   (0, 'Lena', 'Lena', 'GREEN');
 
-INSERT INTO BILL (NR, USER_NR, STATUS, BILL_NAME, DATE)
+INSERT INTO BILL (BILL_ID, USER_ID, STATUS, BILL_NAME, DATE)
 VALUES (1, 1, 'NEW', 'Billa', '2016-07-28'),
   (2, 1, 'NEW', 'Spar fuer Party','2016-07-23'),
   (3, 1, 'ASSIGNED', 'Billa', '2016-07-20'),
@@ -9,7 +9,7 @@ VALUES (1, 1, 'NEW', 'Billa', '2016-07-28'),
   (5, 0, 'ASSIGNED', 'Spar fuer Eltnern', '2016-07-01');
 
 
-INSERT INTO ITEM (ID, BILL_NR, DESCRIPTION, PRICE) VALUES (1, 1, 'Suppe', 2.99),
+INSERT INTO ITEM (ITEM_ID, BILL_ID, DESCRIPTION, PRICE) VALUES (1, 1, 'Suppe', 2.99),
   (2, 1, 'Suppe', 2.99),
   (3, 1, 'Schoko', 2.4),
   (4, 1, 'Brot', 1.7),
@@ -27,7 +27,7 @@ INSERT INTO ITEM (ID, BILL_NR, DESCRIPTION, PRICE) VALUES (1, 1, 'Suppe', 2.99),
   (16, 5, 'Semmel', 0.7),
   (17, 5, 'Kaffee', 9.9);
 
-INSERT INTO OWNER (USER_NR, ITEM_ID)
+INSERT INTO OWNER (USER_ID, ITEM_ID)
 VALUES (1, 10),
   (1, 11),
   (0, 11),

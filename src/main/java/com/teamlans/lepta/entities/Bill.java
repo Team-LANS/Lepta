@@ -14,8 +14,8 @@ public class Bill {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "NR")
-  private int nr;
+  @Column(name = "BILL_ID")
+  private int id;
   @Column(name = "BILL_NAME")
   private String name;
   @Column(name = "DATE")
@@ -24,7 +24,7 @@ public class Bill {
   @Enumerated(EnumType.STRING)
   private Status status = Status.NEW;
   @ManyToOne
-  @JoinColumn(name = "USER_NR")
+  @JoinColumn(name = "USER_ID")
   private User user;
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "bill", orphanRemoval = true, cascade = CascadeType.ALL)
   private Set<Item> items = new HashSet<>();
@@ -39,8 +39,8 @@ public class Bill {
     this.user = user;
   }
 
-  public int getNr() {
-    return nr;
+  public int getId() {
+    return id;
   }
 
   public String getName() {
