@@ -1,6 +1,8 @@
 package com.teamlans.lepta.view.account;
 
 import com.teamlans.lepta.entities.User;
+import com.teamlans.lepta.entities.enums.Color;
+import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.ProtectedVerticalView;
 import com.vaadin.navigator.ViewChangeListener;
@@ -25,12 +27,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 public final class EditProfileView extends ProtectedVerticalView {
 
   public static final String VIEW_NAME = "EditProfile";
-  @Autowired
+
   private UserService userService;
 
   private final User user;
 
-  public EditProfileView() {
+  @Autowired
+  public EditProfileView(UserService userService) {
+    this.userService = userService; // because of weird bug, issue #32
     user = getLoggedInUser();
     System.out.println(user);
 
@@ -62,28 +66,40 @@ public final class EditProfileView extends ProtectedVerticalView {
   }
 
   private Component buildColorPicker() {
-    // TODO: implement color picker
     HorizontalLayout container = new HorizontalLayout();
 
-    Button darkBlue = new Button();
-    container.addComponent(darkBlue);
-
-    Button lightBlue = new Button();
-    container.addComponent(lightBlue);
-
-    Button green = new Button();
-    container.addComponent(green);
-
-    Button yellow = new Button();
-    container.addComponent(yellow);
-
-    Button orange = new Button();
-    container.addComponent(orange);
-
-    Button red = new Button();
-    container.addComponent(red);
+    container.addComponent(buildColorButton(Color.DARK_BLUE));
+    container.addComponent(buildColorButton(Color.LIGHT_BLUE));
+    container.addComponent(buildColorButton(Color.GREEN));
+    container.addComponent(buildColorButton(Color.YELLOW));
+    container.addComponent(buildColorButton(Color.ORANGE));
+    container.addComponent(buildColorButton(Color.RED));
 
     return container;
+  }
+
+  private Button buildColorButton(Color color) {
+    Button button = new Button(color.toString().replaceAll("_", " "));
+    try {
+      boolean taken = userService.isTaken(color);
+      if (!taken) {
+        button.addClickListener(new Button.ClickListener() {
+          @Override
+          public void buttonClick(Button.ClickEvent clickEvent) {
+            user.setColor(color);
+            userService.updateUser(user);
+            Notification.show("Success"); // feedback; will be removed when css is added
+
+            //refresh
+            removeAllComponents();
+            addComponent(new EditProfileView(userService));
+          }
+        });
+      }
+    } catch (LeptaServiceException e) {
+      Notification.show(e.getMessage());
+    }
+    return button;
   }
 
   private Component buildNameChanger() {
@@ -110,7 +126,7 @@ public final class EditProfileView extends ProtectedVerticalView {
 
           // refresh page
           removeAllComponents();
-          addComponent(new EditProfileView());
+          addComponent(new EditProfileView(userService));
         }
       }
     });

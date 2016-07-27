@@ -53,7 +53,7 @@ public final class LoginView extends VerticalLayout implements View {
         try {
           User user = userService.authenticate(event.getUserName(), event.getPassword());
           ((LeptaUi)getUI()).setLoggedInUser(user); // TODO: why does UI.getCurrent() not work?
-          getUI().getNavigator().navigateTo(EditProfileView.VIEW_NAME);
+          getUI().getNavigator().navigateTo(NewBillsView.VIEW_NAME);
         } catch (LeptaLoginException e) {
           showNotification("Login failed",
               "This username and password combination does not exist.\nPlease try again.");

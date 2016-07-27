@@ -50,6 +50,20 @@ public class UserService {
     }
   }
 
+  public boolean isTaken(Color color) throws LeptaServiceException {
+    try {
+      List<User> users = userDao.listUsers();
+      for (User user : users) {
+        if (user.getColor() == color) {
+          return true;
+        }
+      }
+      return false;
+    } catch (LeptaDatabaseException e) {
+      throw new LeptaServiceException(e);
+    }
+  }
+
   @Transactional
   public void updateUser(User user) {
     try {
