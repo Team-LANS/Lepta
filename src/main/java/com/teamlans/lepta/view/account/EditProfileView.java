@@ -2,8 +2,6 @@ package com.teamlans.lepta.view.account;
 
 import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.service.user.UserService;
-import com.vaadin.data.Validator;
-import com.vaadin.data.validator.NullValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
@@ -13,7 +11,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -32,18 +29,14 @@ public final class EditProfileView extends VerticalLayout implements View {
 
   private final User user = new User(); // TODO: get user
 
-  private TextField nameField;
-  private PasswordField oldPasswordField;
-  private PasswordField newPasswordField;
-  private PasswordField confirmNewPasswordField;
-
   public EditProfileView() {
     build();
   }
 
   private void build() {
     // TODO: write to database!
-    Component title = buildTitle();
+    // TODO: add validators
+    final Component title = buildTitle();
     addComponent(title);
     setComponentAlignment(title, Alignment.TOP_LEFT);
 
@@ -71,6 +64,7 @@ public final class EditProfileView extends VerticalLayout implements View {
   }
 
   private Component buildColorPicker() {
+    // TODO: implement color picker
     HorizontalLayout container = new HorizontalLayout();
 
     Button darkBlue = new Button();
@@ -97,7 +91,7 @@ public final class EditProfileView extends VerticalLayout implements View {
   private Component buildNameChanger() {
     final HorizontalLayout container = new HorizontalLayout();
 
-    nameField = new TextField();
+    final TextField nameField = new TextField();
     nameField.setInputPrompt("Enter a new name");
 
     container.addComponent(nameField);
@@ -125,26 +119,37 @@ public final class EditProfileView extends VerticalLayout implements View {
   private Component buildPasswordForm() {
     final VerticalLayout container = new VerticalLayout();
 
-    oldPasswordField = new PasswordField("Old password:");
-    container.addComponent(oldPasswordField);
+    final PasswordField old = new PasswordField("Old password:");
+    container.addComponent(old);
 
-    newPasswordField = new PasswordField("New password:");
-    container.addComponent(newPasswordField);
+    final PasswordField newPassword = new PasswordField("New password:");
+    container.addComponent(newPassword);
 
-    confirmNewPasswordField = new PasswordField("Confirm new password:");
-    container.addComponent(confirmNewPasswordField);
+    final PasswordField confirmed = new PasswordField("Confirm new password:");
+    container.addComponent(confirmed);
 
-    container.addComponent(buildPasswordButton());
+    container.addComponent(buildPasswordButton(old, newPassword, confirmed));
 
     return container;
   }
 
-  private Button buildPasswordButton() {
+  private Button buildPasswordButton(PasswordField old, PasswordField newPassword,
+                                     PasswordField confirmed) {
     final Button button = new Button("OK");
     button.addClickListener(new Button.ClickListener() {
       @Override
       public void buttonClick(Button.ClickEvent clickEvent) {
-        // TODO: add listener
+        if (old.getValue().equals(user.getPassword())) {
+          if (newPassword.getValue().equals(confirmed.getValue())) {
+            user.setPassword(newPassword.getValue());
+            removeAllComponents();
+            build();
+          } else {
+            // TODO: "two different inputs"
+          }
+        } else {
+          // TODO: "wrong password"
+        }
       }
     });
     return button;
