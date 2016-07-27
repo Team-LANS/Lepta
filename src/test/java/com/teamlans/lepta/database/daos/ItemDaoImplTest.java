@@ -37,16 +37,6 @@ public class ItemDaoImplTest {
     assertEquals(oldItemCount + 1, newItemCount);
   }
 
-  @Test
-  public void deleteItem_validItem_itemDeleted() throws Exception {
-    int oldItemCount = itemDao.listItems().size();
-
-    itemDao.deleteItem(1);
-
-    int newItemCount = itemDao.listItems().size();
-    assertEquals(oldItemCount - 1, newItemCount);
-  }
-
   @Test(expected = DataAccessException.class)
   public void deleteItem_invalidItem_exceptionThrown() throws Exception {
     itemDao.deleteItem(-1);
