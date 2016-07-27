@@ -15,8 +15,9 @@ import java.util.List;
 
 
 /**
- * Throws a LeptaLoginException if the given user name and password combination is invalid. Checks
- * if given credentials are valid and adds valid account pairs to the data base.
+ * Validates everything related to users: Throws a LeptaLoginException if a given username-password
+ * combination is invalid. Checks if given credentials are valid and adds valid account pairs to the
+ * data base. Checks if there are users in the database.
  */
 @Service
 public class UserService {
