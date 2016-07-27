@@ -1,14 +1,13 @@
 package com.teamlans.lepta.view.account;
 
 import com.ejt.vaadin.loginform.LoginForm;
-import com.teamlans.lepta.Application;
+import com.teamlans.lepta.LeptaUi;
 import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.service.exceptions.LeptaLoginException;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.account.components.LeptaLoginForm;
 import com.teamlans.lepta.view.bill.NewBillsView;
-import com.teamlans.lepta.view.home.HomeView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
@@ -53,7 +52,8 @@ public final class LoginView extends VerticalLayout implements View {
       public void onLogin(LoginForm.LoginEvent event) {
         try {
           User user = userService.authenticate(event.getUserName(), event.getPassword());
-          
+          ((LeptaUi)getUI()).setLoggedInUser(user);
+          getUI().getNavigator().navigateTo(NewBillsView.VIEW_NAME);
         } catch (LeptaLoginException e) {
           showNotification("Login failed",
               "This username and password combination does not exist.\nPlease try again.");

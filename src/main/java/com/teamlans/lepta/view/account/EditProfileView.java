@@ -2,7 +2,7 @@ package com.teamlans.lepta.view.account;
 
 import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.service.user.UserService;
-import com.vaadin.navigator.View;
+import com.teamlans.lepta.view.ProtectedVerticalView;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Accordion;
@@ -18,10 +18,10 @@ import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * This class allows users to change their account details.
+ * This view allows users to change their account details.
  */
 @SpringView(name = EditProfileView.VIEW_NAME)
-public final class EditProfileView extends VerticalLayout implements View {
+public final class EditProfileView extends ProtectedVerticalView {
 
   public static final String VIEW_NAME = "EditProfile";
   @Autowired

@@ -1,15 +1,17 @@
 package com.teamlans.lepta;
 
+import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.service.user.UserService;
+import com.teamlans.lepta.view.ProtectedHorizontalView;
+import com.teamlans.lepta.view.ProtectedVerticalView;
 import com.teamlans.lepta.view.account.LoginView;
-import com.teamlans.lepta.view.home.component.Header;
-import com.teamlans.lepta.view.home.component.NavigationBar;
 import com.teamlans.lepta.view.account.SignUpView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
-import com.vaadin.server.Responsive;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.spring.annotation.SpringUI;
@@ -40,25 +42,54 @@ public class LeptaUi extends UI {
 
   @Autowired
   private UserService userService;
+  private User loggedInUser;
+  private Navigator navigator;
 
   @Override
   protected void init(VaadinRequest request) {
-    final VerticalLayout root = new VerticalLayout();
-    root.setSizeFull();
-    root.setMargin(true);
-    root.setSpacing(true);
-    Responsive.makeResponsive(root);
-    setContent(root);
 
-    final Navigator navigator = new Navigator(this, root);
+    navigator = new Navigator(this, this);
     navigator.addProvider(viewProvider);
+    navigator.addViewChangeListener(new ViewChangeListener() {
+      @Override
+      public boolean beforeViewChange(ViewChangeEvent viewChangeEvent) {
+        if (isProtected(viewChangeEvent.getNewView()) &&
+            ((LeptaUi) getUI()).getLoggedInUser() == null) {
+          goToCorrectWelcomeView();
+          return false;
+        } else {
+          return true;
+        }
+      }
 
+      @Override
+      public void afterViewChange(ViewChangeEvent viewChangeEvent) {
+        // needed when overriding beforeViewChange
+      }
+    });
+
+    goToCorrectWelcomeView();
+
+  }
+
+  private void goToCorrectWelcomeView() {
     if (userService.noUsersExist()) {
       navigator.navigateTo(SignUpView.VIEW_NAME);
     } else {
       navigator.navigateTo(LoginView.VIEW_NAME);
     }
+  }
 
+  private boolean isProtected(View view) {
+    return view instanceof ProtectedVerticalView || view instanceof ProtectedHorizontalView;
+  }
+
+  public User getLoggedInUser() {
+    return loggedInUser;
+  }
+
+  public void setLoggedInUser(User loggedInUser) {
+    this.loggedInUser = loggedInUser;
   }
 
   @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
