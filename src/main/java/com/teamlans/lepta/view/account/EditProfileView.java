@@ -18,7 +18,7 @@ import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * This view allows users to change their account details.
+ * EditProfileView allows users to change their account details.
  */
 @SpringView(name = EditProfileView.VIEW_NAME)
 public final class EditProfileView extends ProtectedVerticalView {
@@ -27,15 +27,12 @@ public final class EditProfileView extends ProtectedVerticalView {
   @Autowired
   private UserService userService;
 
-  private final User user = new User(); // TODO: get user
+  private final User user;
 
   public EditProfileView() {
-    build();
-  }
+    user = getLoggedInUser();
+    System.out.println(user);
 
-  private void build() {
-    // TODO: write to database!
-    // TODO: add validators
     final Component title = buildTitle();
     addComponent(title);
     setComponentAlignment(title, Alignment.TOP_LEFT);
@@ -108,8 +105,9 @@ public final class EditProfileView extends ProtectedVerticalView {
         String newName = nameField.getValue();
         if (!newName.isEmpty() && !newName.equals(user.getName())) {
           user.setName(newName);
+          userService.updateUser(user);
           removeAllComponents();
-          build();
+          addComponent(new EditProfileView());
         }
       }
     });
@@ -143,7 +141,6 @@ public final class EditProfileView extends ProtectedVerticalView {
           if (newPassword.getValue().equals(confirmed.getValue())) {
             user.setPassword(newPassword.getValue());
             removeAllComponents();
-            build();
           } else {
             // TODO: "two different inputs"
           }

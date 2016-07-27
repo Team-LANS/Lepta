@@ -6,6 +6,7 @@ import com.teamlans.lepta.entities.enums.Color;
 import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.service.exceptions.LeptaLoginException;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
+import com.vaadin.ui.Notification;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,15 @@ public class UserService {
     } catch (LeptaDatabaseException e) {
       // TODO: decide what to do here
       return true;
+    }
+  }
+
+  @Transactional
+  public void updateUser(User user) {
+    try {
+      userDao.updateUser(user);
+    } catch (LeptaDatabaseException e) {
+      Notification.show(e.getMessage());
     }
   }
 
