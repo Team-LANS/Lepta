@@ -11,6 +11,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -106,6 +107,8 @@ public final class EditProfileView extends ProtectedVerticalView {
         if (!newName.isEmpty() && !newName.equals(user.getName())) {
           user.setName(newName);
           userService.updateUser(user);
+
+          // refresh page
           removeAllComponents();
           addComponent(new EditProfileView());
         }
@@ -117,35 +120,41 @@ public final class EditProfileView extends ProtectedVerticalView {
   private Component buildPasswordForm() {
     final VerticalLayout container = new VerticalLayout();
 
-    final PasswordField old = new PasswordField("Old password:");
-    container.addComponent(old);
+    final PasswordField oldField = new PasswordField("Old password:");
+    container.addComponent(oldField);
 
-    final PasswordField newPassword = new PasswordField("New password:");
-    container.addComponent(newPassword);
+    final PasswordField newField = new PasswordField("New password:");
+    container.addComponent(newField);
 
-    final PasswordField confirmed = new PasswordField("Confirm new password:");
-    container.addComponent(confirmed);
+    final PasswordField confirmationField = new PasswordField("Confirm new password:");
+    container.addComponent(confirmationField);
 
-    container.addComponent(buildPasswordButton(old, newPassword, confirmed));
+    container.addComponent(buildPasswordButton(oldField, newField, confirmationField));
 
     return container;
   }
 
-  private Button buildPasswordButton(PasswordField old, PasswordField newPassword,
-                                     PasswordField confirmed) {
+  private Button buildPasswordButton(PasswordField oldField, PasswordField newField,
+                                     PasswordField confirmationField) {
     final Button button = new Button("OK");
     button.addClickListener(new Button.ClickListener() {
       @Override
       public void buttonClick(Button.ClickEvent clickEvent) {
-        if (old.getValue().equals(user.getPassword())) {
-          if (newPassword.getValue().equals(confirmed.getValue())) {
-            user.setPassword(newPassword.getValue());
-            removeAllComponents();
+        if (oldField.getValue().equals(user.getPassword())) {
+          String newPassword = newField.getValue();
+          if (!newPassword.isEmpty() && newPassword.equals(confirmationField.getValue())) {
+            user.setPassword(newPassword);
+            userService.updateUser(user);
+
+            oldField.clear();
+            newField.clear();
+            confirmationField.clear();
+            Notification.show("Change successful");
           } else {
-            // TODO: "two different inputs"
+            Notification.show("Two different new passwords");
           }
         } else {
-          // TODO: "wrong password"
+          Notification.show("Wrong password");
         }
       }
     });
