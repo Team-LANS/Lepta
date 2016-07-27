@@ -1,5 +1,6 @@
 package com.teamlans.lepta.view.home;
 
+import com.teamlans.lepta.view.home.component.NavigationBar;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
@@ -19,6 +20,7 @@ public class HomeView extends VerticalLayout
     setMargin(true);
     setSpacing(true);
     addComponent(new Label("This is a default view"));
+    addComponent(new NavigationBar());
   }
 
   @Override

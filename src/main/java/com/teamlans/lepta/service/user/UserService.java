@@ -25,23 +25,16 @@ public class UserService {
   @Autowired
   private UserDao userDao;
 
-  public void authenticate(String userName, String password)
+  public User authenticate(String userName, String password)
       throws LeptaLoginException, LeptaServiceException {
-    if (!isValidCombination(userName, password)) {
-      throw new LeptaLoginException("Login failed!");
-    }
-  }
-
-  private boolean isValidCombination(String userName, String password)
-      throws LeptaServiceException {
     try {
       List<User> users = userDao.listUsers();
       for (User user : users) {
-        if (user.getName().equals(userName)) {
-          return user.getPassword().equals(password);
+        if (user.getName().equals(userName) && user.getPassword().equals(password)) {
+          return user;
         }
       }
-      return false;
+      throw new LeptaLoginException("Login failed!");
     } catch (LeptaDatabaseException e) {
       throw new LeptaServiceException(e);
     }

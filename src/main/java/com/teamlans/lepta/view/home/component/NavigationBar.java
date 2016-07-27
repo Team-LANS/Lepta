@@ -1,7 +1,10 @@
 package com.teamlans.lepta.view.home.component;
 
+import com.teamlans.lepta.view.account.EditProfileView;
+import com.teamlans.lepta.view.account.LoginView;
 import com.teamlans.lepta.view.home.HomeView;
 import com.teamlans.lepta.view.bill.NewBillsView;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
@@ -16,6 +19,8 @@ public class NavigationBar extends HorizontalLayout {
     this.addComponent(createBillMenu());
     this.addComponent(createNavigationButton("Assign Bills", NewBillsView.VIEW_NAME));
     this.addComponent(createNavigationButton("Clear Debt", NewBillsView.VIEW_NAME));
+
+    addProfileMenu();
   }
 
   private Button createNavigationButton(String caption, final String viewName) {
@@ -39,5 +44,29 @@ public class NavigationBar extends HorizontalLayout {
     return menuBar;
   }
 
+
+  private void addProfileMenu() {
+    // TODO: get username, add icon, align right
+    MenuBar menuBar = new MenuBar();
+
+    MenuBar.MenuItem profileMenu = menuBar.addItem("Username", null, null);
+    addSubMenuLink(profileMenu, "Edit profile", FontAwesome.COG, EditProfileView.VIEW_NAME);
+    addSubMenuLink(profileMenu, "Log out", FontAwesome.SIGN_OUT, LoginView.VIEW_NAME);
+
+    addComponent(menuBar);
+  }
+
+  private void addSubMenuLink(MenuBar.MenuItem item, String name, FontAwesome icon, String goal) {
+    item.addItem(name, icon, new MenuBar.Command() {
+      @Override
+      public void menuSelected(MenuBar.MenuItem menuItem) {
+        goTo(goal);
+      }
+    });
+  }
+
+  private void goTo(String goal) {
+    getUI().getNavigator().navigateTo(goal);
+  }
 
 }
