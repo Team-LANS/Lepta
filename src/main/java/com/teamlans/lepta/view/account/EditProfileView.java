@@ -3,13 +3,13 @@ package com.teamlans.lepta.view.account;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -30,20 +30,20 @@ public final class EditProfileView extends VerticalLayout implements View {
   }
 
   private void build() {
-    setSizeFull();
 
-    addTitle(this);
+    Component title = buildTitle();
+    addComponent(title);
+    setComponentAlignment(title, Alignment.TOP_LEFT);
 
     Component changers = buildChangers();
     addComponent(changers);
     setComponentAlignment(changers, Alignment.TOP_CENTER);
   }
 
-  private void addTitle(VerticalLayout container) {
+  private Component buildTitle() {
     Label title = new Label("Hello " + name + ".");
     title.setSizeUndefined();
-    container.addComponent(title);
-    container.setComponentAlignment(title, Alignment.TOP_LEFT);
+    return title;
   }
 
   private Component buildChangers() {
@@ -54,50 +54,60 @@ public final class EditProfileView extends VerticalLayout implements View {
     nameChanger.setContent(buildNameForm());
     container.addComponent(nameChanger);
 
-    passwordChanger = new Panel("Change your password");
-    passwordChanger.setContent(buildPasswordForm());
-    container.addComponent(passwordChanger);
-
     colorChanger = new Panel("Select a new color");
     colorChanger.setContent(buildColorPicker());
     container.addComponent(colorChanger);
+
+    passwordChanger = new Panel("Change your password");
+    passwordChanger.setContent(buildPasswordForm());
+    container.addComponent(passwordChanger);
 
     return container;
   }
 
   private Component buildNameForm() {
-    HorizontalLayout container = new HorizontalLayout();
-    TextField nameField = new TextField("Choose a new name:");
-    container.addComponent(nameField);
+    TextField nameField = new TextField();
+    nameField.setInputPrompt("Enter a new name");
+    return nameField;
+  }
 
-    Button nameSetter = new Button("Change");
-    nameSetter.addClickListener(new Button.ClickListener() {
-      @Override
-      public void buttonClick(Button.ClickEvent clickEvent) {
-      }
-    });
-    container.addComponent(nameSetter);
-    container.setComponentAlignment(nameSetter, Alignment.BOTTOM_RIGHT);
+  private Component buildColorPicker() {
+    HorizontalLayout container = new HorizontalLayout();
+
+    Button darkBlue = new Button();
+    container.addComponent(darkBlue);
+
+    Button lightBlue = new Button();
+    container.addComponent(lightBlue);
+
+    Button green = new Button();
+    container.addComponent(green);
+
+    Button yellow = new Button();
+    container.addComponent(yellow);
+
+    Button orange = new Button();
+    container.addComponent(orange);
+
+    Button red = new Button();
+    container.addComponent(red);
+
     return container;
   }
 
   private Component buildPasswordForm() {
-    HorizontalLayout container = new HorizontalLayout();
-    TextField passwordField = new TextField();
-    container.addComponent(passwordField);
+    VerticalLayout container = new VerticalLayout();
 
-    Button passwordSetter = new Button("Change");
-    passwordSetter.addClickListener(new Button.ClickListener() {
-      @Override
-      public void buttonClick(Button.ClickEvent clickEvent) {
-      }
-    });
-    container.addComponent(passwordSetter);
+    PasswordField oldPassword = new PasswordField("Old password:");
+    container.addComponent(oldPassword);
+
+    PasswordField newPassword = new PasswordField("New password:");
+    container.addComponent(newPassword);
+
+    PasswordField confirmPassword = new PasswordField("Confirm new password:");
+    container.addComponent(confirmPassword);
+
     return container;
-  }
-
-  private Component buildColorPicker() {
-    return null;
   }
 
   @Override
