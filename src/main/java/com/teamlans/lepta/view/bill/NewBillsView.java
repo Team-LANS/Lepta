@@ -2,7 +2,7 @@ package com.teamlans.lepta.view.bill;
 
 import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.service.bill.BillService;
-import com.teamlans.lepta.view.bill.create.EditBillView;
+import com.teamlans.lepta.view.bill.edit.EditBillView;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
