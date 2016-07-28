@@ -17,15 +17,14 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.themes.ValoTheme;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * SignUpView is shown when the database is still empty. Two user accounts are created in three
  * steps.
  */
-@SpringView(name = SignUpView.VIEW_NAME)
+@Component
 public final class SignUpView extends HorizontalLayout implements View {
-
-  public static final String VIEW_NAME = "SignUp";
   @Autowired
   private UserService userService;
   private Credentials initialCredentials;

@@ -2,10 +2,12 @@ package com.teamlans.lepta;
 
 import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.service.user.UserService;
+import com.teamlans.lepta.view.MainView;
 import com.teamlans.lepta.view.ProtectedHorizontalView;
 import com.teamlans.lepta.view.ProtectedVerticalView;
 import com.teamlans.lepta.view.account.LoginView;
 import com.teamlans.lepta.view.account.SignUpView;
+import com.teamlans.lepta.view.bill.NewBillsView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
@@ -43,45 +45,23 @@ public class LeptaUi extends UI {
   @Autowired
   private UserService userService;
   private User loggedInUser;
-  private Navigator navigator;
 
   @Override
   protected void init(VaadinRequest request) {
 
-    navigator = new Navigator(this, this);
-    navigator.addProvider(viewProvider);
-    navigator.addViewChangeListener(new ViewChangeListener() {
-      @Override
-      public boolean beforeViewChange(ViewChangeEvent viewChangeEvent) {
-        if (isProtected(viewChangeEvent.getNewView()) &&
-            ((LeptaUi) getUI()).getLoggedInUser() == null) {
-          goToCorrectWelcomeView();
-          return false;
-        } else {
-          return true;
-        }
-      }
-
-      @Override
-      public void afterViewChange(ViewChangeEvent viewChangeEvent) {
-        // needed when overriding beforeViewChange
-      }
-    });
-
-    goToCorrectWelcomeView();
-
-  }
-
-  private void goToCorrectWelcomeView() {
-    if (userService.noUsersExist()) {
-      navigator.navigateTo(SignUpView.VIEW_NAME);
+    if (((LeptaUi) getUI()).getLoggedInUser() == null) {
+      goToCorrectWelcomeView();
     } else {
-      navigator.navigateTo(LoginView.VIEW_NAME);
+      setContent(new MainView());
     }
   }
 
-  private boolean isProtected(View view) {
-    return view instanceof ProtectedVerticalView || view instanceof ProtectedHorizontalView;
+  public void goToCorrectWelcomeView() {
+    if (userService.noUsersExist()) {
+      getUI().setContent(context.getBean(SignUpView.class));
+    } else {
+      getUI().setContent(context.getBean(LoginView.class));
+    }
   }
 
   public User getLoggedInUser() {
@@ -90,6 +70,10 @@ public class LeptaUi extends UI {
 
   public void setLoggedInUser(User loggedInUser) {
     this.loggedInUser = loggedInUser;
+  }
+
+  public SpringViewProvider getViewProvider() {
+    return viewProvider;
   }
 
   @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

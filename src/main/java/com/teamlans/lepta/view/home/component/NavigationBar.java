@@ -16,6 +16,7 @@ public class NavigationBar extends HorizontalLayout {
   public NavigationBar() {
     this.setSpacing(true);
     this.addStyleName("navbar");
+    setSizeUndefined();
     this.addComponent(createNavigationButton("Home", HomeView.VIEW_NAME));
     this.addComponent(createBillMenu());
     this.addComponent(createNavigationButton("Assign Bills", NewBillsView.VIEW_NAME));
@@ -61,7 +62,6 @@ public class NavigationBar extends HorizontalLayout {
       @Override
       public void menuSelected(MenuBar.MenuItem menuItem) {
         ((LeptaUi)getUI()).setLoggedInUser(null);
-        goTo(LoginView.VIEW_NAME);
       }
     });
 
