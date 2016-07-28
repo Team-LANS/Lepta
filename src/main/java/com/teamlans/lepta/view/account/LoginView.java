@@ -26,10 +26,10 @@ import org.springframework.context.ApplicationContext;
 public final class LoginView extends VerticalLayout implements View {
 
   @Autowired
-  private ApplicationContext applicationContext;
+  private ApplicationContext context;
 
   @Autowired
-  private UserService userService;
+  private UserService service;
 
   public LoginView() {
     build();
@@ -53,9 +53,9 @@ public final class LoginView extends VerticalLayout implements View {
       @Override
       public void onLogin(LoginForm.LoginEvent event) {
         try {
-          User user = userService.authenticate(event.getUserName(), event.getPassword());
-          ((LeptaUi)getUI()).setLoggedInUser(user); // TODO: why does UI.getCurrent() not work?
-          getUI().setContent(applicationContext.getBean(MainView.class));
+          User user = service.authenticate(event.getUserName(), event.getPassword());
+          ((LeptaUi)getUI()).setLoggedInUser(user); // UI.getCurrent() does not work for some reason
+          getUI().setContent(context.getBean(MainView.class));
         } catch (LeptaLoginException e) {
           showNotification("Login failed",
               "This username and password combination does not exist.\nPlease try again.");
