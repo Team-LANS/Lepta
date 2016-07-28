@@ -26,7 +26,7 @@ public class PasswordEncryptionService {
     return Arrays.equals(user.getPassword(), encryptedAttemptedPassword);
   }
 
-  public byte[] getEncryptedPassword(String password, byte[] salt)
+   public byte[] getEncryptedPassword(String password, byte[] salt)
       throws NoSuchAlgorithmException, InvalidKeySpecException {
     String algorithm = "PBKDF2WithHmacSHA1";
     // Suggested at http://blog.jerryorr.com/2012/05/secure-password-storage-lots-of-donts.html

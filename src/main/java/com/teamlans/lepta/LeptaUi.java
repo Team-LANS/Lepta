@@ -19,6 +19,8 @@ import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
+import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 
 /**
@@ -41,10 +43,21 @@ public class LeptaUi extends UI {
 
   @Autowired
   private UserService service;
+
+  @Autowired
+  private DummyPasswordTool dummyPasswordTool;
+
   private User loggedInUser;
 
   @Override
   protected void init(VaadinRequest request) {
+    // set dummy passwords correctly
+    List<User> users = service.listUsers();
+    for (User user : users) {
+      dummyPasswordTool.setCorrectPassword(user);
+    }
+    
+
     VaadinSession.getCurrent().getSession().setMaxInactiveInterval(3600); // 1 hour
 
     if (getLoggedInUser() == null) {
