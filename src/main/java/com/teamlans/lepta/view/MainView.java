@@ -13,11 +13,10 @@ import org.springframework.stereotype.Component;
 /**
  * Protected home view with navigation bar and root view that will be filled by the navigator.
  */
-@Component
-@Lazy
 public final class MainView extends ProtectedVerticalView {
 
   private final Navigator navigator;
+
 
   public MainView() {
     addComponent(new NavigationBar());
@@ -28,7 +27,6 @@ public final class MainView extends ProtectedVerticalView {
 
     navigator = new Navigator(UI.getCurrent(), root);
     navigator.addProvider(getLeptaUi().getViewProvider());
-    navigator.navigateTo(NewBillsView.VIEW_NAME);
     navigator.addViewChangeListener(new ViewChangeListener() {
       @Override
       public boolean beforeViewChange(ViewChangeEvent viewChangeEvent) {

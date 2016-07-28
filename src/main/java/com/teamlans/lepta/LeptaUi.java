@@ -11,6 +11,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
 import com.vaadin.ui.*;
@@ -44,10 +45,9 @@ public class LeptaUi extends UI {
 
   @Override
   protected void init(VaadinRequest request) {
-    // TODO: make timeout work
-    // VaadinSession.getCurrent().getSession().setMaxInactiveInterval(3600); // 1 hour
+    VaadinSession.getCurrent().getSession().setMaxInactiveInterval(3600); // 1 hour
 
-    if (((LeptaUi) getUI()).getLoggedInUser() == null) {
+    if (getLoggedInUser() == null) {
       goToCorrectWelcomeView();
     } else {
       setContent(new MainView());
@@ -56,9 +56,9 @@ public class LeptaUi extends UI {
 
   public void goToCorrectWelcomeView() {
     if (service.noUsersExist()) {
-      getUI().setContent(context.getBean(SignUpView.class));
+      setContent(context.getBean(SignUpView.class));
     } else {
-      getUI().setContent(context.getBean(LoginView.class));
+      setContent(context.getBean(LoginView.class));
     }
   }
 

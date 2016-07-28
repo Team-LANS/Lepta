@@ -15,12 +15,14 @@ import com.vaadin.ui.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
 
 /**
  * Custom login view. Credentials can be entered into a LeptaLoginForm and are handled by a
  * UserService.
  */
 @org.springframework.stereotype.Component
+@Scope("request")
 public final class LoginView extends VerticalLayout implements View {
 
   @Autowired
@@ -51,7 +53,7 @@ public final class LoginView extends VerticalLayout implements View {
       try {
         User user = service.authenticate(event.getUserName(), event.getPassword());
         ((LeptaUi) (UI.getCurrent())).setLoggedInUser(user);
-        getUI().setContent(context.getBean(MainView.class));
+        getUI().setContent(new MainView());
         Navigator navigator = UI.getCurrent().getNavigator();
         navigator.navigateTo(navigator.getState());
       } catch (LeptaLoginException e) {
