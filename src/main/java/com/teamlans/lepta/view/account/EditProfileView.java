@@ -123,7 +123,7 @@ public final class EditProfileView extends ProtectedVerticalView {
         service.updateUser(user);
 
         // refresh
-
+        // TODO: add event bus
         removeAllComponents();
         build();
       }

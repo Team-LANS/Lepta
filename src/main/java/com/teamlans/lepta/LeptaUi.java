@@ -5,6 +5,7 @@ import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.MainView;
 import com.teamlans.lepta.view.account.LoginView;
 import com.teamlans.lepta.view.account.SignUpView;
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
@@ -28,6 +29,7 @@ import javax.servlet.annotation.WebServlet;
 @SpringUI
 @Theme("lepta")
 @Widgetset("com.teamlans.lepta.MyAppWidgetset")
+@PreserveOnRefresh
 public class LeptaUi extends UI {
 
   @Autowired
