@@ -4,6 +4,8 @@ import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.Credentials;
 import com.teamlans.lepta.view.LeptaNotification;
 import com.teamlans.lepta.view.account.SignUpView;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -15,7 +17,9 @@ import com.vaadin.ui.Panel;
  */
 public final class InitialSignUp extends HorizontalLayout {
 
-  final private SignUpView parent;
+  private final SignUpView parent;
+
+  private static final Logger logger = LoggerFactory.getLogger(InitialSignUp.class);
 
   public InitialSignUp(SignUpView parent) {
     this.parent = parent;
@@ -46,6 +50,7 @@ public final class InitialSignUp extends HorizontalLayout {
         parent.setInitialAccount(new Credentials(event.getUserName(), event.getPassword()));
         parent.showPartnerSignUp();
       } catch (LeptaServiceException e) {
+        logger.error("Error", e);
         LeptaNotification.showError(e.getMessage());
       }
     });

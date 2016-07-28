@@ -10,6 +10,8 @@ import com.teamlans.lepta.view.MainView;
 import com.teamlans.lepta.view.account.components.InitialSignUp;
 import com.teamlans.lepta.view.account.components.PartnerSignUp;
 import com.teamlans.lepta.view.account.components.WelcomePage;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.HorizontalLayout;
@@ -24,6 +26,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public final class SignUpView extends HorizontalLayout implements View {
+
+  private static final Logger logger = LoggerFactory.getLogger(SignUpView.class);
 
   @Autowired
   private ApplicationContext context;
@@ -74,6 +78,7 @@ public final class SignUpView extends HorizontalLayout implements View {
       ((LeptaUi) getUI()).setLoggedInUser(user); // not tested!
       getUI().setContent(context.getBean(MainView.class));
     } catch (LeptaServiceException e) {
+      logger.error("Error",e);
       LeptaNotification.showError(e.getMessage());
     }
   }

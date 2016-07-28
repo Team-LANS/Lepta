@@ -2,6 +2,8 @@ package com.teamlans.lepta.view.bill.edit.component.items;
 
 import com.teamlans.lepta.entities.Item;
 import com.vaadin.data.Validator;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -9,6 +11,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 
 public class ItemRow extends HorizontalLayout {
+
+  private static final Logger logger = LoggerFactory.getLogger(ItemRow.class);
 
   private Item item;
 
@@ -88,6 +92,7 @@ public class ItemRow extends HorizontalLayout {
       itemNameField.validate();
       itemPriceField.validate();
     } catch (Validator.InvalidValueException e) {
+      logger.error("Error", e);
       Notification.show(e.getMessage());
       return;
     }

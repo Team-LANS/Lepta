@@ -2,7 +2,10 @@ package com.teamlans.lepta.view.bill.edit.component.items;
 
 import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.entities.Item;
+import com.teamlans.lepta.view.LeptaNotification;
 import com.vaadin.data.Validator;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -13,6 +16,8 @@ public class AddItemControl extends HorizontalLayout {
   private ItemNameField itemNameField;
   private ItemPriceField itemItemPriceField;
   private ItemCollection itemCollection;
+
+  private static final Logger logger = LoggerFactory.getLogger(AddItemControl.class);
 
   public AddItemControl() {
     itemNameField = new ItemNameField();
@@ -38,7 +43,8 @@ public class AddItemControl extends HorizontalLayout {
       itemNameField.validate();
       itemItemPriceField.validate();
     } catch (Validator.InvalidValueException e) {
-      Notification.show(e.getMessage());
+      logger.error("Validation error", e);
+      LeptaNotification.showError(e.getMessage());
       return;
     }
     String name = itemNameField.getValue();

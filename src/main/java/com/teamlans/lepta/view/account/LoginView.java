@@ -8,13 +8,17 @@ import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.LeptaNotification;
 import com.teamlans.lepta.view.MainView;
 import com.teamlans.lepta.view.account.components.LeptaLoginForm;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 
 /**
@@ -25,8 +29,7 @@ import org.springframework.context.annotation.Scope;
 @Scope("request")
 public final class LoginView extends VerticalLayout implements View {
 
-  @Autowired
-  private ApplicationContext context;
+  private static final Logger logger = LoggerFactory.getLogger(LoginView.class);
 
   @Autowired
   private UserService service;
@@ -57,9 +60,11 @@ public final class LoginView extends VerticalLayout implements View {
         Navigator navigator = UI.getCurrent().getNavigator();
         navigator.navigateTo(navigator.getState());
       } catch (LeptaLoginException e) {
+        logger.error("Error", e);
         LeptaNotification.showWarning("Login failed",
             "This username and password combination does not exist.\nPlease try again.");
       } catch (LeptaServiceException e) {
+        logger.error("Error", e);
         LeptaNotification.showWarning("Login failed", "Something went wrong.\nPlease try again.");
       }
     });
