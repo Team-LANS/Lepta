@@ -61,12 +61,7 @@ public final class WelcomePage extends VerticalLayout {
 
   private Component buildButton() {
     final Button button = new Button("Start");
-    button.addClickListener(new Button.ClickListener() {
-      @Override
-      public void buttonClick(Button.ClickEvent clickEvent) {
-        parent.showInitialSignUp();
-      }
-    });
+    button.addClickListener(event -> parent.showInitialSignUp());
     return button;
   }
 

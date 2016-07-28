@@ -1,6 +1,5 @@
 package com.teamlans.lepta.view;
 
-import com.teamlans.lepta.LeptaUi;
 import com.teamlans.lepta.view.bill.NewBillsView;
 import com.teamlans.lepta.view.home.component.NavigationBar;
 import com.vaadin.navigator.Navigator;
@@ -12,7 +11,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 /**
- * Protected home view with navigation bar and root view that will be filled by navigator.
+ * Protected home view with navigation bar and root view that will be filled by the navigator.
  */
 @Component
 @Lazy

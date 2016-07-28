@@ -1,6 +1,5 @@
 package com.teamlans.lepta.view.account;
 
-import com.ejt.vaadin.loginform.LoginForm;
 import com.teamlans.lepta.LeptaUi;
 import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.service.exceptions.LeptaLoginException;
@@ -49,19 +48,16 @@ public final class LoginView extends VerticalLayout implements View {
 
   private LeptaLoginForm buildLoginForm() {
     final LeptaLoginForm loginForm = new LeptaLoginForm();
-    loginForm.addLoginListener(new LoginForm.LoginListener() {
-      @Override
-      public void onLogin(LoginForm.LoginEvent event) {
-        try {
-          User user = service.authenticate(event.getUserName(), event.getPassword());
-          ((LeptaUi)getUI()).setLoggedInUser(user); // UI.getCurrent() does not work for some reason
-          getUI().setContent(context.getBean(MainView.class));
-        } catch (LeptaLoginException e) {
-          showNotification("Login failed",
-              "This username and password combination does not exist.\nPlease try again.");
-        } catch (LeptaServiceException e) {
-          showNotification("Login failed", "Something went wrong.\nPlease try again.");
-        }
+    loginForm.addLoginListener(event -> {
+      try {
+        User user = service.authenticate(event.getUserName(), event.getPassword());
+        ((LeptaUi) getUI()).setLoggedInUser(user); // UI.getCurrent() does not work for some reason
+        getUI().setContent(context.getBean(MainView.class));
+      } catch (LeptaLoginException e) {
+        showNotification("Login failed",
+            "This username and password combination does not exist.\nPlease try again.");
+      } catch (LeptaServiceException e) {
+        showNotification("Login failed", "Something went wrong.\nPlease try again.");
       }
     });
     return loginForm;

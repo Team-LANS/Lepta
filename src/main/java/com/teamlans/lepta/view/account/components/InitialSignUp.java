@@ -1,6 +1,5 @@
 package com.teamlans.lepta.view.account.components;
 
-import com.ejt.vaadin.loginform.LoginForm;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.Credentials;
 import com.teamlans.lepta.view.account.SignUpView;
@@ -41,27 +40,19 @@ public final class InitialSignUp extends HorizontalLayout {
   }
 
   private void addOkListener(SignUpForm signUpForm) {
-    signUpForm.addLoginListener(new LoginForm.LoginListener() {
-      @Override
-      public void onLogin(LoginForm.LoginEvent event) {
-        try {
-          parent.setInitialAccount(new Credentials(event.getUserName(), event.getPassword()));
-          parent.showPartnerSignUp();
-        } catch (LeptaServiceException e) {
-          parent.showNotification(e.getMessage());
-        }
+    signUpForm.addLoginListener(event -> {
+      try {
+        parent.setInitialAccount(new Credentials(event.getUserName(), event.getPassword()));
+        parent.showPartnerSignUp();
+      } catch (LeptaServiceException e) {
+        parent.showNotification(e.getMessage());
       }
     });
   }
 
   private void addCancelListener(SignUpForm signUpForm) {
     final Button cancelButton = signUpForm.getCancelButton();
-    cancelButton.addClickListener(new Button.ClickListener() {
-      @Override
-      public void buttonClick(Button.ClickEvent clickEvent) {
-        parent.showWelcomePage();
-      }
-    });
+    cancelButton.addClickListener(event -> parent.showWelcomePage());
   }
 
 }

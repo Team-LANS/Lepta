@@ -86,17 +86,14 @@ public final class EditProfileView extends ProtectedVerticalView {
     try {
       boolean taken = service.isTaken(color);
       if (!taken) {
-        button.addClickListener(new Button.ClickListener() {
-          @Override
-          public void buttonClick(Button.ClickEvent clickEvent) {
-            user.setColor(color);
-            service.updateUser(user);
-            Notification.show("Success"); // feedback; will be removed when css is added
+        button.addClickListener(clickEvent -> {
+          user.setColor(color);
+          service.updateUser(user);
+          Notification.show("Success"); // feedback; will be removed when css is added
 
-            //refresh
-            removeAllComponents();
-            build();
-          }
+          //refresh page
+          removeAllComponents();
+          build();
         });
       }
     } catch (LeptaServiceException e) {
@@ -119,18 +116,16 @@ public final class EditProfileView extends ProtectedVerticalView {
 
   private Button buildNameButton(TextField nameField) {
     final Button button = new Button("OK");
-    button.addClickListener(new Button.ClickListener() {
-      @Override
-      public void buttonClick(Button.ClickEvent clickEvent) {
-        String newName = nameField.getValue();
-        if (!newName.isEmpty() && !newName.equals(user.getName())) {
-          user.setName(newName);
-          service.updateUser(user);
+    button.addClickListener(clickEvent -> {
+      String newName = nameField.getValue();
+      if (!newName.isEmpty() && !newName.equals(user.getName())) {
+        user.setName(newName);
+        service.updateUser(user);
 
-          // refresh page
-          removeAllComponents();
-          build();
-        }
+        // refresh
+
+        removeAllComponents();
+        build();
       }
     });
     return button;
@@ -156,25 +151,22 @@ public final class EditProfileView extends ProtectedVerticalView {
   private Button buildPasswordButton(PasswordField oldField, PasswordField newField,
                                      PasswordField confirmationField) {
     final Button button = new Button("OK");
-    button.addClickListener(new Button.ClickListener() {
-      @Override
-      public void buttonClick(Button.ClickEvent clickEvent) {
-        if (oldField.getValue().equals(user.getPassword())) {
-          String newPassword = newField.getValue();
-          if (!newPassword.isEmpty() && newPassword.equals(confirmationField.getValue())) {
-            user.setPassword(newPassword);
-            service.updateUser(user);
+    button.addClickListener(clickEvent -> {
+      if (oldField.getValue().equals(user.getPassword())) {
+        String newPassword = newField.getValue();
+        if (!newPassword.isEmpty() && newPassword.equals(confirmationField.getValue())) {
+          user.setPassword(newPassword);
+          service.updateUser(user);
 
-            oldField.clear();
-            newField.clear();
-            confirmationField.clear();
-            Notification.show("Change successful");
-          } else {
-            Notification.show("Two different new passwords");
-          }
+          oldField.clear();
+          newField.clear();
+          confirmationField.clear();
+          Notification.show("Change successful");
         } else {
-          Notification.show("Wrong password");
+          Notification.show("Two different new passwords");
         }
+      } else {
+        Notification.show("Wrong password");
       }
     });
     return button;

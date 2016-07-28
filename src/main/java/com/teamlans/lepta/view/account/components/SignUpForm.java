@@ -11,7 +11,7 @@ import com.vaadin.ui.themes.ValoTheme;
  * SignUpForm is a custom login form based on DefaultVerticalLoginForm (added by the vaadin login
  * form add on). Each text field contains an icon. A 'Cancel'-Button is added.
  */
-public class SignUpForm extends LoginForm {
+class SignUpForm extends LoginForm {
 
   // TODO: fix this
   // needs to be initialized here to make getter work
@@ -73,7 +73,7 @@ public class SignUpForm extends LoginForm {
     return loginButton;
   }
 
-  public Button getCancelButton() {
+  Button getCancelButton() {
     return cancelButton;
   }
 

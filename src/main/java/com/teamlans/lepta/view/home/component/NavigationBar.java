@@ -19,6 +19,10 @@ public class NavigationBar extends HorizontalLayout {
     setSpacing(true);
     addStyleName("navbar");
 
+    build();
+  }
+
+  public void build() {
     MenuBar mainMenu = buildMainMenu();
     addComponent(mainMenu);
     setComponentAlignment(mainMenu, Alignment.TOP_LEFT);
@@ -56,7 +60,7 @@ public class NavigationBar extends HorizontalLayout {
 
     MenuBar.MenuItem account = menuBar.addItem(ui.getLoggedInUser().getName(), null, null);
     account.addItem("Edit profile", FontAwesome.COG, event -> goTo(EditProfileView.VIEW_NAME));
-    account.addItem("Log out", FontAwesome.SIGN_OUT, event -> ui.setLoggedInUser(null));
+    account.addItem("Log out", FontAwesome.SIGN_OUT, event -> {ui.setLoggedInUser(null); ui.goToCorrectWelcomeView();});
 
     return menuBar;
   }
