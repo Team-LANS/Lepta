@@ -33,29 +33,14 @@ public class NavigationBar extends HorizontalLayout {
     menuBar.addStyleName(ValoTheme.MENUBAR_BORDERLESS);
     menuBar.addStyleName("navmenu");
 
-    menuBar.addItem("Home", FontAwesome.HOME, new MenuBar.Command() {
-      @Override
-      public void menuSelected(MenuBar.MenuItem menuItem) {
-        goTo(HomeView.VIEW_NAME);
-      }
-    });
+    menuBar.addItem("Home", FontAwesome.HOME, event -> goTo(HomeView.VIEW_NAME));
 
     MenuBar.MenuItem myBills = menuBar.addItem("My Bills", null);
-    myBills.addItem("New Bills", null, new MenuBar.Command() {
-      @Override
-      public void menuSelected(MenuBar.MenuItem menuItem) {
-        goTo(NewBillsView.VIEW_NAME);
-      }
-    });
+    myBills.addItem("New Bills", null, event -> goTo(NewBillsView.VIEW_NAME));
     myBills.addItem("Assigned Bills", null, null);
     myBills.addItem("Archive", null, null);
 
-    menuBar.addItem("Assign Bills", null, new MenuBar.Command() {
-      @Override
-      public void menuSelected(MenuBar.MenuItem menuItem) {
-        goTo(NewBillsView.VIEW_NAME);
-      }
-    });
+    menuBar.addItem("Assign Bills", null, event -> goTo(NewBillsView.VIEW_NAME));
 
     menuBar.addItem("ClearDebt", null, null);
 
@@ -70,18 +55,8 @@ public class NavigationBar extends HorizontalLayout {
     LeptaUi ui = ((LeptaUi) UI.getCurrent());
 
     MenuBar.MenuItem account = menuBar.addItem(ui.getLoggedInUser().getName(), null, null);
-    account.addItem("Edit profile", FontAwesome.COG, new MenuBar.Command() {
-      @Override
-      public void menuSelected(MenuBar.MenuItem menuItem) {
-        goTo(EditProfileView.VIEW_NAME);
-      }
-    });
-    account.addItem("Log out", FontAwesome.SIGN_OUT, new MenuBar.Command() {
-      @Override
-      public void menuSelected(MenuBar.MenuItem menuItem) {
-        ui.setLoggedInUser(null);
-      }
-    });
+    account.addItem("Edit profile", FontAwesome.COG, event -> goTo(EditProfileView.VIEW_NAME));
+    account.addItem("Log out", FontAwesome.SIGN_OUT, event -> ui.setLoggedInUser(null));
 
     return menuBar;
   }
