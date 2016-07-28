@@ -2,70 +2,63 @@ package com.teamlans.lepta.view.home.component;
 
 import com.teamlans.lepta.LeptaUi;
 import com.teamlans.lepta.view.account.EditProfileView;
-import com.teamlans.lepta.view.account.LoginView;
 import com.teamlans.lepta.view.home.HomeView;
 import com.teamlans.lepta.view.bill.NewBillsView;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class NavigationBar extends HorizontalLayout {
 
   public NavigationBar() {
-    this.setSpacing(true);
-    this.addStyleName("navbar");
     setSizeUndefined();
-    this.addComponent(createNavigationButton("Home", HomeView.VIEW_NAME));
-    this.addComponent(createBillMenu());
-    this.addComponent(createNavigationButton("Assign Bills", NewBillsView.VIEW_NAME));
-    this.addComponent(createNavigationButton("Clear Debt", NewBillsView.VIEW_NAME));
+    setWidth("100%");
+    setSpacing(true);
+    addStyleName("navbar");
 
-    addProfileMenu();
+    MenuBar mainMenu = buildMainMenu();
+    addComponent(mainMenu);
+    setComponentAlignment(mainMenu, Alignment.TOP_LEFT);
+
+    MenuBar userMenu = buildUserMenu();
+    addComponent(userMenu);
+    setComponentAlignment(userMenu, Alignment.TOP_RIGHT);
   }
 
-  private Button createNavigationButton(String caption, final String viewName) {
-    Button button = new Button(caption);
-    button.addStyleName(ValoTheme.BUTTON_BORDERLESS);
-    button.addStyleName("navbutton");
-    // If you didn't choose Java 8 when creating the project, convert this to an anonymous listener class
-    button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
-    return button;
-  }
-
-  private MenuBar createBillMenu() {
+  private MenuBar buildMainMenu() {
     MenuBar menuBar = new MenuBar();
     menuBar.addStyleName(ValoTheme.MENUBAR_BORDERLESS);
     menuBar.addStyleName("navmenu");
-    MenuBar.MenuItem item = menuBar.addItem("My Bills", null, null);
-    item.addItem("New Bills", event -> getUI().getNavigator().navigateTo(NewBillsView.VIEW_NAME));
-    item.addItem("Assigned Bills",
-        event -> getUI().getNavigator().navigateTo(NewBillsView.VIEW_NAME));
-    item.addItem("Archive", event -> getUI().getNavigator().navigateTo(NewBillsView.VIEW_NAME));
+
+    menuBar.addItem("Home", FontAwesome.HOME, event -> goTo(HomeView.VIEW_NAME));
+
+    MenuBar.MenuItem myBills = menuBar.addItem("My Bills", null);
+    myBills.addItem("New Bills", null, event -> goTo(NewBillsView.VIEW_NAME));
+    myBills.addItem("Assigned Bills", null, null);
+    myBills.addItem("Archive", null, null);
+
+    menuBar.addItem("Assign Bills", null, event -> goTo(NewBillsView.VIEW_NAME));
+
+    menuBar.addItem("ClearDebt", null, null);
+
     return menuBar;
   }
 
-
-  private void addProfileMenu() {
-    // TODO: get username, add icon, align right
+  private MenuBar buildUserMenu() {
     MenuBar menuBar = new MenuBar();
+    menuBar.addStyleName(ValoTheme.MENUBAR_BORDERLESS);
+    menuBar.addStyleName("navmenu");
 
-    MenuBar.MenuItem profileMenu = menuBar.addItem("Username", null, null);
-    profileMenu.addItem("Edit profile", FontAwesome.COG, new MenuBar.Command() {
-      @Override
-      public void menuSelected(MenuBar.MenuItem menuItem) {
-        goTo(EditProfileView.VIEW_NAME);
-      }
-    });
-    profileMenu.addItem("Log out", FontAwesome.SIGN_OUT, new MenuBar.Command() {
-      @Override
-      public void menuSelected(MenuBar.MenuItem menuItem) {
-        ((LeptaUi)getUI()).setLoggedInUser(null);
-      }
-    });
+    LeptaUi ui = ((LeptaUi) UI.getCurrent());
 
-    addComponent(menuBar);
+    MenuBar.MenuItem account = menuBar.addItem(ui.getLoggedInUser().getName(), null, null);
+    account.addItem("Edit profile", FontAwesome.COG, event -> goTo(EditProfileView.VIEW_NAME));
+    account.addItem("Log out", FontAwesome.SIGN_OUT, event -> ui.setLoggedInUser(null));
+
+    return menuBar;
   }
 
   private void goTo(String goal) {

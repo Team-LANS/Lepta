@@ -3,17 +3,11 @@ package com.teamlans.lepta;
 import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.MainView;
-import com.teamlans.lepta.view.ProtectedHorizontalView;
-import com.teamlans.lepta.view.ProtectedVerticalView;
 import com.teamlans.lepta.view.account.LoginView;
 import com.teamlans.lepta.view.account.SignUpView;
-import com.teamlans.lepta.view.bill.NewBillsView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
-import com.vaadin.navigator.Navigator;
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.spring.annotation.SpringUI;
@@ -43,7 +37,7 @@ public class LeptaUi extends UI {
   private ApplicationContext context;
 
   @Autowired
-  private UserService userService;
+  private UserService service;
   private User loggedInUser;
 
   @Override
@@ -57,7 +51,7 @@ public class LeptaUi extends UI {
   }
 
   public void goToCorrectWelcomeView() {
-    if (userService.noUsersExist()) {
+    if (service.noUsersExist()) {
       getUI().setContent(context.getBean(SignUpView.class));
     } else {
       getUI().setContent(context.getBean(LoginView.class));

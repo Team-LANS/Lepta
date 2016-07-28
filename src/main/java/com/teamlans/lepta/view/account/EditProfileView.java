@@ -35,7 +35,7 @@ public final class EditProfileView extends ProtectedVerticalView {
   @Autowired
   public EditProfileView(UserService service) {
     this.service = service; // because of weird bug, issue #32
-    user = getLoggedInUser();
+    user = getLeptaUi().getLoggedInUser();
 
     build();
   }
