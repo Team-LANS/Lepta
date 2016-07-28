@@ -4,6 +4,7 @@ import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.entities.enums.Color;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.UserService;
+import com.teamlans.lepta.view.LeptaNotification;
 import com.teamlans.lepta.view.ProtectedVerticalView;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
@@ -13,7 +14,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -89,7 +89,7 @@ public final class EditProfileView extends ProtectedVerticalView {
         button.addClickListener(clickEvent -> {
           user.setColor(color);
           service.updateUser(user);
-          Notification.show("Success"); // feedback; will be removed when css is added
+          LeptaNotification.show("Success"); // feedback; will be removed when css is added
 
           //refresh page
           removeAllComponents();
@@ -97,7 +97,7 @@ public final class EditProfileView extends ProtectedVerticalView {
         });
       }
     } catch (LeptaServiceException e) {
-      Notification.show(e.getMessage());
+      LeptaNotification.showError(e.getMessage());
     }
     return button;
   }
@@ -161,12 +161,12 @@ public final class EditProfileView extends ProtectedVerticalView {
           oldField.clear();
           newField.clear();
           confirmationField.clear();
-          Notification.show("Change successful");
+          LeptaNotification.show("Change successful");
         } else {
-          Notification.show("Two different new passwords");
+          LeptaNotification.showWarning("Two different new passwords");
         }
       } else {
-        Notification.show("Wrong password");
+        LeptaNotification.showWarning("Wrong password");
       }
     });
     return button;

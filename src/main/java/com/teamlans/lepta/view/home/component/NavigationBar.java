@@ -11,6 +11,11 @@ import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
+/**
+ * This is the standard navigation bar shown at the top of all protected views. most items are
+ * straightforward and simply navigate to another few. The logout button leads to a LoginView and
+ * resets the logged in user.
+ */
 public class NavigationBar extends HorizontalLayout {
 
   public NavigationBar() {
@@ -42,6 +47,7 @@ public class NavigationBar extends HorizontalLayout {
     MenuBar.MenuItem myBills = menuBar.addItem("My Bills", null);
     myBills.addItem("New Bills", null, event -> goTo(NewBillsView.VIEW_NAME));
     myBills.addItem("Assigned Bills", null, null);
+    myBills.addSeparator();
     myBills.addItem("Archive", null, null);
 
     menuBar.addItem("Assign Bills", null, event -> goTo(NewBillsView.VIEW_NAME));
@@ -60,7 +66,10 @@ public class NavigationBar extends HorizontalLayout {
 
     MenuBar.MenuItem account = menuBar.addItem(ui.getLoggedInUser().getName(), null, null);
     account.addItem("Edit profile", FontAwesome.COG, event -> goTo(EditProfileView.VIEW_NAME));
-    account.addItem("Log out", FontAwesome.SIGN_OUT, event -> {ui.setLoggedInUser(null); ui.goToCorrectWelcomeView();});
+    account.addItem("Log out", FontAwesome.SIGN_OUT, event -> {
+      ui.setLoggedInUser(null);
+      ui.goToCorrectWelcomeView();
+    });
 
     return menuBar;
   }

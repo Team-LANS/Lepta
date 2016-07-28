@@ -44,6 +44,8 @@ public class LeptaUi extends UI {
 
   @Override
   protected void init(VaadinRequest request) {
+    // TODO: make timeout work
+    // VaadinSession.getCurrent().getSession().setMaxInactiveInterval(3600); // 1 hour
 
     if (((LeptaUi) getUI()).getLoggedInUser() == null) {
       goToCorrectWelcomeView();
@@ -77,4 +79,5 @@ public class LeptaUi extends UI {
   @VaadinServletConfiguration(ui = LeptaUi.class, productionMode = false)
   public static class MyUIServlet extends VaadinServlet {
   }
+
 }

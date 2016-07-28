@@ -2,6 +2,7 @@ package com.teamlans.lepta.view.account.components;
 
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.Credentials;
+import com.teamlans.lepta.view.LeptaNotification;
 import com.teamlans.lepta.view.account.SignUpView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -45,7 +46,7 @@ public final class InitialSignUp extends HorizontalLayout {
         parent.setInitialAccount(new Credentials(event.getUserName(), event.getPassword()));
         parent.showPartnerSignUp();
       } catch (LeptaServiceException e) {
-        parent.showNotification(e.getMessage());
+        LeptaNotification.showError(e.getMessage());
       }
     });
   }
