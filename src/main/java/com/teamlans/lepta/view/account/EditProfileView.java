@@ -28,16 +28,19 @@ public final class EditProfileView extends ProtectedVerticalView {
 
   public static final String VIEW_NAME = "EditProfile";
 
-  private UserService userService;
+  private UserService service;
 
   private final User user;
 
   @Autowired
-  public EditProfileView(UserService userService) {
-    this.userService = userService; // because of weird bug, issue #32
+  public EditProfileView(UserService service) {
+    this.service = service; // because of weird bug, issue #32
     user = getLoggedInUser();
-    System.out.println(user);
 
+    build();
+  }
+
+  private void build() {
     final Component title = buildTitle();
     addComponent(title);
     setComponentAlignment(title, Alignment.TOP_LEFT);
@@ -81,18 +84,18 @@ public final class EditProfileView extends ProtectedVerticalView {
   private Button buildColorButton(Color color) {
     Button button = new Button(color.toString().replaceAll("_", " "));
     try {
-      boolean taken = userService.isTaken(color);
+      boolean taken = service.isTaken(color);
       if (!taken) {
         button.addClickListener(new Button.ClickListener() {
           @Override
           public void buttonClick(Button.ClickEvent clickEvent) {
             user.setColor(color);
-            userService.updateUser(user);
+            service.updateUser(user);
             Notification.show("Success"); // feedback; will be removed when css is added
 
             //refresh
             removeAllComponents();
-            addComponent(new EditProfileView(userService));
+            build();
           }
         });
       }
@@ -122,11 +125,11 @@ public final class EditProfileView extends ProtectedVerticalView {
         String newName = nameField.getValue();
         if (!newName.isEmpty() && !newName.equals(user.getName())) {
           user.setName(newName);
-          userService.updateUser(user);
+          service.updateUser(user);
 
           // refresh page
           removeAllComponents();
-          addComponent(new EditProfileView(userService));
+          build();
         }
       }
     });
@@ -160,7 +163,7 @@ public final class EditProfileView extends ProtectedVerticalView {
           String newPassword = newField.getValue();
           if (!newPassword.isEmpty() && newPassword.equals(confirmationField.getValue())) {
             user.setPassword(newPassword);
-            userService.updateUser(user);
+            service.updateUser(user);
 
             oldField.clear();
             newField.clear();

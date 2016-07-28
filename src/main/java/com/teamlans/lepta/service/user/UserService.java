@@ -24,12 +24,12 @@ import java.util.List;
 public class UserService {
 
   @Autowired
-  private UserDao userDao;
+  private UserDao dao;
 
   public User authenticate(String userName, String password)
       throws LeptaLoginException, LeptaServiceException {
     try {
-      List<User> users = userDao.listUsers();
+      List<User> users = dao.listUsers();
       for (User user : users) {
         if (user.getName().equals(userName) && user.getPassword().equals(password)) {
           return user;
@@ -43,7 +43,7 @@ public class UserService {
 
   public boolean noUsersExist() {
     try {
-      return userDao.listUsers().isEmpty();
+      return dao.listUsers().isEmpty();
     } catch (LeptaDatabaseException e) {
       // TODO: decide what to do here
       return true;
@@ -52,7 +52,7 @@ public class UserService {
 
   public boolean isTaken(Color color) throws LeptaServiceException {
     try {
-      List<User> users = userDao.listUsers();
+      List<User> users = dao.listUsers();
       for (User user : users) {
         if (user.getColor() == color) {
           return true;
@@ -67,25 +67,28 @@ public class UserService {
   @Transactional
   public void updateUser(User user) {
     try {
-      userDao.updateUser(user);
+      dao.updateUser(user);
     } catch (LeptaDatabaseException e) {
       Notification.show(e.getMessage());
     }
   }
 
   @Transactional
-  public void createAccounts(Credentials account0, Credentials account1)
+  public User createAccounts(Credentials account0, Credentials account1)
       throws LeptaServiceException {
     if (account0 == null || account1 == null || account0.equals(account1)) {
       throw new LeptaServiceException("Invalid account templates.");
     }
+    User loggedIn;
     try {
       // assign unique ids (0 and 1) and initial colors (blue and yellow)
-      userDao.addUser(new User(0, account0.getName(), account0.getPassword(), Color.DARK_BLUE));
-      userDao.addUser(new User(1, account1.getName(), account1.getPassword(), Color.YELLOW));
+      loggedIn = new User(0, account0.getName(), account0.getPassword(), Color.DARK_BLUE);
+      dao.addUser(loggedIn);
+      dao.addUser(new User(1, account1.getName(), account1.getPassword(), Color.YELLOW));
     } catch (LeptaDatabaseException e) {
       throw new LeptaServiceException(e);
     }
+    return loggedIn;
   }
 
 }
