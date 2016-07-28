@@ -51,7 +51,7 @@ public class BillServiceTest {
   public void listBillsForUser_noBillsForUser_emptyListReturned() {
     when(mockBillDao.listBills()).thenReturn(createDummyBills());
 
-    List<Bill> result = billService.listBillsFor(new User(3, "name", "pwd", Color.LIGHT_BLUE));
+    List<Bill> result = billService.listBillsFor(createDummyUser(3));
 
     assertTrue(result.isEmpty());
   }
@@ -60,7 +60,7 @@ public class BillServiceTest {
   public void listBillsForUser_billsForUser_billsReturned() {
     when(mockBillDao.listBills()).thenReturn(createDummyBills());
 
-    List<Bill> result = billService.listBillsFor(new User(1, "name", "pwd", Color.LIGHT_BLUE));
+    List<Bill> result = billService.listBillsFor(createDummyUser(1));
 
     assertFalse(result.isEmpty());
   }
@@ -69,7 +69,7 @@ public class BillServiceTest {
   public void listNewBillsForUser_noNewBillsExist_emptyListReturned() {
     when(mockBillDao.listBills()).thenReturn(createDummyBills());
 
-    List<Bill> result = billService.listNewBillsFor(new User(1, "name", "pwd", Color.LIGHT_BLUE));
+    List<Bill> result = billService.listNewBillsFor(createDummyUser(1));
 
     assertTrue(result.isEmpty());
   }
@@ -139,10 +139,14 @@ public class BillServiceTest {
     billService.deleteBill(billToDelete);
   }
 
+  private User createDummyUser(int id) {
+    return new User(id, "name", "pwd".getBytes(), "salt".getBytes(), Color.DARK_BLUE);
+  }
+
   private List<Bill> createDummyBills() {
     List<Bill> bills = new ArrayList<>();
-    User user1 = new User(1, "name", "pwd", Color.DARK_BLUE);
-    User user2 = new User(0, "name", "pwd", Color.GREEN);
+    User user1 = createDummyUser(1);
+    User user2 = createDummyUser(0);
     Bill bill1 = new Bill(1, "name1", new Date(), user1);
     bill1.getItems().add(new Item());
     bill1.setStatus(Status.ARCHIVED);

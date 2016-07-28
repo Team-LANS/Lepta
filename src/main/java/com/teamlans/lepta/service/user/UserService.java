@@ -58,6 +58,7 @@ public class UserService {
     }
   }
 
+  @Transactional
   public boolean isTaken(Color color) throws LeptaServiceException {
     try {
       List<User> users = dao.listUsers();
