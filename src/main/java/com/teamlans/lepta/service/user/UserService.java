@@ -27,9 +27,17 @@ public class UserService {
 
   @Autowired
   private UserDao dao;
+
   @Autowired
   private PasswordEncryptionService encryptionService;
 
+  public UserService(UserDao dao, PasswordEncryptionService encryptionService) {
+    // needed because of autowired with try-block bug
+    this.dao = dao;
+    this.encryptionService = encryptionService;
+  }
+
+  @Transactional
   public User authenticate(String userName, String plainPassword)
       throws LeptaLoginException, LeptaServiceException {
     try {
@@ -44,6 +52,15 @@ public class UserService {
       throw new LeptaLoginException("Login failed!");
     } catch (LeptaDatabaseException | NoSuchAlgorithmException | InvalidKeySpecException e) {
       throw new LeptaServiceException(e);
+    }
+  }
+
+  @Transactional
+  public List<User> listUsers() {
+    try {
+      return dao.listUsers();
+    } catch (LeptaDatabaseException e) {
+      return null;
     }
   }
 

@@ -23,9 +23,11 @@ public class User {
   private Color color;
 
   @Column(name = "PASSWORD")
+  @Lob
   private byte[] password; // encrypted
 
   @Column(name = "SALT")
+  @Lob
   private byte[] salt; // for password generation
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
@@ -79,6 +81,10 @@ public class User {
 
   public byte[] getSalt() {
     return salt;
+  }
+
+  public void setSalt(byte[] salt) {
+    this.salt = salt;
   }
 
   public Set<Bill> getBills() {
