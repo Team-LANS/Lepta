@@ -1,6 +1,5 @@
 package com.teamlans.lepta.view.bill.edit;
 
-import com.teamlans.lepta.database.daos.UserDao;
 import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.service.bill.BillService;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
@@ -11,14 +10,13 @@ import com.teamlans.lepta.view.bill.edit.component.BillDataLayout;
 import com.teamlans.lepta.view.bill.edit.component.BillItemLayout;
 import com.teamlans.lepta.view.bill.edit.component.ButtonBarLayout;
 import com.vaadin.data.Validator;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Page;
-import com.vaadin.shared.Position;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.themes.ValoTheme;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +33,8 @@ import javax.annotation.PostConstruct;
 public class EditBillView extends ProtectedVerticalView {
 
   public static final String VIEW_NAME = "Bills/Edit";
+
+  private static final Logger logger = LoggerFactory.getLogger(EditBillView.class);
 
   private BillService billService;
 
@@ -62,7 +62,7 @@ public class EditBillView extends ProtectedVerticalView {
     gridLayout.setWidth("70%");
     gridLayout.setSpacing(true);
     gridLayout.setRowExpandRatio(1, 1);
-    headerLabel  = new Label();
+    headerLabel = new Label();
     headerLabel.setStyleName(ValoTheme.LABEL_H2);
     gridLayout.addComponent(headerLabel, 0, 0, 1, 0);
     billDataLayout = new BillDataLayout();
@@ -88,6 +88,7 @@ public class EditBillView extends ProtectedVerticalView {
       billDataLayout.validate();
       billItemLayout.validate();
     } catch (Validator.InvalidValueException e) {
+      logger.error("Validation error", e);
       LeptaNotification.showError(e.getMessage());
       return;
     }
@@ -100,6 +101,7 @@ public class EditBillView extends ProtectedVerticalView {
       LeptaNotification.show("Bill updated");
       getUI().getNavigator().navigateTo(NewBillsView.VIEW_NAME);
     } catch (LeptaServiceException | DataAccessException e) {
+      logger.error("Error", e);
       LeptaNotification.showError("Uh, oh, something bad happened!", e.getMessage());
     }
   }

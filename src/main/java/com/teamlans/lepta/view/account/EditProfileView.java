@@ -7,6 +7,8 @@ import com.teamlans.lepta.service.user.PasswordEncryptionService;
 import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.LeptaNotification;
 import com.teamlans.lepta.view.ProtectedVerticalView;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Accordion;
@@ -36,6 +38,8 @@ public final class EditProfileView extends ProtectedVerticalView {
 
   private UserService service;
   private PasswordEncryptionService encryptionService;
+
+  private static Logger logger = LoggerFactory.getLogger(EditProfileView.class);
 
   private final User user;
 
@@ -105,6 +109,7 @@ public final class EditProfileView extends ProtectedVerticalView {
         });
       }
     } catch (LeptaServiceException e) {
+      logger.error("Error", e);
       LeptaNotification.showError(e.getMessage());
     }
     return button;
@@ -163,25 +168,30 @@ public final class EditProfileView extends ProtectedVerticalView {
       try {
         if (encryptionService.isValid(oldField.getValue(), user)) {
           String newPassword = newField.getValue();
-          if (!newPassword.isEmpty() && newPassword.equals(confirmationField.getValue())) {
-            user.setPassword(encryptionService.getEncryptedPassword(newPassword, user.getSalt()));
-            service.updateUser(user);
-
-            oldField.clear();
-            newField.clear();
-            confirmationField.clear();
-            LeptaNotification.show("Change successful");
-          } else {
-            LeptaNotification.showWarning("Two different new passwords");
-          }
+          checkPassword(oldField, newField, confirmationField, newPassword);
         } else {
           LeptaNotification.showWarning("Wrong password");
         }
       } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+        logger.error("Error", e);
         LeptaNotification.showError("Something went wrong");
       }
     });
     return button;
+  }
+
+  private void checkPassword(PasswordField oldField, PasswordField newField, PasswordField confirmationField, String newPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    if (!newPassword.isEmpty() && newPassword.equals(confirmationField.getValue())) {
+      user.setPassword(encryptionService.getEncryptedPassword(newPassword, user.getSalt()));
+      service.updateUser(user);
+
+      oldField.clear();
+      newField.clear();
+      confirmationField.clear();
+      LeptaNotification.show("Change successful");
+    } else {
+      LeptaNotification.showWarning("Two different new passwords");
+    }
   }
 
   @Override
