@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,13 +27,9 @@ public class BillDaoImpl implements BillDao {
   }
 
   @Override
-  public void deleteBill(Integer id) {
-    logger.debug("Deleting bill with id {}", id);
+  public void deleteBill(Bill bill) {
+    logger.debug("Deleting bill with {}", bill);
     Session session = factory.getCurrentSession();
-    Bill bill = session.get(Bill.class, id);
-    if (bill == null) {
-      throw new DataRetrievalFailureException("Could not delete bill with id " + id);
-    }
     session.delete(bill);
   }
 
@@ -50,11 +45,6 @@ public class BillDaoImpl implements BillDao {
     logger.debug("Updating bill with {}", newBill);
     Session session = factory.getCurrentSession();
     session.update(newBill);
-  }
-
-  @Override
-  public Bill getBillBy(Integer id) {
-    return factory.getCurrentSession().get(Bill.class, id);
   }
 }
 

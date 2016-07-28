@@ -12,8 +12,6 @@ public class ItemRow extends HorizontalLayout {
 
   private Item item;
 
-  private Button deleteButton;
-
   private Button editSaveButton;
 
   private HorizontalLayout infoContainer;
@@ -34,7 +32,7 @@ public class ItemRow extends HorizontalLayout {
     editSaveButton.addClickListener(new EditSaveClickListener());
     addComponent(editSaveButton);
     setComponentAlignment(editSaveButton, Alignment.MIDDLE_RIGHT);
-    deleteButton = new Button("Delete");
+    Button deleteButton = new Button("Delete");
     deleteButton.addClickListener(clickEvent -> parent.delete(this));
     addComponent(deleteButton);
   }

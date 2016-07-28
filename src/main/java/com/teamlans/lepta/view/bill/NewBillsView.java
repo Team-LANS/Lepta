@@ -35,6 +35,7 @@ public class NewBillsView extends VerticalLayout
     addComponent(buildBillsTable());
     addComponent(buildAddBillButton());
     addComponent(buildEditBillButton());
+    addComponent(buildDeleteBillButton());
   }
 
   private Table buildBillsTable() {
@@ -63,6 +64,16 @@ public class NewBillsView extends VerticalLayout
       getUI().getNavigator().navigateTo(EditBillView.VIEW_NAME +"/"+ id);
     });
     return editButton;
+  }
+
+  private Button buildDeleteBillButton(){
+    Button deleteButton = new Button("Delete");
+    deleteButton.addClickListener(clickEvent -> {
+      Bill selectedBill = (Bill)table.getValue();
+      container.removeItem(selectedBill);
+      billService.deleteBill(selectedBill);
+    });
+    return deleteButton;
   }
 
 

@@ -8,11 +8,10 @@ public interface BillDao {
 
   void addBill(Bill newBill);
 
-  void deleteBill(Integer id);
+  void deleteBill(Bill bill);
 
   List<Bill> listBills();
 
   void updateBill(Bill newBill);
 
-  Bill getBillBy(Integer id);
 }

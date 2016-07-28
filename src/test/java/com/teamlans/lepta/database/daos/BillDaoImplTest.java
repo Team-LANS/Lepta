@@ -65,7 +65,7 @@ public class BillDaoImplTest {
 
     int newItemCount = itemDao.listItems().size();
     assertTrue(itemCount > newItemCount);
-  }
+  } 
 
   @Test
   public void updateBill_updateItemInBill_itemUpdated() throws Exception {
@@ -84,8 +84,9 @@ public class BillDaoImplTest {
   @Test
   public void deleteBill_validBill_billDeleted() throws Exception {
     int billCount = billDao.listBills().size();
+    Bill bill = billDao.listBills().get(0);
 
-    billDao.deleteBill(1);
+    billDao.deleteBill(bill);
 
     int newBillCount = billDao.listBills().size();
     assertEquals(billCount - 1, newBillCount);
@@ -94,17 +95,12 @@ public class BillDaoImplTest {
   @Test
   public void deleteBill_validBill_itemsDeleted() throws Exception {
     int itemCount = itemDao.listItems().size();
+    Bill bill = billDao.listBills().get(0);
 
-    billDao.deleteBill(1);
+    billDao.deleteBill(bill);
 
     int newItemCount = itemDao.listItems().size();
     assertTrue(itemCount > newItemCount);
-  }
-
-
-  @Test(expected = DataAccessException.class)
-  public void deleteBill_invalidBill_exceptionThrown() throws Exception {
-    billDao.deleteBill(-1);
   }
 
 
