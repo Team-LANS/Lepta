@@ -13,4 +13,8 @@ cache:
     - $HOME/.m2
 
 notifications:
-  email: false
+  email:
+    recipients:
+      - hansj.schroedl@gmail.com
+    on_success: change # default: change
+    on_failure: always
