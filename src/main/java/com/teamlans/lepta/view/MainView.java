@@ -11,6 +11,9 @@ import com.vaadin.ui.UI;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+/**
+ * Protected home view with navigation bar and root view that will be filled by navigator.
+ */
 @Component
 @Lazy
 public final class MainView extends ProtectedVerticalView {
@@ -25,14 +28,14 @@ public final class MainView extends ProtectedVerticalView {
     root.setSizeFull();
 
     navigator = new Navigator(UI.getCurrent(), root);
-    navigator.addProvider(((LeptaUi) UI.getCurrent()).getViewProvider());
+    navigator.addProvider(getLeptaUi().getViewProvider());
     navigator.navigateTo(NewBillsView.VIEW_NAME);
     navigator.addViewChangeListener(new ViewChangeListener() {
       @Override
       public boolean beforeViewChange(ViewChangeEvent viewChangeEvent) {
         if (isProtected(viewChangeEvent.getNewView()) &&
-            ((LeptaUi) getUI()).getLoggedInUser() == null) {
-          ((LeptaUi) getUI()).goToCorrectWelcomeView();
+            (getLeptaUi().getLoggedInUser() == null)) {
+          getLeptaUi().goToCorrectWelcomeView();
           return false;
         } else {
           return true;

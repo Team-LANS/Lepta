@@ -1,7 +1,6 @@
 package com.teamlans.lepta.view;
 
 import com.teamlans.lepta.LeptaUi;
-import com.teamlans.lepta.entities.User;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.HorizontalLayout;
@@ -12,8 +11,8 @@ import com.vaadin.ui.UI;
  */
 public class ProtectedHorizontalView extends HorizontalLayout implements View {
 
-  public User getLoggedInUser() {
-    return ((LeptaUi)UI.getCurrent()).getLoggedInUser();
+  public LeptaUi getLeptaUi() {
+    return ((LeptaUi)UI.getCurrent());
   }
 
   @Override
