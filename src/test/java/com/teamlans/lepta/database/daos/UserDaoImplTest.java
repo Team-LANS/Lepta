@@ -3,6 +3,7 @@ package com.teamlans.lepta.database.daos;
 import com.teamlans.lepta.database.HibernateTestConfiguration;
 import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.entities.enums.Color;
+import com.teamlans.lepta.service.user.PasswordEncryptionService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,12 +26,15 @@ public class UserDaoImplTest {
 
   @Autowired
   private UserDao userDao;
+  @Autowired
+  PasswordEncryptionService encryptionService;
 
   @Test
   public void addUser_addValidUser_existsInDatabase() throws Exception {
     int oldUserCount = userDao.listUsers().size();
 
-    userDao.addUser(new User(3, "name", "password", Color.YELLOW));
+    byte[] salt = encryptionService.generateSalt();
+    userDao.addUser(new User(3, "name", encryptionService.getEncryptedPassword("password", salt), salt, Color.YELLOW));
 
     int newUserCount = userDao.listUsers().size();
     assertEquals(oldUserCount + 1, newUserCount);

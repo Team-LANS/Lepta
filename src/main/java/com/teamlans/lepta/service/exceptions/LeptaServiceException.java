@@ -8,7 +8,7 @@ public class LeptaServiceException extends Exception {
     super(message);
   }
 
-  public LeptaServiceException(LeptaDatabaseException e) {
+  public LeptaServiceException(Exception e) {
     super(e);
   }
 
