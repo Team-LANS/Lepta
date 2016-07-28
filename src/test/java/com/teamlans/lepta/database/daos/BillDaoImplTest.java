@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.PersistenceException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -36,48 +38,48 @@ public class BillDaoImplTest {
   ItemDao itemDao;
 
   @Test
-  public void createBill_validBill_billCreated() throws Exception {
+  public void addOrUpdateBill_newBill_billCreated() throws Exception {
     int billCount = billDao.listBills().size();
     Bill bill = new Bill("name", new Date(), userDao.listUsers().get(0));
-    billDao.addBill(bill);
+    billDao.addOrUpdateBill(bill);
     int newBillCount = billDao.listBills().size();
     assertEquals(billCount + 1, newBillCount);
   }
 
   @Test
-  public void updateBill_updateStatus_billUpdated() throws Exception {
+  public void addOrUpdateBill_updateStatus_billUpdated() throws Exception {
     Bill bill = billDao.listBills().get(0);
     bill.setStatus(Status.ASSIGNED);
 
-    billDao.updateBill(bill);
+    billDao.addOrUpdateBill(bill);
 
     Bill updatedBill = billDao.listBills().get(0);
     assertEquals(updatedBill.getStatus(), Status.ASSIGNED);
   }
 
   @Test
-  public void updateBill_updateItems_itemsRemoved() throws Exception {
+  public void addOrUpdateBill_updateItems_itemsRemoved() throws Exception {
     Bill bill = billDao.listBills().get(0);
     int itemCount = itemDao.listItems().size();
 
     bill.getItems().clear();
-    billDao.updateBill(bill);
+    billDao.addOrUpdateBill(bill);
 
     int newItemCount = itemDao.listItems().size();
     assertTrue(itemCount > newItemCount);
   }
 
   @Test
-  public void updateBill_updateItemInBill_itemUpdated() throws Exception {
+  public void addOrUpdateBill_updateItemInBill_itemUpdated() throws Exception {
     Bill bill = billDao.listBills().get(0);
     Item item = new ArrayList<>(bill.getItems()).get(0);
 
     item.setName("New Description");
 
-    billDao.updateBill(bill);
+    billDao.addOrUpdateBill(bill);
 
     Bill newBill = billDao.listBills().get(0);
-    Item updatedItem =  new ArrayList<>(newBill.getItems()).get(0);
+    Item updatedItem = new ArrayList<>(newBill.getItems()).get(0);
     assertEquals(updatedItem.getName(), "New Description");
   }
 
@@ -96,6 +98,18 @@ public class BillDaoImplTest {
   public void deleteBill_validBill_itemsDeleted() throws Exception {
     int itemCount = itemDao.listItems().size();
     Bill bill = billDao.listBills().get(0);
+
+    billDao.deleteBill(bill);
+
+    int newItemCount = itemDao.listItems().size();
+    assertTrue(itemCount > newItemCount);
+  }
+
+  @Test(expected = PersistenceException.class)
+  public void deleteBill_assignedBill_exceptionThrown() throws Exception {
+    int itemCount = itemDao.listItems().size();
+    Bill bill = billDao.listBills()
+        .stream().filter(x -> x.getStatus() == Status.ASSIGNED).findFirst().get();
 
     billDao.deleteBill(bill);
 

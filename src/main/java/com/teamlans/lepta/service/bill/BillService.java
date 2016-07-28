@@ -22,9 +22,6 @@ public class BillService {
 
   private BillDao billDao;
 
-  public BillService() {
-  }
-
   @Autowired
   public void setBillDao(BillDao billDao) {
     this.billDao = billDao;
@@ -39,13 +36,14 @@ public class BillService {
 
   @Transactional
   public List<Bill> listBillsFor(User user) {
-    logger.debug("Getting bill");
+    logger.debug("Listing bills for user {}", user);
     List<Bill> bills = billDao.listBills();
     return bills.stream().filter(x -> x.getUser().getId() == user.getId()).collect(Collectors.toList());
   }
 
   @Transactional
   public List<Bill> listNewBillsFor(User user) {
+    logger.debug("Listing new bills for user {}", user);
     List<Bill> newBills = listBillsFor(user);
     return newBills.stream().filter(x -> x.getStatus() == Status.NEW).collect(Collectors.toList());
   }
@@ -55,19 +53,17 @@ public class BillService {
   public void addOrUpdate(Bill bill) throws LeptaServiceException {
     logger.debug("Adding bill with {}", bill);
     validateBill(bill);
-    billDao.addBill(bill);
+    billDao.addOrUpdateBill(bill);
   }
-
-
 
   @Transactional
-  public void deleteBill(Bill bill) {
+  public void deleteBill(Bill bill) throws LeptaServiceException {
     logger.debug("Deleting bill {}", bill);
+    validateBill(bill);
     bill.getItems().clear();
-    billDao.updateBill(bill);
+    billDao.addOrUpdateBill(bill);
     billDao.deleteBill(bill);
   }
-
 
   private void validateBill(Bill bill) throws LeptaServiceException {
     if (bill.getUser() == null) {
@@ -75,6 +71,15 @@ public class BillService {
     }
     if (bill.getItems().isEmpty()) {
       throw new LeptaServiceException("Bill items must not be empty");
+    }
+    if (bill.getDate() == null) {
+      throw new LeptaServiceException("Bill date must not be null");
+    }
+    if (bill.getStatus() == null) {
+      throw new LeptaServiceException("Bill status must not be null");
+    }
+    if (bill.getName() == null || bill.getName().isEmpty()) {
+      throw new LeptaServiceException("bill name must not be empty");
     }
   }
 }

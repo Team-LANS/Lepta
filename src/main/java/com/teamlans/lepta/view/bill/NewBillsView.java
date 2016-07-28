@@ -2,6 +2,7 @@ package com.teamlans.lepta.view.bill;
 
 import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.service.bill.BillService;
+import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.view.LeptaNotification;
 import com.teamlans.lepta.view.ProtectedVerticalView;
 import com.teamlans.lepta.view.bill.edit.EditBillView;
@@ -109,8 +110,13 @@ public class NewBillsView extends ProtectedVerticalView {
     deleteButton.addClickListener(clickEvent -> {
       Bill selectedBill = (Bill) table.getValue();
       container.removeItem(selectedBill);
-      billService.deleteBill(selectedBill);
-      LeptaNotification.show("Bill has been deleted");
+      try {
+        billService.deleteBill(selectedBill);
+        LeptaNotification.show("Bill has been deleted");
+      }
+      catch (LeptaServiceException e){
+        LeptaNotification.show("Could not delete bill", e.getMessage());
+      }
     });
     return deleteButton;
   }

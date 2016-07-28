@@ -21,7 +21,7 @@ public class BillDaoImpl implements BillDao {
   private SessionFactory factory;
 
   @Override
-  public void addBill(Bill bill) {
+  public void addOrUpdateBill(Bill bill) {
     logger.debug("Adding bill with {}", bill);
     factory.getCurrentSession().saveOrUpdate(bill);
   }
@@ -38,13 +38,6 @@ public class BillDaoImpl implements BillDao {
   public List<Bill> listBills() {
     logger.debug("Listing bill...");
     return factory.getCurrentSession().createQuery("FROM Bill").list();
-  }
-
-  @Override
-  public void updateBill(Bill newBill) {
-    logger.debug("Updating bill with {}", newBill);
-    Session session = factory.getCurrentSession();
-    session.update(newBill);
   }
 }
 
