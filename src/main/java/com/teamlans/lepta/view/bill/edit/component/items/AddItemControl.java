@@ -12,7 +12,7 @@ public class AddItemControl extends HorizontalLayout {
 
   private ItemPriceField itemItemPriceField;
 
-  private ItemCollection itemTable;
+  private ItemCollection itemCollection;
 
   public AddItemControl() {
     itemNameField = new ItemNameField();
@@ -38,11 +38,11 @@ public class AddItemControl extends HorizontalLayout {
     itemNameField.clear();
     itemItemPriceField.clear();
     Item item = new Item(name, price);
-    itemTable.addItem(item);
+    itemCollection.addItem(item);
   }
 
-  public void setItemTable(ItemCollection itemTable) {
-    this.itemTable = itemTable;
+  public void setItemCollection(ItemCollection itemCollection) {
+    this.itemCollection = itemCollection;
   }
 
 

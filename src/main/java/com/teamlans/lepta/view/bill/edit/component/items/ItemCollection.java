@@ -13,6 +13,7 @@ public class ItemCollection extends VerticalLayout {
 
   public ItemCollection() {
     itemRows = new ArrayList<>();
+    setSpacing(true);
   }
 
   public List<Item> getItems() {
@@ -20,16 +21,20 @@ public class ItemCollection extends VerticalLayout {
   }
 
   public void addItems(List<Item> items) {
-    List<ItemRow> itemRows = items.stream().map(ItemRow::new).collect(Collectors.toList());
+    List<ItemRow> itemRows = items.stream().map(x -> new ItemRow(x, this)).collect(Collectors.toList());
     this.itemRows.addAll(itemRows);
-    this.itemRows.forEach(x -> this.addComponent(x));
+    this.itemRows.forEach(this::addComponent);
   }
 
   public void addItem(Item item) {
-    ItemRow itemRow = new ItemRow(item);
+    ItemRow itemRow = new ItemRow(item, this);
     itemRows.add(itemRow);
     addComponent(itemRow);
   }
 
 
+  public void delete(ItemRow itemRow) {
+    itemRows.remove(itemRow);
+    removeComponent(itemRow);
+  }
 }

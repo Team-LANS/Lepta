@@ -24,7 +24,7 @@ public class BillItemLayout extends VerticalLayout {
     addComponent(itemTable);
     setExpandRatio(itemTable, 1);
     addItemControl = new AddItemControl();
-    addItemControl.setItemTable(itemTable);
+    addItemControl.setItemCollection(itemTable);
     addComponent(addItemControl);
   }
 
