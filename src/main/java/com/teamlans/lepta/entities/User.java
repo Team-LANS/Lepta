@@ -23,7 +23,10 @@ public class User {
   private Color color;
 
   @Column(name = "PASSWORD")
-  private String password; // TODO: no plaintext
+  private byte[] password; // encrypted
+
+  @Column(name = "SALT")
+  private byte[] salt; // for password generation
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
   private Set<Bill> bills = new HashSet<>();
@@ -38,11 +41,12 @@ public class User {
     // needed for hibernate
   }
 
-  public User(int userId, String name, String password, Color color) {
+  public User(int userId, String name, byte[] password, byte[] salt, Color color) {
     this.id = userId;
     this.name = name;
-    this.color = color;
     this.password = password;
+    this.salt = salt;
+    this.color = color;
   }
 
   public int getId() {
@@ -65,12 +69,16 @@ public class User {
     this.color = color;
   }
 
-  public String getPassword() {
+  public byte[] getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
+  public void setPassword(byte[] password) {
     this.password = password;
+  }
+
+  public byte[] getSalt() {
+    return salt;
   }
 
   public Set<Bill> getBills() {

@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 
@@ -25,25 +27,31 @@ public class UserService {
 
   @Autowired
   private UserDao dao;
+  @Autowired
+  private PasswordEncryptionService encryptionService;
 
-  public User authenticate(String userName, String password)
+  public User authenticate(String userName, String plainPassword)
       throws LeptaLoginException, LeptaServiceException {
     try {
       List<User> users = dao.listUsers();
       for (User user : users) {
-        if (user.getName().equals(userName) && user.getPassword().equals(password)) {
-          return user;
+        if (user.getName().equals(userName)) {
+          if (encryptionService.isValid(plainPassword, user)) {
+            return user;
+          }
         }
       }
       throw new LeptaLoginException("Login failed!");
-    } catch (LeptaDatabaseException e) {
+    } catch (LeptaDatabaseException | NoSuchAlgorithmException | InvalidKeySpecException e) {
       throw new LeptaServiceException(e);
     }
   }
 
+  @Transactional
   public boolean noUsersExist() {
     try {
-      return dao.listUsers().isEmpty();
+      List<User> users = dao.listUsers();
+      return users.isEmpty();
     } catch (LeptaDatabaseException e) {
       // TODO: decide what to do here
       return true;
@@ -76,19 +84,28 @@ public class UserService {
   @Transactional
   public User createAccounts(Credentials account0, Credentials account1)
       throws LeptaServiceException {
-    if (account0 == null || account1 == null || account0.equals(account1)) {
+    if (!noUsersExist()) {
+      throw new LeptaServiceException("Database full");
+    } else if (account0 == null || account1 == null || account0.equals(account1)) {
       throw new LeptaServiceException("Invalid account templates.");
     }
     User loggedIn;
     try {
       // assign unique ids (0 and 1) and initial colors (blue and yellow)
-      loggedIn = new User(0, account0.getName(), account0.getPassword(), Color.DARK_BLUE);
+      loggedIn = buildUser(0, account0, Color.DARK_BLUE);
       dao.addUser(loggedIn);
-      dao.addUser(new User(1, account1.getName(), account1.getPassword(), Color.YELLOW));
-    } catch (LeptaDatabaseException e) {
+      dao.addUser(buildUser(1, account1, Color.YELLOW));
+    } catch (LeptaDatabaseException | NoSuchAlgorithmException | InvalidKeySpecException e) {
       throw new LeptaServiceException(e);
     }
     return loggedIn;
+  }
+
+  private User buildUser(int id, Credentials credentials, Color color)
+      throws NoSuchAlgorithmException, InvalidKeySpecException {
+    byte[] salt = encryptionService.generateSalt();
+    byte[] password = encryptionService.getEncryptedPassword(credentials.getPassword(), salt);
+    return new User(id, credentials.getName(), password, salt, color);
   }
 
 }

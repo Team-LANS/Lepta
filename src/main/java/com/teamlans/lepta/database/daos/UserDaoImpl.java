@@ -29,7 +29,6 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   @SuppressWarnings("unchecked")
-  @Transactional
   public List<User> listUsers() throws LeptaDatabaseException {
     logger.debug("Listing users...");
     return factory.getCurrentSession().createQuery("FROM User").list();

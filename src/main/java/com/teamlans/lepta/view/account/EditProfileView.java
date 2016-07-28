@@ -3,6 +3,7 @@ package com.teamlans.lepta.view.account;
 import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.entities.enums.Color;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
+import com.teamlans.lepta.service.user.PasswordEncryptionService;
 import com.teamlans.lepta.service.user.UserService;
 import com.teamlans.lepta.view.LeptaNotification;
 import com.teamlans.lepta.view.ProtectedVerticalView;
@@ -20,6 +21,9 @@ import com.vaadin.ui.VerticalLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 /**
  * EditProfileView allows users to change their account details.
  */
@@ -29,12 +33,14 @@ public final class EditProfileView extends ProtectedVerticalView {
   public static final String VIEW_NAME = "EditProfile";
 
   private UserService service;
+  private PasswordEncryptionService encryptionService;
 
   private final User user;
 
   @Autowired
-  public EditProfileView(UserService service) {
+  public EditProfileView(UserService service, PasswordEncryptionService encryptionService) {
     this.service = service; // because of weird bug, issue #32
+    this.encryptionService = encryptionService;
     user = getLeptaUi().getLoggedInUser();
 
     build();
@@ -152,21 +158,25 @@ public final class EditProfileView extends ProtectedVerticalView {
                                      PasswordField confirmationField) {
     final Button button = new Button("OK");
     button.addClickListener(clickEvent -> {
-      if (oldField.getValue().equals(user.getPassword())) {
-        String newPassword = newField.getValue();
-        if (!newPassword.isEmpty() && newPassword.equals(confirmationField.getValue())) {
-          user.setPassword(newPassword);
-          service.updateUser(user);
+      try {
+        if (encryptionService.isValid(oldField.getValue(), user)) {
+          String newPassword = newField.getValue();
+          if (!newPassword.isEmpty() && newPassword.equals(confirmationField.getValue())) {
+            user.setPassword(encryptionService.getEncryptedPassword(newPassword, user.getSalt()));
+            service.updateUser(user);
 
-          oldField.clear();
-          newField.clear();
-          confirmationField.clear();
-          LeptaNotification.show("Change successful");
+            oldField.clear();
+            newField.clear();
+            confirmationField.clear();
+            LeptaNotification.show("Change successful");
+          } else {
+            LeptaNotification.showWarning("Two different new passwords");
+          }
         } else {
-          LeptaNotification.showWarning("Two different new passwords");
+          LeptaNotification.showWarning("Wrong password");
         }
-      } else {
-        LeptaNotification.showWarning("Wrong password");
+      } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+        LeptaNotification.showError("Something went wrong");
       }
     });
     return button;
