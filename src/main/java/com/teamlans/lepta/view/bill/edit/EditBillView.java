@@ -22,6 +22,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.themes.ValoTheme;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 
 import java.util.Calendar;
@@ -30,22 +31,19 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 
 @SpringView(name = EditBillView.VIEW_NAME)
+@Scope("request")
 public class EditBillView extends ProtectedVerticalView {
 
   public static final String VIEW_NAME = "Bills/Edit";
 
   private BillService billService;
-  private UserDao userDao;
 
   private BillDataLayout billDataLayout;
   private BillItemLayout billItemLayout;
 
   private Bill billToEdit;
 
-  @Autowired
-  public void setUserDao(UserDao userDao) {
-    this.userDao = userDao;
-  }
+  private Label headerLabel;
 
   @Autowired
   public void setBillService(BillService billService) {
@@ -54,6 +52,7 @@ public class EditBillView extends ProtectedVerticalView {
 
   @PostConstruct
   void init() {
+    setMargin(true);
     setSizeFull();
     createGridLayout();
   }
@@ -61,11 +60,11 @@ public class EditBillView extends ProtectedVerticalView {
   private void createGridLayout() {
     GridLayout gridLayout = new GridLayout(2, 3);
     gridLayout.setWidth("70%");
-    gridLayout.setRowExpandRatio(1, 1);
     gridLayout.setSpacing(true);
-    Label label = new Label("Create new bill");
-    label.setStyleName(ValoTheme.LABEL_H1);
-    gridLayout.addComponent(label, 0, 0, 1, 0);
+    gridLayout.setRowExpandRatio(1, 1);
+    headerLabel  = new Label();
+    headerLabel.setStyleName(ValoTheme.LABEL_H2);
+    gridLayout.addComponent(headerLabel, 0, 0, 1, 0);
     billDataLayout = new BillDataLayout();
     gridLayout.addComponent(billDataLayout, 0, 1);
     billItemLayout = new BillItemLayout();
@@ -113,10 +112,12 @@ public class EditBillView extends ProtectedVerticalView {
   }
 
   private void setBillToEdit(int billId) {
-    if (billId != -1) {
-      billToEdit = billService.getBillBy(billId);
-    } else {
+    if (billId == -1) {
+      headerLabel.setValue("Create new bill");
       createNewBill();
+    } else {
+      billToEdit = billService.getBillBy(billId);
+      headerLabel.setValue("Edit bill");
     }
     billDataLayout.initializeWith(billToEdit);
     billItemLayout.initializeWith(billToEdit);

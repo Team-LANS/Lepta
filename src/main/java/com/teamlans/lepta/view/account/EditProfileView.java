@@ -19,11 +19,13 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 /**
  * EditProfileView allows users to change their account details.
  */
 @SpringView(name = EditProfileView.VIEW_NAME)
+@Scope("request")
 public final class EditProfileView extends ProtectedVerticalView {
 
   public static final String VIEW_NAME = "EditProfile";

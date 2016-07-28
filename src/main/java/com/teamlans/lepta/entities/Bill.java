@@ -53,6 +53,12 @@ public class Bill {
     this.user = user;
   }
 
+  public Bill(int id, String name, Date date, User user){
+    //Use this only for unit testing
+    this(name,date,user);
+    this.id = id;
+  }
+
   public int getId() {
     return id;
   }

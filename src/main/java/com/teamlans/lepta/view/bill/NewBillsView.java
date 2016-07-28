@@ -11,14 +11,18 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
 @SpringView(name = NewBillsView.VIEW_NAME)
+@Scope("request")
 public class NewBillsView extends ProtectedVerticalView {
 
   public static final String VIEW_NAME = "Bills";
@@ -39,6 +43,9 @@ public class NewBillsView extends ProtectedVerticalView {
     setSpacing(true);
     setMargin(true);
     VerticalLayout centerContainer = new VerticalLayout();
+    Label headerLabel  = new Label("My new bills");
+    headerLabel.setStyleName(ValoTheme.LABEL_H2);
+    centerContainer.addComponent(headerLabel);
     centerContainer.setSpacing(true);
     centerContainer.setWidth("70%");
     centerContainer.addComponent(buildBillsTable());
@@ -68,7 +75,7 @@ public class NewBillsView extends ProtectedVerticalView {
     table = new Table();
     table.setSizeFull();
     container = new BeanItemContainer<>(Bill.class);
-    container.addAll(billService.listBillsFor(getLeptaUi().getLoggedInUser()));
+    container.addAll(billService.listNewBillsFor(getLeptaUi().getLoggedInUser()));
     table.setContainerDataSource(container);
     table.setVisibleColumns("name");
     table.setSelectable(true);
@@ -76,9 +83,9 @@ public class NewBillsView extends ProtectedVerticalView {
       editButton.setEnabled(true);
       deleteButton.setEnabled(true);
     });
+    table.setColumnHeader("name", "Bill Name");
     return table;
   }
-
 
   private Button buildAddBillButton() {
     Button addButton = new Button("Add");
@@ -111,6 +118,6 @@ public class NewBillsView extends ProtectedVerticalView {
 
   @Override
   public void enter(ViewChangeListener.ViewChangeEvent event) {
-    // the view is constructed in the init() method()
+    //View is constructed via spring
   }
 }
