@@ -89,7 +89,7 @@ public class LeptaUi extends UI {
 
   @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 
-  @VaadinServletConfiguration(ui = LeptaUi.class, productionMode = false)
+  @VaadinServletConfiguration(ui = LeptaUi.class, productionMode = false, closeIdleSessions = true)
   public static class MyUIServlet extends VaadinServlet {
   }
 
