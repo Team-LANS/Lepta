@@ -5,6 +5,8 @@ import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.entities.enums.Status;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
+import com.teamlans.lepta.service.validation.EntityValidationService;
+import com.teamlans.lepta.service.validation.ValidatableBill;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +23,17 @@ public class BillService {
   private static final Logger logger = LoggerFactory.getLogger(BillService.class);
 
   private BillDao billDao;
+  private EntityValidationService validationService;
 
   @Autowired
   public void setBillDao(BillDao billDao) {
     this.billDao = billDao;
+  }
+
+  @Autowired
+  public void setValidationService(EntityValidationService validationService){
+
+    this.validationService = validationService;
   }
 
   @Transactional
@@ -66,20 +75,6 @@ public class BillService {
   }
 
   private void validateBill(Bill bill) throws LeptaServiceException {
-    if (bill.getUser() == null) {
-      throw new LeptaServiceException("Bill user must not be null");
-    }
-    if (bill.getItems().isEmpty()) {
-      throw new LeptaServiceException("Bill items must not be empty");
-    }
-    if (bill.getDate() == null) {
-      throw new LeptaServiceException("Bill date must not be null");
-    }
-    if (bill.getStatus() == null) {
-      throw new LeptaServiceException("Bill status must not be null");
-    }
-    if (bill.getName() == null || bill.getName().isEmpty()) {
-      throw new LeptaServiceException("bill name must not be empty");
-    }
+    validationService.validate(new ValidatableBill(bill));
   }
 }

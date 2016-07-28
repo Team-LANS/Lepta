@@ -34,6 +34,6 @@ public class EntityValidationService {
   private String createMessage(ConstraintViolation violation){
     String message = violation.getMessage();
     String property = "Property '" + violation.getPropertyPath().toString() +"'";
-    return property + ": " + message;
+    return property + " " + message;
   }
 }

@@ -7,6 +7,7 @@ import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.entities.enums.Color;
 import com.teamlans.lepta.entities.enums.Status;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
+import com.teamlans.lepta.service.validation.EntityValidationService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,12 +30,16 @@ public class BillServiceTest {
   @Mock
   BillDao mockBillDao;
 
+  @Mock
+  EntityValidationService validationService;
+
   private BillService billService;
 
   @Before
   public void setUp() {
     billService = new BillService();
     billService.setBillDao(mockBillDao);
+    billService.setValidationService(validationService);
   }
 
   @Test
@@ -93,50 +98,6 @@ public class BillServiceTest {
 
     verify(mockBillDao).addOrUpdateBill(billToDelete);
     verify(mockBillDao).deleteBill(billToDelete);
-  }
-
-  @Test(expected = LeptaServiceException.class)
-  public void deleteBill_invalidUser_exceptionThrown() throws Exception {
-    Bill billToDelete = new Bill(1, "test", new Date(), null);
-    billToDelete.getItems().add(new Item());
-
-
-    billService.deleteBill(billToDelete);
-
-  }
-
-  @Test(expected = LeptaServiceException.class)
-  public void deleteBill_invalidDate_exceptionThrown() throws Exception {
-    Bill billToDelete = new Bill(1, "test", null, new User());
-    billToDelete.getItems().add(new Item());
-
-    billService.deleteBill(billToDelete);
-
-  }
-
-  @Test(expected = LeptaServiceException.class)
-  public void deleteBill_invalidName_exceptionThrown() throws Exception {
-    Bill billToDelete = new Bill(1, "", new Date(), new User());
-    billToDelete.getItems().add(new Item());
-
-    billService.deleteBill(billToDelete);
-  }
-
-  @Test(expected = LeptaServiceException.class)
-  public void deleteBill_noItems_exceptionThrown() throws Exception {
-    Bill billToDelete = new Bill(1, "test", new Date(), new User());
-    billToDelete.getItems().clear();
-
-    billService.deleteBill(billToDelete);
-  }
-
-  @Test(expected = LeptaServiceException.class)
-  public void deleteBill_noStatus_exceptionThrown() throws Exception {
-    Bill billToDelete = new Bill(1, "test", new Date(), new User());
-    billToDelete.getItems().add(new Item());
-    billToDelete.setStatus(null);
-
-    billService.deleteBill(billToDelete);
   }
 
   private User createDummyUser(int id) {
