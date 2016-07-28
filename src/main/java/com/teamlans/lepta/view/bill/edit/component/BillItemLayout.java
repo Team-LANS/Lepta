@@ -2,7 +2,7 @@ package com.teamlans.lepta.view.bill.edit.component;
 
 import com.teamlans.lepta.entities.Item;
 import com.teamlans.lepta.view.bill.edit.component.items.AddItemControl;
-import com.teamlans.lepta.view.bill.edit.component.items.ItemTable;
+import com.teamlans.lepta.view.bill.edit.component.items.ItemCollection;
 import com.vaadin.data.Validator;
 import com.vaadin.ui.VerticalLayout;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class BillItemLayout extends VerticalLayout {
 
-  private ItemTable itemTable;
+  private ItemCollection itemTable;
 
   private AddItemControl addItemControl;
 
@@ -20,9 +20,7 @@ public class BillItemLayout extends VerticalLayout {
   }
 
   private void createSubComponents() {
-    itemTable = new ItemTable();
-    itemTable.setHeight("300px");
-    itemTable.setWidth("100%");
+    itemTable = new ItemCollection();
     addComponent(itemTable);
     setExpandRatio(itemTable, 1);
     addItemControl = new AddItemControl();
