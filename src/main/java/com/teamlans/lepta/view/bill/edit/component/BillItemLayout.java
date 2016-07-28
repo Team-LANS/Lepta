@@ -1,5 +1,6 @@
 package com.teamlans.lepta.view.bill.edit.component;
 
+import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.entities.Item;
 import com.teamlans.lepta.view.bill.edit.component.items.AddItemControl;
 import com.teamlans.lepta.view.bill.edit.component.items.ItemCollection;
@@ -11,12 +12,16 @@ import java.util.List;
 public class BillItemLayout extends VerticalLayout {
 
   private ItemCollection itemTable;
-
   private AddItemControl addItemControl;
 
   public BillItemLayout() {
     setSpacing(true);
     createSubComponents();
+  }
+
+  public void initializeWith(Bill bill){
+    addItemControl.setBill(bill);
+    itemTable.addItems(bill.getItems());
   }
 
   private void createSubComponents() {
@@ -30,10 +35,6 @@ public class BillItemLayout extends VerticalLayout {
 
   public List<Item> getItems() {
     return itemTable.getItems();
-  }
-
-  public void addItems(List<Item> items) {
-    itemTable.addItems(items);
   }
 
   public void validate() {

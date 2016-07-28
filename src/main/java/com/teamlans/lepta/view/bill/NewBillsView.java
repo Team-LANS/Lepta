@@ -2,22 +2,21 @@ package com.teamlans.lepta.view.bill;
 
 import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.service.bill.BillService;
+import com.teamlans.lepta.view.LeptaNotification;
+import com.teamlans.lepta.view.ProtectedVerticalView;
 import com.teamlans.lepta.view.bill.edit.EditBillView;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
 @SpringView(name = NewBillsView.VIEW_NAME)
-public class NewBillsView extends VerticalLayout
-    implements View {
+public class NewBillsView extends ProtectedVerticalView {
 
   public static final String VIEW_NAME = "Bills";
 
@@ -30,7 +29,6 @@ public class NewBillsView extends VerticalLayout
 
   @PostConstruct
   void init() {
-    setMargin(false);
     setSpacing(true);
     addComponent(buildBillsTable());
     addComponent(buildAddBillButton());
@@ -41,7 +39,7 @@ public class NewBillsView extends VerticalLayout
   private Table buildBillsTable() {
     table = new Table();
     container = new BeanItemContainer<>(Bill.class);
-    container.addAll(billService.listBills());
+    container.addAll(billService.listBillsFor(getLeptaUi().getLoggedInUser()));
     table.setContainerDataSource(container);
     table.setVisibleColumns("name");
     table.setSelectable(true);
@@ -59,19 +57,20 @@ public class NewBillsView extends VerticalLayout
   private Button buildEditBillButton() {
     Button editButton = new Button("Edit");
     editButton.addClickListener(clickEvent -> {
-      Bill selectedBill = (Bill)table.getValue();
+      Bill selectedBill = (Bill) table.getValue();
       int id = selectedBill.getId();
-      getUI().getNavigator().navigateTo(EditBillView.VIEW_NAME +"/"+ id);
+      getUI().getNavigator().navigateTo(EditBillView.VIEW_NAME + "/" + id);
     });
     return editButton;
   }
 
-  private Button buildDeleteBillButton(){
+  private Button buildDeleteBillButton() {
     Button deleteButton = new Button("Delete");
     deleteButton.addClickListener(clickEvent -> {
-      Bill selectedBill = (Bill)table.getValue();
+      Bill selectedBill = (Bill) table.getValue();
       container.removeItem(selectedBill);
       billService.deleteBill(selectedBill);
+      LeptaNotification.show("Bill has been deleted");
     });
     return deleteButton;
   }

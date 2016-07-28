@@ -2,6 +2,7 @@ package com.teamlans.lepta.service.bill;
 
 import com.teamlans.lepta.database.daos.BillDao;
 import com.teamlans.lepta.entities.Bill;
+import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BillService {
@@ -31,7 +33,15 @@ public class BillService {
   }
 
   @Transactional
-  public void addBill(Bill bill) throws LeptaServiceException {
+  public List<Bill> listBillsFor(User user) {
+    logger.debug("Getting bill");
+    List<Bill> bills = billDao.listBills();
+    return bills.stream().filter(x -> x.getUser().getId() == user.getId()).collect(Collectors.toList());
+  }
+
+
+  @Transactional
+  public void addOrUpdate(Bill bill) throws LeptaServiceException {
     logger.debug("Adding bill with {}", bill);
     validateBill(bill);
     billDao.addBill(bill);
@@ -47,6 +57,8 @@ public class BillService {
   @Transactional
   public void deleteBill(Bill bill) {
     logger.debug("Deleting bill {}", bill);
+    bill.getItems().clear();
+    billDao.updateBill(bill);
     billDao.deleteBill(bill);
   }
 

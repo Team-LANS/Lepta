@@ -59,13 +59,13 @@ public class BillDaoImplTest {
   public void updateBill_updateItems_itemsRemoved() throws Exception {
     Bill bill = billDao.listBills().get(0);
     int itemCount = itemDao.listItems().size();
-    bill.getItems().clear();
 
+    bill.getItems().clear();
     billDao.updateBill(bill);
 
     int newItemCount = itemDao.listItems().size();
     assertTrue(itemCount > newItemCount);
-  } 
+  }
 
   @Test
   public void updateBill_updateItemInBill_itemUpdated() throws Exception {

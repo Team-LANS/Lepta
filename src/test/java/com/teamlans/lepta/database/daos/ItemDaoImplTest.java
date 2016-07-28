@@ -31,7 +31,7 @@ public class ItemDaoImplTest {
   public void addItem_validItem_ItemAdded() throws Exception {
     int oldItemCount = itemDao.listItems().size();
 
-    itemDao.addItem(new Item("Description", 1.0));
+    itemDao.addItem(new Item("Description", 1.0, null));
 
     int newItemCount = itemDao.listItems().size();
     assertEquals(oldItemCount + 1, newItemCount);

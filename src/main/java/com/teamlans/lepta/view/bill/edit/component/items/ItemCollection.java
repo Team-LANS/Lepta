@@ -1,5 +1,7 @@
 package com.teamlans.lepta.view.bill.edit.component.items;
 
+import com.teamlans.lepta.LeptaUi;
+import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.entities.Item;
 import com.vaadin.ui.VerticalLayout;
 
@@ -9,32 +11,34 @@ import java.util.stream.Collectors;
 
 public class ItemCollection extends VerticalLayout {
 
-  private List<ItemRow> itemRows;
+  private Bill bill;
+
+  private List<Item> items;
 
   public ItemCollection() {
-    itemRows = new ArrayList<>();
+    items = new ArrayList<>();
     setSpacing(true);
   }
 
   public List<Item> getItems() {
-    return itemRows.stream().map(x -> x.getItem()).collect(Collectors.toList());
+    return items;
   }
 
   public void addItems(List<Item> items) {
+    this.items = items;
     List<ItemRow> itemRows = items.stream().map(x -> new ItemRow(x, this)).collect(Collectors.toList());
-    this.itemRows.addAll(itemRows);
-    this.itemRows.forEach(this::addComponent);
+    itemRows.forEach(this::addComponent);
   }
 
-  public void addItem(Item item) {
+  void addItem(Item item) {
     ItemRow itemRow = new ItemRow(item, this);
-    itemRows.add(itemRow);
+    items.add(item);
     addComponent(itemRow);
   }
 
 
-  public void delete(ItemRow itemRow) {
-    itemRows.remove(itemRow);
+  void delete(ItemRow itemRow) {
     removeComponent(itemRow);
+    items.remove(itemRow.getItem());
   }
 }

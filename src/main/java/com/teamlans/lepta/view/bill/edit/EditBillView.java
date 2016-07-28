@@ -1,17 +1,16 @@
 package com.teamlans.lepta.view.bill.edit;
 
 import com.teamlans.lepta.database.daos.UserDao;
-import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
 import com.teamlans.lepta.entities.Bill;
-import com.teamlans.lepta.entities.Item;
 import com.teamlans.lepta.service.bill.BillService;
 import com.teamlans.lepta.service.exceptions.LeptaServiceException;
+import com.teamlans.lepta.view.LeptaNotification;
+import com.teamlans.lepta.view.ProtectedVerticalView;
 import com.teamlans.lepta.view.bill.NewBillsView;
 import com.teamlans.lepta.view.bill.edit.component.BillDataLayout;
 import com.teamlans.lepta.view.bill.edit.component.BillItemLayout;
 import com.teamlans.lepta.view.bill.edit.component.ButtonBarLayout;
 import com.vaadin.data.Validator;
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
@@ -20,22 +19,18 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 @SpringView(name = EditBillView.VIEW_NAME)
-public class EditBillView extends VerticalLayout implements View {
+public class EditBillView extends ProtectedVerticalView {
 
   public static final String VIEW_NAME = "Bills/Edit";
 
@@ -94,7 +89,7 @@ public class EditBillView extends VerticalLayout implements View {
       billDataLayout.validate();
       billItemLayout.validate();
     } catch (Validator.InvalidValueException e) {
-      Notification.show(e.getMessage());
+      LeptaNotification.showError(e.getMessage());
       return;
     }
     tryAddBill();
@@ -103,14 +98,10 @@ public class EditBillView extends VerticalLayout implements View {
   private void tryAddBill() {
     try {
       saveBill();
-      Notification notification = new Notification("Bill was updated", "", Notification.Type.HUMANIZED_MESSAGE);
-      notification.setPosition(Position.BOTTOM_CENTER);
-      notification.setDelayMsec(5000);
-      notification.show(Page.getCurrent());
+      LeptaNotification.show("Bill updated");
       getUI().getNavigator().navigateTo(NewBillsView.VIEW_NAME);
     } catch (LeptaServiceException | DataAccessException e) {
-      new Notification("Uh, oh, something bad happened!", e.getMessage(),
-          Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
+      LeptaNotification.showError("Uh, oh, something bad happened!", e.getMessage());
     }
   }
 
@@ -118,21 +109,17 @@ public class EditBillView extends VerticalLayout implements View {
   private void saveBill() throws LeptaServiceException {
     billToEdit.setName(billDataLayout.getName());
     billToEdit.setDate(billDataLayout.getDate());
-    List<Item> billItems = billItemLayout.getItems();
-    billItems.forEach(x -> x.setBill(billToEdit));
-    billToEdit.setItems(new HashSet<>(billItems));
-    billService.addBill(billToEdit);
+    billService.addOrUpdate(billToEdit);
   }
 
   private void setBillToEdit(int billId) {
     if (billId != -1) {
       billToEdit = billService.getBillBy(billId);
-      billDataLayout.setName(billToEdit.getName());
-      billDataLayout.setDate(billToEdit.getDate());
-      billItemLayout.addItems(new ArrayList<>(billToEdit.getItems()));
     } else {
       createNewBill();
     }
+    billDataLayout.initializeWith(billToEdit);
+    billItemLayout.initializeWith(billToEdit);
   }
 
   private void createNewBill() {
@@ -141,11 +128,7 @@ public class EditBillView extends VerticalLayout implements View {
     today.clear(Calendar.MINUTE);
     today.clear(Calendar.SECOND);
     Date todayDate = today.getTime();
-    try {
-      billToEdit = new Bill("", todayDate, userDao.listUsers().get(0));
-    } catch (LeptaDatabaseException e) {
-      e.printStackTrace();
-    }
+    billToEdit = new Bill("", todayDate, getLeptaUi().getLoggedInUser());
   }
 
   @Override

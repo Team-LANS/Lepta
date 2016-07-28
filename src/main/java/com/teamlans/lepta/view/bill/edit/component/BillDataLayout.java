@@ -1,5 +1,6 @@
 package com.teamlans.lepta.view.bill.edit.component;
 
+import com.teamlans.lepta.entities.Bill;
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.DateField;
@@ -39,20 +40,18 @@ public class BillDataLayout extends VerticalLayout {
     }
   }
 
-  public String getName() {
-    return nameField.getValue();
+  public void initializeWith(Bill bill){
+    nameField.setValue(bill.getName());
+    dateField.setValue(bill.getDate());
   }
 
-  public void setName(String name) {
-    nameField.setValue(name);
+  public String getName() {
+    return nameField.getValue();
   }
 
   public Date getDate() {
     return dateField.getValue();
   }
 
-  public void setDate(Date date) {
-    dateField.setValue(date);
-  }
 
 }

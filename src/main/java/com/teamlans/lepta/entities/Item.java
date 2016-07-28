@@ -1,6 +1,11 @@
 package com.teamlans.lepta.entities;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,9 +37,10 @@ public class Item {
     // needed for hibernate
   }
 
-  public Item(String name, double price) {
+  public Item(String name, double price, Bill bill) {
     this.name = name;
     this.price = price;
+    this.bill = bill;
   }
 
   public int getId() {
