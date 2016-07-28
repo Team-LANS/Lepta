@@ -1,4 +1,4 @@
-package com.teamlans.lepta.view.home.component;
+package com.teamlans.lepta.view;
 
 import com.teamlans.lepta.LeptaUi;
 import com.teamlans.lepta.view.account.EditProfileView;

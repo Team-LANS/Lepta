@@ -1,6 +1,6 @@
 package com.teamlans.lepta.view.home;
 
-import com.teamlans.lepta.view.home.component.NavigationBar;
+import com.teamlans.lepta.view.NavigationBar;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
