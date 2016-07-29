@@ -15,6 +15,10 @@ public class ProtectedHorizontalView extends HorizontalLayout implements View {
     return (LeptaUi) UI.getCurrent();
   }
 
+  public void goTo(String goal) {
+    getUI().getNavigator().navigateTo(goal);
+  }
+
   @Override
   public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
     // needed for view implementation

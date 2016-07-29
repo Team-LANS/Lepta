@@ -1,6 +1,7 @@
 package com.teamlans.lepta.view.home;
 
 import com.teamlans.lepta.view.ProtectedVerticalView;
+import com.teamlans.lepta.view.bill.NewBillsView;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
@@ -18,7 +19,6 @@ public class HomeView extends ProtectedVerticalView {
 
   public HomeView() {
     setSizeFull();
-    setSpacing(true);
     init();
   }
 
@@ -28,6 +28,9 @@ public class HomeView extends ProtectedVerticalView {
     HorizontalLayout layout = new HorizontalLayout();
     layout.setSizeFull();
     addGeneralInfo(layout);
+    addNewInfo(layout);
+    addAssignedInfo(layout);
+
     addComponent(layout);
   }
 
@@ -57,18 +60,52 @@ public class HomeView extends ProtectedVerticalView {
 
   private void addGeneralInfo(HorizontalLayout layout) {
     VerticalLayout container = new VerticalLayout();
-    container.setSizeFull();
-    container.setWidth("33%");
 
+    VerticalLayout submissionDataContainer = new VerticalLayout();
+    submissionDataContainer.setWidth("100%");
+    Component submissionData = buildSubmissionData();
+    submissionDataContainer.addComponent(submissionData);
+
+    container.addComponent(submissionDataContainer);
     layout.addComponent(container);
   }
 
+  private Component buildSubmissionData() {
+    VerticalLayout container = new VerticalLayout();
+    container.setSizeFull();
+    Label submittedBills = new Label("Bills submitted");
+    container.addComponent(submittedBills);
+    Label newBills = new Label("New bills");
+    container.addComponent(newBills);
+    return container;
+  }
+
   private void addNewInfo(HorizontalLayout layout) {
+    VerticalLayout container = new VerticalLayout();
+
+    Button title = new Button("New Bills");
+    title.addClickListener(clickEvent -> goTo(NewBillsView.VIEW_NAME));
+    container.addComponent(title);
+
+    // TODO: display new bills here
+    Label content = new Label("New bills will be displayed here");
+    container.addComponent(content);
+
+    layout.addComponent(container);
 
   }
 
   private void addAssignedInfo(HorizontalLayout layout) {
-    
+    VerticalLayout container = new VerticalLayout();
+
+    Button title = new Button("Assigned Bills");
+    container.addComponent(title);
+
+    // TODO: display assigned bills here
+    Label content = new Label("Assigned bills will be displayed here");
+    container.addComponent(content);
+
+    layout.addComponent(container);
   }
 
 
