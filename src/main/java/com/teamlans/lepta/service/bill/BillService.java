@@ -31,7 +31,7 @@ public class BillService {
   }
 
   @Autowired
-  public void setValidationService(EntityValidationService validationService){
+  public void setValidationService(EntityValidationService validationService) {
 
     this.validationService = validationService;
   }

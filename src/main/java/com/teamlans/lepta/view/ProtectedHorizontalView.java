@@ -12,7 +12,7 @@ import com.vaadin.ui.UI;
 public class ProtectedHorizontalView extends HorizontalLayout implements View {
 
   public LeptaUi getLeptaUi() {
-    return (LeptaUi)UI.getCurrent();
+    return (LeptaUi) UI.getCurrent();
   }
 
   @Override

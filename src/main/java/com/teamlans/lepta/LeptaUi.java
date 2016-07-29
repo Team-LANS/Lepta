@@ -1,7 +1,9 @@
 package com.teamlans.lepta;
 
 import com.teamlans.lepta.entities.User;
+import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.user.UserService;
+import com.teamlans.lepta.view.LeptaNotification;
 import com.teamlans.lepta.view.MainView;
 import com.teamlans.lepta.view.account.LoginView;
 import com.teamlans.lepta.view.account.SignUpView;
@@ -14,7 +16,7 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
-import com.vaadin.ui.*;
+import com.vaadin.ui.UI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -52,11 +54,16 @@ public class LeptaUi extends UI {
   @Override
   protected void init(VaadinRequest request) {
     // set dummy passwords correctly
-    List<User> users = service.listUsers();
-    for (User user : users) {
-      dummyPasswordTool.setCorrectPassword(user);
+    // TODO: remove
+    try {
+      List<User> users = service.listUsers();
+      for (User user : users) {
+        dummyPasswordTool.setCorrectPassword(user);
+      }
+    } catch (LeptaServiceException e) {
+      LeptaNotification.showError(e.getMessage());
     }
-    
+
 
     VaadinSession.getCurrent().getSession().setMaxInactiveInterval(3600); // 1 hour
 
@@ -68,7 +75,13 @@ public class LeptaUi extends UI {
   }
 
   public void goToCorrectWelcomeView() {
-    if (service.noUsersExist()) {
+    boolean empty = false;
+    try {
+      empty = service.noUsersExist();
+    } catch (LeptaServiceException e) {
+      LeptaNotification.showError(e.getMessage());
+    }
+    if (empty) {
       setContent(context.getBean(SignUpView.class));
     } else {
       setContent(context.getBean(LoginView.class));
