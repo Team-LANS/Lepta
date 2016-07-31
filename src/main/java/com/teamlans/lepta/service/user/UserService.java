@@ -61,12 +61,7 @@ public class UserService {
 
   @Transactional
   public boolean noUsersExist() throws LeptaServiceException {
-    try {
-      List<User> users = dao.listUsers();
-      return users.isEmpty();
-    } catch (LeptaDatabaseException e) {
-      throw new LeptaServiceException(e);
-    }
+    return listUsers().isEmpty();
   }
 
   @Transactional
