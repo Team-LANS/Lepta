@@ -7,7 +7,7 @@ import org.vaadin.ui.NumberField;
 
 public class ItemPriceField extends NumberField {
 
-  public ItemPriceField(){
+  public ItemPriceField() {
     setNegativeAllowed(false);
     setDecimalPrecision(2);
     setMinValue(0.01);
@@ -19,12 +19,11 @@ public class ItemPriceField extends NumberField {
   }
 
   @Override
-  public void validate(){
+  public void validate() {
     setValidationVisible(false);
     try {
       super.validate();
-    }
-    catch (Validator.InvalidValueException e){
+    } catch (Validator.InvalidValueException e) {
       setValidationVisible(true);
       throw e;
     }

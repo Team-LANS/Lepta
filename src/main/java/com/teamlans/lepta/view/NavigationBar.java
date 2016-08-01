@@ -2,8 +2,8 @@ package com.teamlans.lepta.view;
 
 import com.teamlans.lepta.LeptaUi;
 import com.teamlans.lepta.view.account.EditProfileView;
-import com.teamlans.lepta.view.home.HomeView;
 import com.teamlans.lepta.view.bill.NewBillsView;
+import com.teamlans.lepta.view.home.HomeView;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;

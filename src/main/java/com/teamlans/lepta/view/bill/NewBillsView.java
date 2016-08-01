@@ -44,7 +44,7 @@ public class NewBillsView extends ProtectedVerticalView {
     setSpacing(true);
     setMargin(true);
     VerticalLayout centerContainer = new VerticalLayout();
-    Label headerLabel  = new Label("My new bills");
+    Label headerLabel = new Label("My new bills");
     headerLabel.setStyleName(ValoTheme.LABEL_H2);
     centerContainer.addComponent(headerLabel);
     centerContainer.setSpacing(true);
@@ -113,8 +113,7 @@ public class NewBillsView extends ProtectedVerticalView {
       try {
         billService.deleteBill(selectedBill);
         LeptaNotification.show("Bill has been deleted");
-      }
-      catch (LeptaServiceException e){
+      } catch (LeptaServiceException e) {
         LeptaNotification.show("Could not delete bill", e.getMessage());
       }
     });

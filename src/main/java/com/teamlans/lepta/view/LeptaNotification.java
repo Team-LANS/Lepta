@@ -10,8 +10,8 @@ import com.vaadin.ui.themes.ValoTheme;
  */
 public class LeptaNotification extends Notification {
 
-  public LeptaNotification(String description) {
-    super("", description); // set description, not caption!
+  public LeptaNotification(String caption) {
+    super(caption, "");
   }
 
   public LeptaNotification(String caption, String description) {
@@ -28,9 +28,9 @@ public class LeptaNotification extends Notification {
     error.show(Page.getCurrent());
   }
 
-  public static void showError(String description) {
+  public static void showError(String caption) {
     // no caption
-    LeptaNotification.showError("", description);
+    LeptaNotification.showError(caption, "");
   }
 
 
@@ -43,9 +43,9 @@ public class LeptaNotification extends Notification {
     warning.show(Page.getCurrent());
   }
 
-  public static void showWarning(String description) {
+  public static void showWarning(String caption) {
     // no caption
-    LeptaNotification.showWarning("", description);
+    LeptaNotification.showWarning(caption, "");
   }
 
 
@@ -59,9 +59,9 @@ public class LeptaNotification extends Notification {
     notification.show(Page.getCurrent());
   }
 
-  public static void show(String description) {
+  public static void show(String caption) {
     // no caption
-    LeptaNotification.show("", description);
+    LeptaNotification.show(caption, "");
   }
 
 }

@@ -19,7 +19,7 @@ public class BillItemLayout extends VerticalLayout {
     createSubComponents();
   }
 
-  public void initializeWith(Bill bill){
+  public void initializeWith(Bill bill) {
     addItemControl.setBill(bill);
     itemTable.addItems(bill.getItems());
   }

@@ -12,7 +12,11 @@ import com.vaadin.ui.VerticalLayout;
 public class ProtectedVerticalView extends VerticalLayout implements View {
 
   public LeptaUi getLeptaUi() {
-    return ((LeptaUi)UI.getCurrent());
+    return ((LeptaUi) UI.getCurrent());
+  }
+
+  public void goTo(String goal) {
+    getUI().getNavigator().navigateTo(goal);
   }
 
   @Override

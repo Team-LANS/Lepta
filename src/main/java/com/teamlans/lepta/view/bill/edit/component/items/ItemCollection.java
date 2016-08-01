@@ -1,6 +1,5 @@
 package com.teamlans.lepta.view.bill.edit.component.items;
 
-import com.teamlans.lepta.LeptaUi;
 import com.teamlans.lepta.entities.Bill;
 import com.teamlans.lepta.entities.Item;
 import com.vaadin.ui.VerticalLayout;

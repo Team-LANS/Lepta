@@ -2,8 +2,6 @@ package com.teamlans.lepta.entities;
 
 import com.teamlans.lepta.entities.enums.Status;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,9 +54,9 @@ public class Bill {
     this.user = user;
   }
 
-  public Bill(int id, String name, Date date, User user){
+  public Bill(int id, String name, Date date, User user) {
     //Use this only for unit testing
-    this(name,date,user);
+    this(name, date, user);
     this.id = id;
   }
 

@@ -24,8 +24,6 @@ import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 /**
  * EditProfileView allows users to change their account details.
@@ -100,8 +98,12 @@ public final class EditProfileView extends ProtectedVerticalView {
       if (!taken) {
         button.addClickListener(clickEvent -> {
           user.setColor(color);
-          service.updateUser(user);
-          LeptaNotification.show("Success"); // feedback; will be removed when css is added
+          try {
+            service.updateUser(user);
+            LeptaNotification.show("Success"); // feedback; will be removed when css is added
+          } catch (LeptaServiceException e) {
+            LeptaNotification.showError(e.getMessage());
+          }
 
           //refresh page
           removeAllComponents();
@@ -133,7 +135,11 @@ public final class EditProfileView extends ProtectedVerticalView {
       String newName = nameField.getValue();
       if (!newName.isEmpty() && !newName.equals(user.getName())) {
         user.setName(newName);
-        service.updateUser(user);
+        try {
+          service.updateUser(user);
+        } catch (LeptaServiceException e) {
+          LeptaNotification.showError(e.getMessage());
+        }
 
         // refresh
         // TODO: add event bus
@@ -172,7 +178,7 @@ public final class EditProfileView extends ProtectedVerticalView {
         } else {
           LeptaNotification.showWarning("Wrong password");
         }
-      } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+      } catch (LeptaServiceException e) {
         logger.error("Error", e);
         LeptaNotification.showError("Something went wrong");
       }
@@ -180,7 +186,7 @@ public final class EditProfileView extends ProtectedVerticalView {
     return button;
   }
 
-  private void checkPassword(PasswordField oldField, PasswordField newField, PasswordField confirmationField, String newPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+  private void checkPassword(PasswordField oldField, PasswordField newField, PasswordField confirmationField, String newPassword) throws LeptaServiceException {
     if (!newPassword.isEmpty() && newPassword.equals(confirmationField.getValue())) {
       user.setPassword(encryptionService.getEncryptedPassword(newPassword, user.getSalt()));
       service.updateUser(user);

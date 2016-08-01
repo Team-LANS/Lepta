@@ -78,7 +78,7 @@ public final class SignUpView extends HorizontalLayout implements View {
       ((LeptaUi) getUI()).setLoggedInUser(user); // not tested!
       getUI().setContent(context.getBean(MainView.class));
     } catch (LeptaServiceException e) {
-      logger.error("Error",e);
+      logger.error("Error", e);
       LeptaNotification.showError(e.getMessage());
     }
   }

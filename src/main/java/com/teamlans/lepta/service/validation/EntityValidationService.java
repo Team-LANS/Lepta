@@ -16,14 +16,14 @@ public class EntityValidationService {
 
   private final Validator validator;
 
-  public EntityValidationService(){
+  public EntityValidationService() {
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     validator = factory.getValidator();
   }
 
   public void validate(ValidatableEntity entity) throws LeptaServiceException {
     Set<ConstraintViolation<ValidatableEntity>> violations = validator.validate(entity);
-    if(violations.isEmpty()){
+    if (violations.isEmpty()) {
       return;
     }
     ConstraintViolation violation = violations.iterator().next();
@@ -31,9 +31,9 @@ public class EntityValidationService {
   }
 
 
-  private String createMessage(ConstraintViolation violation){
+  private String createMessage(ConstraintViolation violation) {
     String message = violation.getMessage();
-    String property = "Property '" + violation.getPropertyPath().toString() +"'";
+    String property = "Property '" + violation.getPropertyPath().toString() + "'";
     return property + " " + message;
   }
 }

@@ -1,7 +1,5 @@
 package com.teamlans.lepta.service.exceptions;
 
-import com.teamlans.lepta.database.exceptions.LeptaDatabaseException;
-
 public class LeptaServiceException extends Exception {
 
   public LeptaServiceException(String message) {

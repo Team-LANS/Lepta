@@ -6,7 +6,7 @@ import com.vaadin.ui.TextField;
 
 public class ItemNameField extends TextField {
 
-  public ItemNameField(){
+  public ItemNameField() {
     addValidator(new StringLengthValidator("Name must not be empty", 1, 50, true));
     setNullRepresentation("");
     setInputPrompt("Enter item name");
@@ -14,12 +14,11 @@ public class ItemNameField extends TextField {
   }
 
   @Override
-  public void validate(){
+  public void validate() {
     setValidationVisible(false);
     try {
       super.validate();
-    }
-    catch (Validator.InvalidValueException e){
+    } catch (Validator.InvalidValueException e) {
       setValidationVisible(true);
       throw e;
     }

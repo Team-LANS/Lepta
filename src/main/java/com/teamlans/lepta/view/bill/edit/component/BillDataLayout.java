@@ -40,7 +40,7 @@ public class BillDataLayout extends VerticalLayout {
     }
   }
 
-  public void initializeWith(Bill bill){
+  public void initializeWith(Bill bill) {
     nameField.setValue(bill.getName());
     dateField.setValue(bill.getDate());
   }

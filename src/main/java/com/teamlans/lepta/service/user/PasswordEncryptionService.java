@@ -1,6 +1,7 @@
 package com.teamlans.lepta.service.user;
 
 import com.teamlans.lepta.entities.User;
+import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 
 import org.springframework.stereotype.Service;
 
@@ -18,31 +19,39 @@ import javax.crypto.spec.PBEKeySpec;
  * approach, but maybe the best solution in this case.
  */
 @Service
-public class PasswordEncryptionService {
+public final class PasswordEncryptionService {
 
   public boolean isValid(String attemptedPassword, User user)
-      throws NoSuchAlgorithmException, InvalidKeySpecException {
+      throws LeptaServiceException {
     byte[] encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, user.getSalt());
     return Arrays.equals(user.getPassword(), encryptedAttemptedPassword);
   }
 
-   public byte[] getEncryptedPassword(String password, byte[] salt)
-      throws NoSuchAlgorithmException, InvalidKeySpecException {
+  public byte[] getEncryptedPassword(String password, byte[] salt)
+      throws LeptaServiceException {
     String algorithm = "PBKDF2WithHmacSHA1";
     // Suggested at http://blog.jerryorr.com/2012/05/secure-password-storage-lots-of-donts.html
     // because SHA-1 generates 160 bit hashes
     int derivedKeyLength = 160;
     int iterations = 20000;
     KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
-    SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(algorithm);
-    return keyFactory.generateSecret(spec).getEncoded();
+    try {
+      SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(algorithm);
+      return keyFactory.generateSecret(spec).getEncoded();
+    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+      throw new LeptaServiceException("Could not encrypt password", e);
+    }
   }
 
-  public byte[] generateSalt() throws NoSuchAlgorithmException {
-    SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
-    byte[] salt = new byte[8];
-    random.nextBytes(salt);
-    return salt;
+  public byte[] generateSalt() throws LeptaServiceException {
+    try {
+      SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+      byte[] salt = new byte[8];
+      random.nextBytes(salt);
+      return salt;
+    } catch (NoSuchAlgorithmException e) {
+      throw new LeptaServiceException("Could not generate salt", e);
+    }
   }
 
 }
