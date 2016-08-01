@@ -8,7 +8,6 @@ import com.teamlans.lepta.entities.enums.Status;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -16,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.PersistenceException;
 
@@ -108,13 +108,21 @@ public class BillDaoImplTest {
   @Test(expected = PersistenceException.class)
   public void deleteBill_assignedBill_exceptionThrown() throws Exception {
     int itemCount = itemDao.listItems().size();
-    Bill bill = billDao.listBills()
-        .stream().filter(x -> x.getStatus() == Status.ASSIGNED).findFirst().get();
+    Bill bill = getFirstAssignedBill();
 
     billDao.deleteBill(bill);
 
     int newItemCount = itemDao.listItems().size();
     assertTrue(itemCount > newItemCount);
+  }
+
+  private Bill getFirstAssignedBill(){
+    List<Bill> bills = billDao.listBills();
+    for(Bill bill : bills){
+      if(bill.getStatus() == Status.ASSIGNED){
+        return bill;
+      }
+    }
   }
 
 

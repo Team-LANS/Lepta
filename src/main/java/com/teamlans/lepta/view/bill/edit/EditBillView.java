@@ -118,7 +118,7 @@ public class EditBillView extends ProtectedVerticalView {
       headerLabel.setValue("Create new bill");
       createNewBill();
     } else {
-      billToEdit = billService.getBillBy(billId);
+      billToEdit = billService.getBill(billId);
       headerLabel.setValue("Edit bill");
     }
     billDataLayout.initializeWith(billToEdit);

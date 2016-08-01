@@ -11,6 +11,11 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+/**
+ * Service provides functionality for validating entities such as {@link com.teamlans.lepta.entities.Bill}.
+ * Relies on {@link Validation}, so rules for validating entities are found in classes implementing
+ * {@link ValidatableEntity}.
+ */
 @Service
 public class EntityValidationService {
 

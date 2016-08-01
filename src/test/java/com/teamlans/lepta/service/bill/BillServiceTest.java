@@ -6,7 +6,6 @@ import com.teamlans.lepta.entities.Item;
 import com.teamlans.lepta.entities.User;
 import com.teamlans.lepta.entities.enums.Color;
 import com.teamlans.lepta.entities.enums.Status;
-import com.teamlans.lepta.service.exceptions.LeptaServiceException;
 import com.teamlans.lepta.service.validation.EntityValidationService;
 
 import org.junit.Before;
@@ -46,7 +45,7 @@ public class BillServiceTest {
   public void getBillBy_validId_billReturned() {
     when(mockBillDao.listBills()).thenReturn(createDummyBills());
 
-    Bill result = billService.getBillBy(1);
+    Bill result = billService.getBill(1);
 
     assertTrue(result.getId() == 1);
   }

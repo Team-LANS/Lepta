@@ -11,14 +11,20 @@ import com.teamlans.lepta.service.validation.ValidatableBill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+
+/**
+ * This class provides access to CRUD functionality regarding the {@link Bill} entity.
+ * The service should be used in GUI components to retrieve data from the database and
+ * update modified data.
+ * When persisting data, bills are validated using {@link EntityValidationService}
+ */
 @Service
 public class BillService {
 
@@ -39,11 +45,11 @@ public class BillService {
   }
 
   @Transactional
-  public Bill getBillBy(int billId) {
+  public Bill getBill(int billId) {
     logger.debug("Retrieving bill with id {}", billId);
     List<Bill> bills = billDao.listBills();
-    for (Bill bill : bills){
-      if(bill.getId() ==billId){
+    for (Bill bill : bills) {
+      if (bill.getId() == billId) {
         return bill;
       }
     }
@@ -54,15 +60,26 @@ public class BillService {
   public List<Bill> listBillsFor(User user) {
     logger.debug("Listing bills for user {}", user);
     List<Bill> bills = billDao.listBills();
-    List<Bill> billsForUser = billDao
-    return bills.stream().filter(x -> x.getUser().getId() == user.getId()).collect(Collectors.toList());
+    List<Bill> billsForUser = new ArrayList<>();
+    for (Bill bill : bills) {
+      if (bill.getUser().getId() == user.getId()) {
+        billsForUser.add(bill);
+      }
+    }
+    return billsForUser;
   }
 
   @Transactional
   public List<Bill> listNewBillsFor(User user) {
     logger.debug("Listing new bills for user {}", user);
-    List<Bill> newBills = listBillsFor(user);
-    return newBills.stream().filter(x -> x.getStatus() == Status.NEW).collect(Collectors.toList());
+    List<Bill> billsForUser = listBillsFor(user);
+    List<Bill> newBills = new ArrayList<>();
+    for (Bill bill : billsForUser) {
+      if (bill.getStatus() == Status.NEW) {
+        newBills.add(bill);
+      }
+    }
+    return newBills;
   }
 
 

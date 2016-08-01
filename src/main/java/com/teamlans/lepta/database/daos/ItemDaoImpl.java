@@ -12,6 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Basic dao implementation for {@link Item}. Sessions are managed in the service layer using
+ * {@link org.hibernate.Transaction} so no custom exceptions are thrown here.
+ */
 @Repository
 public class ItemDaoImpl implements ItemDao {
 
