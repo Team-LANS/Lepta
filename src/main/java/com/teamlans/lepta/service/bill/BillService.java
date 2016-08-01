@@ -11,6 +11,8 @@ import com.teamlans.lepta.service.validation.ValidatableBill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,14 +41,20 @@ public class BillService {
   @Transactional
   public Bill getBillBy(int billId) {
     logger.debug("Retrieving bill with id {}", billId);
-    return billDao.listBills().stream()
-        .filter(x -> x.getId() == billId).findFirst().get();
+    List<Bill> bills = billDao.listBills();
+    for (Bill bill : bills){
+      if(bill.getId() ==billId){
+        return bill;
+      }
+    }
+    throw new DataRetrievalFailureException("Bill with id " + billId + "not found");
   }
 
   @Transactional
   public List<Bill> listBillsFor(User user) {
     logger.debug("Listing bills for user {}", user);
     List<Bill> bills = billDao.listBills();
+    List<Bill> billsForUser = billDao
     return bills.stream().filter(x -> x.getUser().getId() == user.getId()).collect(Collectors.toList());
   }
 
