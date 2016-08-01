@@ -116,13 +116,14 @@ public class BillDaoImplTest {
     assertTrue(itemCount > newItemCount);
   }
 
-  private Bill getFirstAssignedBill(){
+  private Bill getFirstAssignedBill() throws Exception {
     List<Bill> bills = billDao.listBills();
     for(Bill bill : bills){
       if(bill.getStatus() == Status.ASSIGNED){
         return bill;
       }
     }
+    throw new Exception("No assigned bill found");
   }
 
 
