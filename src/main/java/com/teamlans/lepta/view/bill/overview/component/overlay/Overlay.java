@@ -1,8 +1,10 @@
 package com.teamlans.lepta.view.bill.overview.component.overlay;
 
-public interface Overlay {
+import com.vaadin.ui.Component;
 
-  void addOverlayListener(OverlayEventListener listener);
+public interface Overlay<T extends Component> {
 
-  void notifyListeners(OverlayEvent event);
+  void addOverlayListener(OverlayEventListener<T> listener);
+
+  void notifyListeners(OverlayEvent<T> event);
 }

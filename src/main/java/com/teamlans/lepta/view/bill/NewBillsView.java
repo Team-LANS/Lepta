@@ -10,13 +10,12 @@ import com.teamlans.lepta.view.bill.overview.component.BillChangeEvent;
 import com.teamlans.lepta.view.bill.overview.component.BillChangeListener;
 import com.teamlans.lepta.view.bill.overview.component.BillComponent;
 import com.teamlans.lepta.view.bill.overview.component.BillComponentContainer;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,8 @@ import javax.annotation.PostConstruct;
 public class NewBillsView extends ProtectedVerticalView implements BillChangeListener {
 
   public static final String VIEW_NAME = "Bills";
+
+  private static Logger logger = LoggerFactory.getLogger(NewBillsView.class);
 
   @Autowired
   private BillService billService;
@@ -75,7 +76,7 @@ public class NewBillsView extends ProtectedVerticalView implements BillChangeLis
       try {
         billService.deleteBill(event.getBill());
       } catch (LeptaServiceException e) {
-        e.printStackTrace();
+        logger.error("Error", e);
       }
     }
     if (event.getAction() == BillChangeAction.EDIT) {
